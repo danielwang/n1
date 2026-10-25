@@ -1,0 +1,47 @@
+# n1 prototype
+
+`n1 prototype` is a frontend-only idea validation workspace for product managers, founders, and small product teams. It helps users capture product ideas, run validation experiments, review signal scores, and decide what to build next.
+
+## Primary workflow
+
+Create an idea → review its audience and current signal → start a validation experiment → return to the overview to monitor respondents and confidence.
+
+## Run locally
+
+```bash
+npm install
+npm run dev
+```
+
+Build and preview the production bundle:
+
+```bash
+npm run build
+npm run preview
+```
+
+## GitHub Pages
+
+Vite uses `base: './'`, so the generated `dist/` bundle uses relative asset paths and works at a repository subpath such as `https://username.github.io/repository-name/`. Push to GitHub, enable Pages with **GitHub Actions** as the source, and the included workflow builds and deploys on pushes to `main`.
+
+If your setup requires an absolute base, update `base` in `vite.config.ts` to `'/repository-name/'` and rebuild. Page navigation uses URL hashes, so no server rewrite is required.
+
+## ONEchat page
+
+Open `/#/onechat` locally, or `/repository-name/#/onechat` on GitHub Pages. The existing idea workspace remains at `/#/`; its sidebar includes a ONEchat link. The requested route was left as `[SPECIFY ROUTE]`, so `#/onechat` was chosen as the page route.
+
+The page implements [Master - N1 Mockups, frame 21874:28494](https://www.figma.com/design/Xli3DdUg0KWKd32wLXNt4a/Master---N1--Mockups?node-id=21874-28494). The reference contains two overlapping screen instances; the implementation renders one. Its 280px sidebar, 850px composer, 32px greeting, navy/gold client theme, 36px model selector, and restrained border treatment are documented adaptations of the defaults in `design.md`. Exact logo and icon SVGs retrieved through Figma MCP are bundled locally in `src/assets/onechat/`; no temporary Figma URLs are used at runtime.
+
+The original Segoe UI font is requested through the existing system font stack. Figma did not supply distributable font files, so devices without Segoe UI use the system sans-serif fallback. For contrast, the greeting accent is darkened from gold to `#93631F`, placeholder text uses `#637381`, and sidebar group labels use `#B4BEC9`. The gold avatar retains the reference colour. Visible compact controls have expanded hit areas; history rows become 44px high below 1024px. Below that breakpoint the sidebar becomes a modal navigation sheet with focus containment, Escape dismissal, and focus restoration. Below 768px the composer reflows for readable 16px text and touch controls.
+
+Working interactions include sidebar collapse/expand, mobile navigation, Chats/Agents tabs, History/Archived switching, conversation search and selection, new-chat reset, the model selector, private-mode selection, local attachment selection/removal (10 MB limit), and local prompt submission feedback. Enter submits; Shift+Enter adds a line break. Search has an empty state and prompt submission has validation and loading feedback. Messages and attachments remain in memory and are never uploaded; submission does not produce an AI response. Voice, account, notifications, and help controls explain the prototype limits. Artifacts and Projects remain presentational because the supplied frame defines no destination or workflow. The history's lorem ipsum was replaced with realistic local conversation titles, as required by `AGENTS.md`.
+
+Components live in `src/pages/onechat/`. Shared native button and dialog primitives live in `src/components/ui/`; the button adapts the shadcn variant API to the existing CSS without adding a second styling system or runtime dependencies. Existing global typography/focus conventions and Lucide state icons are reused. The page adds no backend, authentication, or persistent chat storage.
+
+The approved Code Connect match is `Chat/ONEchat Landing` (`14819:41482`) → `OneChatPage` in `src/pages/onechat/OneChatPage.tsx`. Its parserless template is kept in `figma/OneChatPage.figma.ts`, outside the application TypeScript build. Figma rejected publishing the mapping with `CODE_CONNECT_COMPONENT_NOT_PUBLISHED`; the Figma component must first be published to a team library. No Code Connect mapping was saved remotely.
+
+## Mock data and limitations
+
+Typed mock data lives in `src/data.ts`. Create and delete interactions are local and persisted in `localStorage` to make demonstrations repeatable. There is no backend, authentication, network request, real survey collection, or external data service. Starting an experiment is represented by a local success toast; it does not create a live experiment.
+
+The interface follows the visual tokens, responsive guidance, accessibility expectations, and motion guidance in `design.md`. The product definition placeholders in the brief were resolved as documented above.
