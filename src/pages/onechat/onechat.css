@@ -16,7 +16,7 @@
   grid-template-columns: 280px minmax(0, 1fr);
   height: 100vh;
   height: 100dvh;
-  min-height: 540px;
+  min-height: 720px;
   color: var(--oc-text);
   background: var(--oc-background);
   font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
@@ -76,7 +76,7 @@
 .oc-avatar { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 8px; color: #000; background: var(--oc-accent, #efc07b); font-size: 16px; font-weight: 600; }
 .oc-account > .ui-button--size-icon { margin-right: -8px; }
 .oc-notification-count { position: absolute; top: 10px; right: 8px; display: grid; place-items: center; border-radius: 50%; width: 12px; height: 12px; background: #fff; color: #161c24; font-size: 10px; line-height: 10px; }
-.oc-main { position: relative; min-width: 0; grid-column: 2; outline: none; }
+.oc-main { position: relative; min-width: 0; grid-column: 2; outline: none; overflow: clip; }
 .oc-toolbar { display: flex; align-items: flex-start; justify-content: space-between; height: 90px; padding: 24px 32px 0 34px; }
 .oc-toolbar-controls { display: flex; align-items: center; min-width: 0; height: 36px; }
 .oc-model-selector { position: relative; min-height: 36px; height: 36px; width: 139px; gap: 8px; padding: 0 16px; font-weight: 700; white-space: nowrap; }
@@ -132,6 +132,63 @@
 .oc-navigation-dialog > .oc-dialog-heading { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
 .oc-navigation-dialog .oc-sidebar-content { height: 100%; }
 .oc-navigation-dialog .oc-collapse { right: -22px; }
+.oc-featured { position: absolute; bottom: -48px; left: 50%; width: 560px; height: 220px; transform: translateX(-50%); }
+.oc-featured-heading { display: flex; align-items: center; justify-content: space-between; position: relative; min-height: 44px; padding: 0 8px; }
+.oc-featured-heading h2 { margin: 0; color: var(--oc-muted); font-size: 13px; line-height: 20px; font-weight: 400; }
+.oc-featured-arrow { position: absolute; left: 120px; top: 4px; transform: rotate(-20.69deg); pointer-events: none; }
+.oc-browse-agents { font-weight: 400; padding: 0; text-decoration: underline; text-underline-offset: 3px; }
+.oc-agent-dock { list-style: none; display: grid; grid-template-columns: repeat(5, 100px); margin: 0; padding: 20px 5px 0; height: 176px; }
+.oc-agent-slot { position: relative; --agent-angle: -12deg; --agent-offset: 0px; }
+.oc-agent-slot:nth-child(2) { --agent-angle: -6deg; --agent-offset: 5px; }
+.oc-agent-slot:nth-child(3) { --agent-angle: 6deg; --agent-offset: -10px; }
+.oc-agent-slot:nth-child(4) { --agent-angle: 0deg; --agent-offset: 10px; }
+.oc-agent-slot:nth-child(5) { --agent-angle: 6.7deg; --agent-offset: -3px; }
+.oc-agent-card { display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-start; gap: 0; width: 150px; min-height: 150px; padding: 16px; border: 0; border-radius: 16px; text-align: left; background: var(--oc-surface); box-shadow: 0 4px 8px rgb(0 0 0 / 10%); transform: translateY(var(--agent-offset)) rotate(var(--agent-angle)); transform-origin: center bottom; }
+.oc-agent-card:hover { background: var(--oc-surface); }
+.oc-agent-art { display: block; position: relative; width: 48px; height: 48px; margin-bottom: 8px; flex-shrink: 0; }
+.oc-agent-background { position: absolute; inset: 0; width: 48px; height: 48px; object-fit: cover; border-radius: 12px; }
+.oc-agent-avatar { position: absolute; left: 6px; top: 6px; width: 36px; height: 36px; border-radius: 8px; background: #ecf0f3; }
+.oc-agent-art--academic .oc-agent-avatar { left: 7.78px; top: 7.78px; }
+.oc-agent-art--campus .oc-agent-avatar { left: 4.2px; top: 4.7px; }
+.oc-agent-icon { position: absolute; left: 6px; top: 6px; width: 24px; height: 24px; }
+.oc-agent-icon > img { display: block; }
+.oc-agent-art--library .oc-agent-icon > img { position: absolute; inset: 4.17% 6.79% 3.3% 8.33%; width: 20.37px; height: 22.21px; border-radius: 20.37px; object-fit: cover; }
+.oc-agent-art--academic .oc-agent-icon > img { width: 24px; height: 24px; object-fit: cover; }
+.oc-agent-art--campus .oc-agent-icon > img { position: absolute; left: 15.63%; top: 0; width: 15.75px; height: 24px; object-fit: cover; }
+.oc-agent-official { position: absolute; left: 20px; top: 20px; }
+.oc-agent-name { max-width: 100%; font-size: 13px; font-weight: 600; line-height: 20px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.oc-agent-description { display: block; margin-top: 2px; color: var(--oc-muted); font-size: 12px; font-weight: 400; line-height: 18px; }
+.oc-agent-slot[data-active="true"] { z-index: 6; }
+.oc-agent-slot[data-active="true"] .oc-agent-card { box-shadow: 0 12px 24px rgb(22 33 62 / 18%); outline: 1px solid var(--oc-border); }
+.oc-sidebar-agents { padding: 16px 0; }
+.oc-sidebar-agents h2 { padding: 0 16px; }
+.oc-agent-directory { display: grid; gap: 8px; }
+.oc-directory-agent { flex-direction: column; align-items: flex-start; gap: 2px; padding: 12px 16px; background: #f9fafb; text-align: left; }
+.oc-directory-agent > span:last-child { color: #637381; font-weight: 400; font-size: 12px; }
+@media (prefers-reduced-motion: no-preference) and (hover: hover) and (pointer: fine) {
+  /* Keep this more specific than the shared button's background transition. */
+  .oc-agent-card.ui-button { transition: transform 320ms cubic-bezier(0.2, 0, 0, 1), box-shadow 200ms ease, background-color 120ms ease; }
+  .oc-agent-slot { animation: oc-agent-arrive 320ms cubic-bezier(0.2, 0, 0, 1) backwards; }
+  .oc-agent-slot:nth-child(2) { animation-delay: 60ms; }
+  .oc-agent-slot:nth-child(3) { animation-delay: 120ms; }
+  .oc-agent-slot:nth-child(4) { animation-delay: 180ms; }
+  .oc-agent-slot:nth-child(5) { animation-delay: 240ms; }
+  .oc-agent-art { transition: transform 200ms cubic-bezier(0.2, 0, 0, 1); }
+  .oc-agent-slot[data-active="true"] .oc-agent-art { transform: translateY(-2px) scale(1.06); }
+  .oc-agent-slot[data-active="true"] .oc-agent-card { transform: translateY(-64px) rotate(0deg) scale(1.12); }
+  .oc-agent-slot[data-neighbor="true"] .oc-agent-card { transform: translateY(calc(var(--agent-offset) - 18px)) rotate(var(--agent-angle)) scale(1.04); }
+  .oc-agents-dialog[open] { animation: oc-agent-dialog-enter 200ms cubic-bezier(0.2, 0, 0, 1); }
+  .oc-agents-dialog[open]::backdrop { animation: oc-agent-backdrop-enter 200ms ease; }
+  .oc-directory-agent.ui-button { transition: background-color 120ms ease, box-shadow 200ms ease; }
+  .oc-directory-agent:hover { box-shadow: inset 3px 0 #4759a7; }
+  @keyframes oc-agent-arrive { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes oc-agent-dialog-enter { from { opacity: 0; transform: translateY(8px) scale(.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+  @keyframes oc-agent-backdrop-enter { from { opacity: 0; } to { opacity: 1; } }
+}
+@media (pointer: coarse), (prefers-reduced-motion: reduce) {
+  .oc-featured { bottom: 24px; }
+  .oc-agent-card { transform: none; }
+}
 @media (max-width: 1023px) {
   .onechat { grid-template-columns: 0 minmax(0, 1fr); }
   .oc-sidebar { display: none; }
@@ -145,14 +202,14 @@
   .oc-history-item { min-height: 44px; height: 44px; padding-top: 11px; padding-bottom: 11px; }
 }
 @media (max-width: 767px) {
-  .onechat { min-height: 420px; }
+  .onechat { height: auto; min-height: 100dvh; }
   .oc-toolbar { padding: 16px 16px 0; height: 76px; }
   .oc-toolbar-controls { height: 44px; }
   .oc-toolbar-actions { margin-left: 0; }
   .oc-toolbar-actions > button { width: 44px; }
   .oc-model-selector { width: auto; padding: 0 10px; gap: 6px; }
   .oc-budget { align-self: center; }
-  .oc-welcome { width: calc(100% - 32px); top: 35%; }
+  .oc-welcome { position: relative; left: auto; top: auto; transform: none; width: calc(100% - 32px); margin: 80px auto 64px; }
   .oc-welcome h1 { font-size: clamp(24px, 6.4vw, 32px); line-height: 40px; margin-bottom: 24px; }
   .oc-composer { padding: 3px; }
   .oc-composer > textarea { font-size: 16px; min-height: 44px; height: 66px; padding: 11px 4px; }
@@ -160,6 +217,13 @@
   .oc-composer-actions > button { width: 44px; }
   .oc-composer-actions .oc-send { width: 36px; }
   .oc-dialog-footer { flex-wrap: wrap; }
+  .oc-featured { position: relative; left: auto; bottom: auto; transform: none; width: calc(100% - 32px); height: auto; margin: 0 auto 64px; }
+  .oc-featured-heading { padding: 0; gap: 12px; }
+  .oc-featured-arrow { display: none; }
+  .oc-agent-dock { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; height: auto; padding: 16px 0; }
+  .oc-agent-card { width: 100%; height: 100%; min-height: 160px; transform: none !important; border: 1px solid var(--oc-border); border-radius: 12px; }
+  .oc-agent-name { white-space: normal; }
+  .oc-agent-slot { min-width: 0; }
 }
 @media (max-width: 374px) {
   .oc-toolbar { padding-left: 12px; padding-right: 12px; }

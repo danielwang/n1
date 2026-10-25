@@ -5,6 +5,8 @@ import { Dialog } from '../../components/ui/dialog';
 import { assets } from './assets';
 import { conversations, type Conversation } from './data';
 import './onechat.css';
+import { FeaturedAgents } from './FeaturedAgents';
+import { featuredAgents, type FeaturedAgent } from './featured-agent-data';
 
 type SidebarMode = 'chats' | 'agents';
 type Info = { title: string; message: string };
@@ -77,7 +79,7 @@ function SidebarContent({ onNewChat, onSelect, onInfo, onClose, selectedId, mobi
             </div>;
           })}
           {!visible.length && <p className="oc-empty">No conversations found. Try another search.</p>}
-        </> : <div className="oc-empty"><Asset src={assets.bot} /><h2>No agents pinned</h2><p>Agent discovery is not included in this local prototype.</p></div>}
+        </> : <div className="oc-sidebar-agents"><h2 className="oc-section-label">Featured agents</h2>{featuredAgents.map(agent => <Button key={agent.id} className="oc-history-item" onClick={() => onSelect({ id: `agent-${agent.id}`, title: agent.name, group: 'Today', prompt: agent.prompt })}>{agent.name}</Button>)}</div>}
       </div>
       {mode === 'chats' && <div className="oc-history-tabs" role="group" aria-label="Conversation collection">
         <Button aria-pressed={!archived} onClick={() => setArchived(false)}>{!archived && <Asset src={assets.historyTab} />}<span>History</span></Button>
@@ -104,6 +106,7 @@ export function OneChatPage() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [info, setInfo] = useState<Info | null>(null);
   const [modelOpen, setModelOpen] = useState(false);
+  const [agentsOpen, setAgentsOpen] = useState(false);
   const [privateMode, setPrivateMode] = useState(false);
   const [prompt, setPrompt] = useState('');
   const [attachment, setAttachment] = useState<File | null>(null);
@@ -141,6 +144,11 @@ export function OneChatPage() {
     timerRef.current = window.setTimeout(() => {
       setSubmitting(false); setStatus('Demo only: your message has been kept locally. No request was sent to an AI service.');
     }, 500);
+  };
+  const selectAgent = (agent: FeaturedAgent) => {
+    select({ id: `agent-${agent.id}`, title: agent.name, group: 'Today', prompt: agent.prompt });
+    setAgentsOpen(false);
+    setStatus(`${agent.name} selected. Edit the suggested prompt to begin. This is a local demo; no AI service is connected.`);
   };
   const sidebarProps = { onNewChat: reset, onSelect: select, onInfo: setInfo, selectedId };
 
@@ -189,9 +197,11 @@ export function OneChatPage() {
           <div className="oc-status" role="status">{status && <><span>{status}</span><Button size="icon" aria-label="Dismiss status" onClick={() => setStatus('')}><X size={16} /></Button></>}</div>
         </div>
       </div>
+      <FeaturedAgents onSelect={selectAgent} onBrowse={() => setAgentsOpen(true)} />
       <Button size="icon" className="oc-help" aria-label="Help and prototype information" onClick={() => setInfo({ title: 'About this prototype', message: 'ONEchat is a local interface demonstration. Messages, attachments, private mode, and the budget indicator are simulated. No AI service, authentication, or microphone is connected.' })}><Asset src={assets.help} /></Button>
     </main>
     {mobileOpen && <Dialog title="Navigation" hideHeading className="oc-navigation-dialog" onClose={() => setMobileOpen(false)}><div className="oc-sidebar-content"><SidebarContent {...sidebarProps} mobile onClose={() => setMobileOpen(false)} /></div></Dialog>}
+    {agentsOpen && <Dialog title="Explore agents" className="oc-agents-dialog" onClose={() => setAgentsOpen(false)}><p>Choose a university agent to prepare a suggested prompt. This local demo does not connect to an AI service.</p><div className="oc-agent-directory">{featuredAgents.map(agent => <Button key={agent.id} className="oc-directory-agent" onClick={() => selectAgent(agent)}><span>{agent.name}</span><span>{agent.description}</span></Button>)}</div></Dialog>}
     {modelOpen && <Dialog title="Chat model" className="oc-model-dialog" onClose={() => setModelOpen(false)}><Button className="oc-model-option" onClick={() => setModelOpen(false)}><Asset src={assets.model} /><span>GPT 5.1</span><Check size={18} /><span className="oc-sr-only">Selected</span></Button><p>Model selection is simulated. No AI service is connected.</p></Dialog>}
     {info && <Dialog title={info.title} onClose={() => setInfo(null)}><p>{info.message}</p><div className="oc-dialog-footer"><a href="#/">Return to idea workspace</a><Button variant="outline" onClick={() => setInfo(null)}>Close</Button></div></Dialog>}
   </div>;

@@ -40,6 +40,12 @@ Components live in `src/pages/onechat/`. Shared native button and dialog primiti
 
 The approved Code Connect match is `Chat/ONEchat Landing` (`14819:41482`) → `OneChatPage` in `src/pages/onechat/OneChatPage.tsx`. Its parserless template is kept in `figma/OneChatPage.figma.ts`, outside the application TypeScript build. Figma rejected publishing the mapping with `CODE_CONNECT_COMPONENT_NOT_PUBLISHED`; the Figma component must first be published to a team library. No Code Connect mapping was saved remotely.
 
+### Featured agents
+
+The ONEchat page includes the five featured agents from Figma frame `26589:45403`, with its overlapping white cards, rotations, official badges, avatar artwork, and decorative arrow. The assets are bundled in `src/assets/onechat/featured/`. Meaningful descriptions replace the reference's placeholder copy; descriptions use 12px text for readability. On desktop the cards peek from the bottom of the page, matching the reference. Hovering or keyboard focus lifts and enlarges a card, with a smaller lift on its neighbors, using a 320ms easing transition for both lift and return. On devices with a fine pointer, the cards enter with a short stagger, the focused avatar gently rises, and the agent directory opens with a subtle fade and scale transition. Motion rules override the shared button transition so transform and shadow animate smoothly. Reduced-motion mode removes the movement and reveals the cards fully; touch devices also reveal the full cards. Below 768px the cards reflow into a readable two-column grid.
+
+Selecting a card prepares its editable suggested prompt and focuses the composer. “Browse more agents” opens an accessible local directory; the sidebar Agents tab also lists the same agents. These are simulated selections with no agent service or AI responses. Typed local agent data lives in `src/pages/onechat/featured-agent-data.ts`.
+
 ## Mock data and limitations
 
 Typed mock data lives in `src/data.ts`. Create and delete interactions are local and persisted in `localStorage` to make demonstrations repeatable. There is no backend, authentication, network request, real survey collection, or external data service. Starting an experiment is represented by a local success toast; it does not create a live experiment.
