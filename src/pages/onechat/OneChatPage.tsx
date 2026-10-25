@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { ArrowUp, Check, LoaderCircle, Menu, X } from 'lucide-react';
 import { Button } from '../../components/ui/button';
 import { Dialog } from '../../components/ui/dialog';
+import { Feedback } from '../../components/ui/feedback';
 import { assets } from './assets';
 import { conversations, type Conversation } from './data';
 import './onechat.css';
@@ -111,7 +112,9 @@ export function OneChatPage() {
   const [prompt, setPrompt] = useState('');
   const [attachment, setAttachment] = useState<File | null>(null);
   const [error, setError] = useState('');
-  const [status, setStatus] = useState('');
+  const [status, setStatusMessage] = useState('');
+  const [statusTone, setStatusTone] = useState<'info' | 'success'>('info');
+  const setStatus = (message: string, tone: 'info' | 'success' = 'info') => { setStatusMessage(message); setStatusTone(tone); };
   const [submitting, setSubmitting] = useState(false);
   const [selectedId, setSelectedId] = useState<string>();
   const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -139,10 +142,10 @@ export function OneChatPage() {
   const submit = (event: FormEvent) => {
     event.preventDefault();
     if (submitting) return;
-    if (!prompt.trim()) { setError('Enter a message before sending.'); inputRef.current?.focus(); return; }
+    if (!prompt.trim()) { setStatus(''); setError('Enter a message before sending.'); inputRef.current?.focus(); return; }
     setError(''); setStatus(''); setSubmitting(true);
     timerRef.current = window.setTimeout(() => {
-      setSubmitting(false); setStatus('Demo only: your message has been kept locally. No request was sent to an AI service.');
+      setSubmitting(false); setStatus('Demo only: your message has been kept locally. No request was sent to an AI service.', 'success');
     }, 500);
   };
   const selectAgent = (agent: FeaturedAgent) => {
@@ -179,7 +182,7 @@ export function OneChatPage() {
             <input ref={fileRef} type="file" hidden onChange={event => {
               const file = event.target.files?.[0]; event.target.value = '';
               if (!file) return;
-              if (file.size > 10 * 1024 * 1024) { setError('Choose an attachment smaller than 10 MB.'); return; }
+              if (file.size > 10 * 1024 * 1024) { setStatus(''); setError('Choose an attachment smaller than 10 MB.'); return; }
               setError(''); setAttachment(file); setStatus('Attachment selected locally. It will not be uploaded.');
             }} />
             <Button size="icon" className="oc-attach" aria-label="Attach a file" title="Attach a file" onClick={() => fileRef.current?.click()}><Asset src={assets.plus} /></Button>
@@ -188,21 +191,23 @@ export function OneChatPage() {
               onKeyDown={event => { if (event.key === 'Enter' && !event.shiftKey && !event.nativeEvent.isComposing) { event.preventDefault(); event.currentTarget.form?.requestSubmit(); } }} />
             <div className="oc-composer-actions">
               <Button size="icon" aria-label="Dictate a message" title="Dictate a message" onClick={() => setInfo({ title: 'Dictation', message: 'Dictation is shown in the design but is not connected in this prototype. Your microphone has not been accessed.' })}><span className="oc-mic"><Asset src={assets.microphone} /></span></Button>
-              {prompt.length > 0 ? <Button size="icon" className="oc-send" type="submit" disabled={submitting} aria-label="Send message">{submitting ? <LoaderCircle className="oc-loading" size={20} /> : <ArrowUp size={20} />}</Button> :
+              {prompt.length > 0 ? <Button size="icon" className="oc-send" type="submit" disabled={submitting} aria-label={submitting ? 'Sending message' : 'Send message'}>{submitting ? <LoaderCircle className="oc-loading" size={20} /> : <ArrowUp size={20} />}</Button> :
                 <Button size="icon" className="oc-voice" aria-label="Start voice chat" title="Start voice chat" onClick={() => setInfo({ title: 'Voice chat', message: 'Voice chat is shown in the design but is not connected in this prototype. Your microphone has not been accessed.' })}><Asset src={assets.voiceBackground} /><Asset src={assets.soundwave} /></Button>}
             </div>
           </form>
           {attachment && <div className="oc-attachment"><span>{attachment.name}</span><Button size="icon" aria-label="Remove attachment" onClick={() => setAttachment(null)}><X size={16} /></Button></div>}
-          {error && <p id="oc-prompt-error" className="oc-error" role="alert">{error}</p>}
-          <div className="oc-status" role="status">{status && <><span>{status}</span><Button size="icon" aria-label="Dismiss status" onClick={() => setStatus('')}><X size={16} /></Button></>}</div>
+          <div className="oc-feedback-area">
+            <Feedback id="oc-prompt-error" message={error} tone="error" />
+            <Feedback message={error ? '' : submitting ? 'Preparing your local demo message…' : status} tone={submitting ? 'loading' : statusTone} onDismiss={submitting ? undefined : () => setStatus('')} />
+          </div>
         </div>
       </div>
       <FeaturedAgents onSelect={selectAgent} onBrowse={() => setAgentsOpen(true)} />
       <Button size="icon" className="oc-help" aria-label="Help and prototype information" onClick={() => setInfo({ title: 'About this prototype', message: 'ONEchat is a local interface demonstration. Messages, attachments, private mode, and the budget indicator are simulated. No AI service, authentication, or microphone is connected.' })}><Asset src={assets.help} /></Button>
     </main>
-    {mobileOpen && <Dialog title="Navigation" hideHeading className="oc-navigation-dialog" onClose={() => setMobileOpen(false)}><div className="oc-sidebar-content"><SidebarContent {...sidebarProps} mobile onClose={() => setMobileOpen(false)} /></div></Dialog>}
+    {mobileOpen && <Dialog title="Navigation" hideHeading className="oc-navigation-dialog" onClose={() => setMobileOpen(false)}>{close => <div className="oc-sidebar-content"><SidebarContent {...sidebarProps} mobile onClose={close} /></div>}</Dialog>}
     {agentsOpen && <Dialog title="Explore agents" className="oc-agents-dialog" onClose={() => setAgentsOpen(false)}><p>Choose a university agent to prepare a suggested prompt. This local demo does not connect to an AI service.</p><div className="oc-agent-directory">{featuredAgents.map(agent => <Button key={agent.id} className="oc-directory-agent" onClick={() => selectAgent(agent)}><span>{agent.name}</span><span>{agent.description}</span></Button>)}</div></Dialog>}
     {modelOpen && <Dialog title="Chat model" className="oc-model-dialog" onClose={() => setModelOpen(false)}><Button className="oc-model-option" onClick={() => setModelOpen(false)}><Asset src={assets.model} /><span>GPT 5.1</span><Check size={18} /><span className="oc-sr-only">Selected</span></Button><p>Model selection is simulated. No AI service is connected.</p></Dialog>}
-    {info && <Dialog title={info.title} onClose={() => setInfo(null)}><p>{info.message}</p><div className="oc-dialog-footer"><a href="#/">Return to idea workspace</a><Button variant="outline" onClick={() => setInfo(null)}>Close</Button></div></Dialog>}
+    {info && <Dialog title={info.title} onClose={() => setInfo(null)}>{close => <><p>{info.message}</p><div className="oc-dialog-footer"><a href="#/">Return to idea workspace</a><Button variant="outline" onClick={close}>Close</Button></div></>}</Dialog>}
   </div>;
 }

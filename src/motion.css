@@ -1,0 +1,69 @@
+/* ONEdesign: feedback 120ms, transitions 200ms, standard easing. */
+:root {
+  --motion-fast: 120ms;
+  --motion-standard: 200ms;
+  --motion-ease: cubic-bezier(0.2, 0, 0, 1);
+}
+
+.oc-feedback-area { min-height: 52px; }
+.oc-feedback { display: flex; align-items: center; gap: 8px; min-height: 44px; margin-top: 8px; color: var(--oc-muted); font-size: 13px; line-height: 20px; }
+.oc-feedback > svg { flex-shrink: 0; }
+.oc-feedback > span { flex: 1; }
+.oc-feedback[data-tone="error"] { color: var(--oc-error); }
+.oc-feedback[data-tone="success"] > svg { color: #0f913b; }
+.motion-feedback[data-visible="false"] { display: none; opacity: 0; pointer-events: none; }
+.toast { max-width: min(480px, calc(100vw - 32px)); }
+.oc-dialog.workspace-dialog { width: min(520px, calc(100vw - 32px)); }
+.oc-dialog { --dialog-off: scale(.97); }
+.oc-navigation-dialog { --dialog-off: translateX(-100%); }
+.oc-dialog[data-state="closed"] { opacity: 0; transform: var(--dialog-off); }
+.oc-dialog[data-state="closed"]::backdrop { opacity: 0; }
+
+@media (prefers-reduced-motion: no-preference) {
+  :is(.ui-button:not(.oc-agent-card), .primary-button, .secondary-button, .danger-button, .icon-button, .text-button) {
+    transition: transform calc(var(--motion-fast) / 2) var(--motion-ease), opacity var(--motion-fast) var(--motion-ease);
+  }
+  :is(.ui-button:not(.oc-agent-card):not(.oc-history-item):not([role="tab"]), .primary-button, .secondary-button, .danger-button, .icon-button, .text-button):active:not(:disabled):not(:focus-visible) {
+    transform: scale(.97);
+    transition-duration: var(--motion-fast);
+  }
+  .oc-dialog[open] {
+    opacity: 1;
+    transform: none;
+    transition: opacity var(--motion-standard) var(--motion-ease), transform var(--motion-standard) var(--motion-ease);
+  }
+  .oc-dialog[open]::backdrop { opacity: 1; transition: opacity var(--motion-standard) var(--motion-ease); }
+  .oc-dialog[open][data-state="closed"] { opacity: 0; transform: var(--dialog-off); transition-duration: var(--motion-fast); }
+  .oc-dialog[open][data-state="closed"]::backdrop { opacity: 0; transition-duration: var(--motion-fast); }
+  @starting-style {
+    .oc-dialog[open][data-state="open"] { opacity: 0; transform: var(--dialog-off); }
+    .oc-dialog[open]::backdrop { opacity: 0; }
+  }
+  .oc-dialog[data-instant="true"], .oc-dialog[data-instant="true"]::backdrop { transition: none; }
+  .motion-feedback {
+    opacity: 1;
+    transition: opacity var(--motion-fast) var(--motion-ease), display var(--motion-fast) allow-discrete;
+  }
+  .toast.motion-feedback { transform: translateY(0); transition: opacity var(--motion-standard) var(--motion-ease), transform var(--motion-standard) var(--motion-ease), display var(--motion-standard) allow-discrete; }
+  .toast.motion-feedback[data-visible="false"] { transform: translateY(100%); }
+  @starting-style {
+    .motion-feedback[data-visible="true"] { opacity: 0; }
+    .toast.motion-feedback[data-visible="true"] { transform: translateY(100%); }
+  }
+  /* Frequent keyboard actions and focus jumps stay immediate. */
+  :root[data-input="keyboard"] :is(button, .oc-dialog, .motion-feedback, .oc-agent-art),
+  :root[data-input="keyboard"] .oc-dialog::backdrop { transition: none; }
+}
+
+@media (prefers-reduced-motion: no-preference) and (hover: hover) and (pointer: fine) {
+  .oc-agent-card.ui-button { transition: transform var(--motion-standard) var(--motion-ease); }
+  .oc-agent-slot[data-active="true"] .oc-agent-card { transform: translateY(-64px) rotate(0deg) scale(1.12); }
+  .oc-agent-slot[data-neighbor="true"] .oc-agent-card { transform: translateY(calc(var(--agent-offset) - 18px)) rotate(var(--agent-angle)) scale(1.04); }
+  :root[data-input="keyboard"] .oc-agent-card { transition: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .oc-dialog[data-state="closed"] { transform: none; }
+  .oc-loading { animation: none; }
+  .oc-agent-slot { animation: none; }
+}
