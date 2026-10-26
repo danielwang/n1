@@ -153,7 +153,7 @@ export function AgentDirectoryPage() {
           {official.length ? <div className="ep-card-grid ep-official-grid">{official.map(agent => <AgentCard key={agent.id} agent={agent} onOpen={() => openAgent(agent)} />)}</div> : <div className="ep-empty"><h3>No official agents found</h3><p>Try another name or topic.</p><Button variant="outline" onClick={() => setQuery('')}>Clear search</Button></div>}
         </section>
         <section className="ep-personal-section" aria-labelledby="ep-personal-title">
-          <div className="ep-section-heading ep-personal-heading"><h2 id="ep-personal-title">My Agents</h2><p>Agents created by me</p><Button className="ep-create" onClick={create}><Asset src={directoryArt.plusSmall} />Create</Button></div>
+          <div className="ep-section-heading ep-personal-heading"><h2 id="ep-personal-title">My Agents</h2><p>Agents created by me</p><Button variant="default" className="ep-create" onClick={create}><Asset src={directoryArt.plusSmall} />Create</Button></div>
           <div ref={tabs} className="ep-tabs" role="tablist" aria-label="My agents" onKeyDown={event => {
             if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
             event.preventDefault(); const next = event.key === 'Home' ? 'mine' : event.key === 'End' ? 'shared' : tab === 'mine' ? 'shared' : 'mine';

@@ -26,7 +26,6 @@
 .onechat.oc-is-collapsed { grid-template-columns: 0 minmax(0, 1fr); }
 .ui-button { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; border: 1px solid transparent; border-radius: 8px; padding: 0 16px; background: transparent; color: inherit; font-weight: 600; font-size: 14px; line-height: 22px; cursor: pointer; flex-shrink: 0; }
 .ui-button--outline { border-color: var(--oc-muted, #637381); background: var(--oc-surface, #fff); }
-.ui-button--default { background: #4759a7; color: #fff; }
 .ui-button--size-icon { position: relative; width: 44px; height: 44px; padding: 0; }
 .ui-button:hover { background-color: rgb(99 115 129 / 10%); }
 .ui-button:disabled { opacity: .55; cursor: wait; }
@@ -102,7 +101,7 @@
 .oc-composer-actions .oc-mic { width: 24px; height: 24px; transform: scale(.75); }
 .oc-voice > img:first-child { position: absolute; inset: 4px; }
 .oc-voice > img:last-child { position: relative; }
-.oc-send { background: #212b36; color: #fff; border-radius: 50%; width: 36px; height: 36px; min-height: 36px; margin: 4px; }
+.oc-send { border-radius: 50%; width: 36px; height: 36px; min-height: 36px; margin: 4px; }
 .oc-send::after { content: ''; position: absolute; inset: -4px; }
 .oc-send:hover { background: #454f5b; }
 .oc-composer-error { border-color: var(--oc-error); }

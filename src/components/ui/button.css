@@ -1,0 +1,49 @@
+/* Application action colours; brand blue remains available for links and data. */
+:root {
+  --button-primary-bg: #212b36;
+  --button-primary-hover: #161c24;
+  --button-primary-active: #000;
+  --button-primary-text: #fff;
+  --button-disabled-bg: #c4cdd5;
+  --button-disabled-text: #454f5b;
+}
+
+.primary-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 16px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  font: 600 14px/22px "Segoe UI", system-ui, -apple-system, sans-serif;
+  cursor: pointer;
+}
+
+.ui-button.ui-button--default, .primary-button {
+  background: var(--button-primary-bg);
+  color: var(--button-primary-text);
+}
+
+.ui-button.ui-button--default:enabled:hover, .primary-button:enabled:hover {
+  background: var(--button-primary-hover);
+  color: var(--button-primary-text);
+}
+
+.ui-button.ui-button--default:enabled:active, .primary-button:enabled:active {
+  background: var(--button-primary-active);
+  color: var(--button-primary-text);
+}
+
+.ui-button.ui-button--default:disabled, .primary-button:disabled {
+  background: var(--button-disabled-bg);
+  color: var(--button-disabled-text);
+  opacity: 1;
+  cursor: not-allowed;
+}
+
+.ui-button.ui-button--default:focus-visible, .primary-button:focus-visible {
+  outline: 2px solid #4759a7;
+  outline-offset: 3px;
+}

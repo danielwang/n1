@@ -1,0 +1,16 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="200" height="150" viewBox="0 0 200 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="illustrations/background" opacity="0.2">
+<mask id="mask0_0_1451" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="150">
+<path id="mask" opacity="0.48" d="M0 82.8253C0 100.099 6.22724 115.84 16.4746 127.736C28.2306 141.388 45.278 149.971 64.2803 150C72.585 150.012 80.5259 148.38 87.8199 145.401C91.5913 143.861 95.8124 144.037 99.4651 145.863C103.75 148.002 108.548 149.201 113.614 149.201C115.707 149.201 117.756 148.995 119.739 148.603C125.397 147.491 130.547 144.858 134.776 141.128C137.434 138.784 140.838 137.605 144.317 137.609H144.376C155.871 137.609 166.549 133.971 175.414 127.736C183.34 122.169 189.812 114.529 194.124 105.559C197.884 97.7421 200 88.9117 200 79.5658C200 47.5113 175.094 21.5222 144.376 21.5222C141.244 21.5222 138.176 21.7982 135.183 22.3132C127.257 8.92503 113.065 0 96.8743 0C90.0388 0 83.5585 1.5907 77.7578 4.44218C72.2413 7.14514 67.3365 10.9859 63.3243 15.6667C49.7006 15.8933 37.1033 20.5375 26.7929 28.2881C10.5631 40.4813 0 60.3676 0 82.8253Z" fill-rule="evenodd" clip-rule="evenodd" fill="url(#paint0_linear_0_1451)"/>
+</mask>
+<g mask="url(#mask0_0_1451)">
+<rect id="color" width="200" height="150" fill="#637381"/>
+</g>
+</g>
+<defs>
+<linearGradient id="paint0_linear_0_1451" x1="100" y1="150" x2="177.883" y2="10.5074" gradientUnits="userSpaceOnUse">
+<stop/>
+<stop offset="1" stop-opacity="0.01"/>
+</linearGradient>
+</defs>
+</svg>

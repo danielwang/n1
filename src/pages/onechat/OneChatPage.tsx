@@ -60,7 +60,7 @@ export function SidebarContent({ onNewChat, onSelect, onInfo, onClose, selectedI
     <nav className="oc-primary-nav" aria-label="ONEchat navigation">
       <Button className="oc-nav-item" onClick={onNewChat}><Asset src={assets.newChat} /><span>New Chat</span></Button>
       <Button className="oc-nav-item" aria-current={window.location.hash.startsWith('#/onechat/artifacts') ? 'page' : undefined} onClick={() => { window.location.hash = '/onechat/artifacts'; }}><Asset src={assets.artifacts} /><span>Artifacts</span></Button>
-      <span className="oc-nav-item oc-presentational" title="Projects — not included in this prototype"><Asset src={assets.projects} /><span>Projects</span></span>
+      <Button className="oc-nav-item" aria-current={window.location.hash.startsWith('#/onechat/projects') ? 'page' : undefined} onClick={() => { window.location.hash = '/onechat/projects'; if (mobile) onClose(); }}><Asset src={assets.projects} /><span>Projects</span></Button>
       <Button className="oc-nav-item" aria-current={window.location.hash.startsWith('#/onechat/agents') ? 'page' : undefined} onClick={() => { window.location.hash = '/onechat/agents'; }}><Asset src={assets.explore} /><span>Explore Agents</span></Button>
     </nav>
     </div>
@@ -211,7 +211,7 @@ export function OneChatPage() {
               onKeyDown={event => { if (event.key === 'Enter' && !event.shiftKey && !event.nativeEvent.isComposing) { event.preventDefault(); event.currentTarget.form?.requestSubmit(); } }} />
             <div className="oc-composer-actions">
               <Button size="icon" aria-label="Dictate a message" title="Dictate a message" onClick={() => setInfo({ title: 'Dictation', message: 'Dictation is shown in the design but is not connected in this prototype. Your microphone has not been accessed.' })}><span className="oc-mic"><Asset src={assets.microphone} /></span></Button>
-              {prompt.length > 0 ? <Button size="icon" className="oc-send" type="submit" disabled={submitting} aria-label={submitting ? 'Sending message' : 'Send message'}>{submitting ? <LoaderCircle className="oc-loading" size={20} /> : <ArrowUp size={20} />}</Button> :
+              {prompt.length > 0 ? <Button variant="default" size="icon" className="oc-send" type="submit" disabled={submitting} aria-label={submitting ? 'Sending message' : 'Send message'}>{submitting ? <LoaderCircle className="oc-loading" size={20} /> : <ArrowUp size={20} />}</Button> :
                 <Button size="icon" className="oc-voice" aria-label="Start voice chat" title="Start voice chat" onClick={() => setInfo({ title: 'Voice chat', message: 'Voice chat is shown in the design but is not connected in this prototype. Your microphone has not been accessed.' })}><Asset src={assets.voiceBackground} /><Asset src={assets.soundwave} /></Button>}
             </div>
           </form>

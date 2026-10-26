@@ -68,7 +68,9 @@ colors:
     text-on-primary: "{colors.primitive.white}"
     border: "{colors.primitive.grey-300}"
     border-strong: "{colors.primitive.grey-400}"
-    action-hover: "{colors.primitive.blue-dark}"
+    action-primary: "{colors.primitive.grey-800}"
+    action-hover: "{colors.primitive.grey-900}"
+    action-pressed: "#000000"
     action-disabled: "{colors.primitive.grey-400}"
     success: "{colors.primitive.success-main}"
     warning: "{colors.primitive.warning-main}"
@@ -197,8 +199,10 @@ Use primitive tokens as the source palette and semantic tokens as the role-based
 | `{colors.text-subtle}` | `#919EAB` | Non-essential metadata only |
 | `{colors.border}` | `#DFE2E8` | Default separators and outlines |
 | `{colors.border-strong}` | `#C4CDD5` | Emphasized boundaries |
-| `{colors.primary}` | `#4759A7` | Primary actions and selected states |
-| `{colors.action-hover}` | `#000041` | Hover and pressed emphasis |
+| `{colors.primary}` | `#4759A7` | Brand emphasis, links, and selected states |
+| `{colors.action-primary}` | `#212B36` | Primary CTA fill, with white text |
+| `{colors.action-hover}` | `#161C24` | Primary CTA hover fill |
+| `{colors.action-pressed}` | `#000000` | Primary CTA pressed fill |
 | `{colors.focus}` | `#37C5F0` | Keyboard focus indicator |
 | `{colors.success}` | `#0F913B` | Successful or complete state |
 | `{colors.warning}` | `#E88310` | Caution requiring attention |
@@ -349,3 +353,5 @@ Respect reduced-motion preferences by removing non-essential movement, parallax,
 - Do use `{motion.feedback}` and `{motion.transition}` for purposeful feedback.
 - Do honor reduced-motion preferences.
 - Don’t use looping, flashing, parallax, or delayed transitions that interfere with usability.
+
+Primary CTAs use the application-wide black action style in `src/components/ui/button.css`: `#212B36` with white text, `#161C24` on hover, and `#000000` while pressed. Disabled CTAs use `#C4CDD5` with `#454F5B` text. Use `Button variant="default"` for primary actions. Secondary, navigation, card, and destructive controls retain their own roles. This user-requested action palette supersedes the earlier blue primary-button default without changing brand or data colours.

@@ -42,8 +42,9 @@
 .ep-personal-section { margin-top: 68px; }
 .ep-personal-heading { min-height: 30px; gap: 8px; }
 .ep-personal-heading > p { font-weight: 600; }
-.ep-create { position: relative; gap: 8px; min-height: 30px; height: 30px; padding: 0 12px; border: 0; background: var(--oc-border); font-size: 12px; font-weight: 700; line-height: 22px; }
+.ep-create { position: relative; gap: 8px; min-height: 30px; height: 30px; padding: 0 12px; border: 0; font-size: 12px; font-weight: 700; line-height: 22px; }
 .ep-create::after { content: ''; position: absolute; inset: -7px 0; }
+.ep-create > .oc-asset { filter: brightness(0) invert(1); }
 .ep-tabs { display: flex; gap: 40px; min-height: 48px; margin-top: 9px; border-bottom: 1px solid #c4cdd5; }
 .ep-tabs > button { min-height: 48px; height: 48px; padding: 0; border: 0; border-bottom: 2px solid transparent; border-radius: 0; color: var(--oc-muted); font-weight: 600; }
 .ep-tabs > button[aria-selected="true"] { border-bottom-color: var(--oc-text); color: var(--oc-text); }
