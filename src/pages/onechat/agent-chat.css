@@ -1,0 +1,55 @@
+/* Agent screen uses the established Aqua theme and ONEdesign control tokens. */
+body:has(.agent-chat) { margin: 0; }
+.agent-chat, .agent-chat *, .agent-chat-navigation, .agent-chat-navigation * { box-sizing: border-box; }
+.agent-chat :is(button, input, textarea), .agent-chat-navigation button { font-family: inherit; }
+.agent-chat textarea { font-size: 14px; }
+.agent-chat .ac-toolbar { height: 64px; padding: 10px 32px 0 16px; align-items: flex-start; }
+.ac-toolbar .oc-toolbar-controls { height: 44px; }
+.ac-toolbar [aria-pressed="true"] { background: var(--oc-border); }
+.ac-content { position: relative; width: min(850px, calc(100% - 64px)); margin: max(80px, calc(50dvh - 300.5px)) auto 64px; display: flex; flex-direction: column; align-items: center; }
+.ac-profile { display: flex; align-items: center; flex-direction: column; position: relative; left: -28px; }
+.ac-profile h1 { margin: 0; font-size: 14px; line-height: 23px; font-weight: 600; }
+.ac-introduction { width: min(722px, 100%); position: relative; left: -28px; font-size: 14px; line-height: 22px; text-align: center; margin: 13px 0 24px; }
+.ac-guidelines { position: relative; left: -28px; background: var(--oc-border); min-height: 36px; font-weight: 700; }
+.ac-guidelines:hover { background: #c4cdd5; }
+.ac-guidelines::after { content: ''; position: absolute; inset: -4px 0; }
+.ac-composer-area { width: 100%; margin-top: 65px; position: relative; }
+.ac-composer-area .oc-composer { min-height: 52px; padding: 3px 11px; }
+.ac-feedback:has(.ui-feedback:not([hidden])) { margin-top: 8px; }
+.ac-feedback:empty { display: none; }
+.ac-send > .oc-loading { color: var(--oc-text); }
+.ac-starters-wrap { position: relative; width: min(680px, 100%); margin-top: 28px; left: -21px; }
+.ac-starters { display: flex; gap: 16px; overflow-x: auto; scrollbar-width: none; scroll-snap-type: x mandatory; padding: 2px; margin: -2px; }
+.ac-starters::-webkit-scrollbar { display: none; }
+.ac-starter { position: relative; display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-start; gap: 2px; width: 298px; height: 102px; flex-shrink: 0; padding: 16px; border: 0; background: transparent; text-align: left; font-weight: 400; scroll-snap-align: start; white-space: normal; }
+.ac-starter:hover { background: transparent; }
+.ac-starter-background { position: absolute; left: 0; top: 0; pointer-events: none; }
+.ac-starter-title { position: relative; display: flex; align-items: center; gap: 8px; font-weight: 600; line-height: 24px; }
+.ac-starter-description { position: relative; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; font-size: 14px; line-height: 22px; color: var(--oc-muted); }
+.ac-next { position: absolute; top: 0; bottom: 0; right: -2px; width: 48px; height: 102px; border-radius: 0; background: linear-gradient(90deg, rgb(249 250 251 / 50%), var(--oc-background)); }
+.ac-next:hover { background: linear-gradient(90deg, rgb(249 250 251 / 75%), var(--oc-background)); }
+.ac-help-dot { position: absolute; right: 8px; top: 6px; width: 8px; height: 8px; border-radius: 50%; background: #d82934; }
+.ac-option { display: flex; width: 100%; justify-content: flex-start; margin: 8px 0; background: #f9fafb; }
+.ac-back { display: inline-block; margin-top: 16px; color: #4759a7; }
+.ac-guideline-list { padding-left: 24px; line-height: 24px; }
+.ac-guideline-list li + li { margin-top: 12px; }
+@media (prefers-reduced-motion: no-preference) {
+  .ac-starter { transition: opacity 120ms var(--ease-out, ease); }
+  .ac-starter:hover { opacity: .8; }
+}
+@media (max-width: 1023px) {
+  .agent-chat .ac-toolbar { padding-left: 24px; padding-right: 24px; }
+  .ac-content { width: calc(100% - 48px); }
+  .ac-profile, .ac-introduction, .ac-guidelines, .ac-starters-wrap { left: 0; }
+}
+@media (max-width: 767px) {
+  .agent-chat textarea { font-size: 16px; }
+  .agent-chat .ac-toolbar { padding: 10px 16px 0; }
+  .ac-content { width: calc(100% - 32px); margin: 64px auto 80px; }
+  .ac-introduction { margin-top: 24px; text-align: left; }
+  .ac-composer-area { margin-top: 32px; }
+  .ac-composer-area .oc-composer { padding: 3px; }
+  .ac-starters-wrap { margin-top: 24px; }
+  .ac-next { right: -1px; }
+  .ac-starter { scroll-margin-right: 48px; }
+}

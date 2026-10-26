@@ -1,18 +1,22 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react';
-import { ArrowUp, Check, LoaderCircle, Menu, X } from 'lucide-react';
+import { ArrowUp, Check, LoaderCircle, Menu, Bell, X } from 'lucide-react';
 import { Button } from '../../components/ui/button';
 import { Dialog } from '../../components/ui/dialog';
 import { Feedback } from '../../components/ui/feedback';
+import { useNotifications } from '../../components/notifications/NotificationProvider';
 import { assets } from './assets';
 import { conversations, type Conversation } from './data';
 import './onechat.css';
 import { FeaturedAgents } from './FeaturedAgents';
-import { featuredAgents, type FeaturedAgent } from './featured-agent-data';
+import type { FeaturedAgent } from './featured-agent-data';
+import { AgentNavigation } from './AgentNavigation';
+import { useAgentNavigation } from './AgentNavigationState';
+import type { ChatAgent } from './agent-data';
 
 type SidebarMode = 'chats' | 'agents';
 type Info = { title: string; message: string };
 
-function Asset({ src, className = '' }: { src: string; className?: string }) {
+export function Asset({ src, className = '' }: { src: string; className?: string }) {
   return <img className={`oc-asset ${className}`} src={src} alt="" draggable={false} />;
 }
 
@@ -31,10 +35,15 @@ interface SidebarProps {
   onClose: () => void;
   selectedId?: string;
   mobile?: boolean;
+  onNotifications: () => void;
+  unreadCount: number;
+  notificationsOpen: boolean;
+  onSelectAgent: (agent: ChatAgent) => void;
+  defaultMode?: SidebarMode;
 }
 
-function SidebarContent({ onNewChat, onSelect, onInfo, onClose, selectedId, mobile }: SidebarProps) {
-  const [mode, setMode] = useState<SidebarMode>('chats');
+export function SidebarContent({ onNewChat, onSelect, onInfo, onClose, selectedId, mobile, onNotifications, unreadCount, notificationsOpen, onSelectAgent, defaultMode = 'chats' }: SidebarProps) {
+  const [mode, setMode] = useState<SidebarMode>(defaultMode);
   const [archived, setArchived] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [query, setQuery] = useState('');
@@ -43,17 +52,19 @@ function SidebarContent({ onNewChat, onSelect, onInfo, onClose, selectedId, mobi
   useEffect(() => { if (searchOpen) searchRef.current?.focus(); }, [searchOpen]);
 
   return <>
-    <div className="oc-logo"><img src={assets.logo} alt="Aqua University" width="205.248" height="78.815" /></div>
     <Button className="oc-collapse" size="icon" aria-label={mobile ? 'Close navigation' : 'Collapse navigation'} onClick={onClose}>
       <span className="oc-collapse-disc">{mobile ? <X size={18} /> : <Asset src={assets.collapse} />}</span>
     </Button>
+    <div className="oc-nav-intro">
+    <div className="oc-logo"><img src={assets.logo} alt="Aqua University" width="205.248" height="78.815" /></div>
     <nav className="oc-primary-nav" aria-label="ONEchat navigation">
       <Button className="oc-nav-item" onClick={onNewChat}><Asset src={assets.newChat} /><span>New Chat</span></Button>
-      <span className="oc-nav-item oc-presentational" title="Artifacts — not included in this prototype"><Asset src={assets.artifacts} /><span>Artifacts</span></span>
+      <Button className="oc-nav-item" aria-current={window.location.hash.startsWith('#/onechat/artifacts') ? 'page' : undefined} onClick={() => { window.location.hash = '/onechat/artifacts'; }}><Asset src={assets.artifacts} /><span>Artifacts</span></Button>
       <span className="oc-nav-item oc-presentational" title="Projects — not included in this prototype"><Asset src={assets.projects} /><span>Projects</span></span>
-      <Button className="oc-nav-item" onClick={() => setMode('agents')}><Asset src={assets.explore} /><span>Explore Agents</span></Button>
+      <Button className="oc-nav-item" aria-current={window.location.hash.startsWith('#/onechat/agents') ? 'page' : undefined} onClick={() => { window.location.hash = '/onechat/agents'; }}><Asset src={assets.explore} /><span>Explore Agents</span></Button>
     </nav>
-    <div className="oc-mode-tabs" role="tablist" aria-label="Sidebar content" onKeyDown={event => {
+    </div>
+    <div className="oc-mode-tabs" data-mode={mode} role="tablist" aria-label="Sidebar content" onKeyDown={event => {
       if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
       event.preventDefault();
       const nextMode = event.key === 'Home' ? 'chats' : event.key === 'End' ? 'agents' : mode === 'chats' ? 'agents' : 'chats';
@@ -63,7 +74,7 @@ function SidebarContent({ onNewChat, onSelect, onInfo, onClose, selectedId, mobi
       <Button id={`oc-chats-${mobile ? 'mobile' : 'desktop'}`} role="tab" tabIndex={mode === 'chats' ? 0 : -1} aria-selected={mode === 'chats'} aria-controls={`oc-panel-${mobile ? 'mobile' : 'desktop'}`} onClick={() => setMode('chats')}><ChatsIcon />Chats</Button>
       <Button id={`oc-agents-${mobile ? 'mobile' : 'desktop'}`} role="tab" tabIndex={mode === 'agents' ? 0 : -1} aria-selected={mode === 'agents'} aria-controls={`oc-panel-${mobile ? 'mobile' : 'desktop'}`} onClick={() => setMode('agents')}><Asset src={assets.bot} />Agents</Button>
     </div>
-    <section className="oc-history" id={`oc-panel-${mobile ? 'mobile' : 'desktop'}`} role="tabpanel" aria-labelledby={`oc-${mode}-${mobile ? 'mobile' : 'desktop'}`}>
+    <section className={`oc-history ${mode === 'agents' ? 'oc-history--agents' : ''}`} id={`oc-panel-${mobile ? 'mobile' : 'desktop'}`} role="tabpanel" aria-labelledby={`oc-${mode}-${mobile ? 'mobile' : 'desktop'}`}>
       <div className="oc-history-body">
         {mode === 'chats' ? <>
           <div className="oc-history-search">
@@ -80,7 +91,7 @@ function SidebarContent({ onNewChat, onSelect, onInfo, onClose, selectedId, mobi
             </div>;
           })}
           {!visible.length && <p className="oc-empty">No conversations found. Try another search.</p>}
-        </> : <div className="oc-sidebar-agents"><h2 className="oc-section-label">Featured agents</h2>{featuredAgents.map(agent => <Button key={agent.id} className="oc-history-item" onClick={() => onSelect({ id: `agent-${agent.id}`, title: agent.name, group: 'Today', prompt: agent.prompt })}>{agent.name}</Button>)}</div>}
+        </> : <AgentNavigation onSelect={onSelectAgent} />}
       </div>
       {mode === 'chats' && <div className="oc-history-tabs" role="group" aria-label="Conversation collection">
         <Button aria-pressed={!archived} onClick={() => setArchived(false)}>{!archived && <Asset src={assets.historyTab} />}<span>History</span></Button>
@@ -89,7 +100,7 @@ function SidebarContent({ onNewChat, onSelect, onInfo, onClose, selectedId, mobi
     </section>
     <footer className="oc-account">
       <Button className="oc-account-button" onClick={() => onInfo({ title: 'Daniel Wang', message: 'Aqua University · Local prototype. Account management is not connected.' })}><span className="oc-avatar" aria-hidden="true">D</span><span>Daniel Wang</span></Button>
-      <Button size="icon" aria-label="Notifications, 3 unread" onClick={() => onInfo({ title: 'Notifications', message: 'The reference shows 3 unread notifications. Notifications are not connected in this local prototype.' })}><Asset src={assets.bell} /><span className="oc-notification-count">3</span></Button>
+      <Button size="icon" aria-label={`Notifications, ${unreadCount} unread`} aria-haspopup="dialog" aria-expanded={notificationsOpen} onClick={onNotifications}><Asset src={assets.bell} />{unreadCount > 0 && <span className="oc-notification-count">{unreadCount}</span>}</Button>
     </footer>
   </>;
 }
@@ -103,23 +114,28 @@ export function BudgetIndicator() {
 }
 
 export function OneChatPage() {
+  const notifications = useNotifications();
+  const agentNavigation = useAgentNavigation();
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [info, setInfo] = useState<Info | null>(null);
   const [modelOpen, setModelOpen] = useState(false);
-  const [agentsOpen, setAgentsOpen] = useState(false);
   const [privateMode, setPrivateMode] = useState(false);
-  const [prompt, setPrompt] = useState('');
+  const [prompt, setPrompt] = useState(agentNavigation.pendingConversation?.prompt || '');
   const [attachment, setAttachment] = useState<File | null>(null);
   const [error, setError] = useState('');
   const [status, setStatusMessage] = useState('');
   const [statusTone, setStatusTone] = useState<'info' | 'success'>('info');
   const setStatus = (message: string, tone: 'info' | 'success' = 'info') => { setStatusMessage(message); setStatusTone(tone); };
   const [submitting, setSubmitting] = useState(false);
-  const [selectedId, setSelectedId] = useState<string>();
+  const [selectedId, setSelectedId] = useState<string | undefined>(agentNavigation.pendingConversation?.id);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
   const timerRef = useRef<number>();
+
+  useEffect(() => {
+    if (agentNavigation.pendingConversation) agentNavigation.setPendingConversation(null);
+  }, [agentNavigation.pendingConversation]);
 
   useEffect(() => {
     const previous = document.title;
@@ -150,10 +166,14 @@ export function OneChatPage() {
   };
   const selectAgent = (agent: FeaturedAgent) => {
     select({ id: `agent-${agent.id}`, title: agent.name, group: 'Today', prompt: agent.prompt });
-    setAgentsOpen(false);
     setStatus(`${agent.name} selected. Edit the suggested prompt to begin. This is a local demo; no AI service is connected.`);
   };
-  const sidebarProps = { onNewChat: reset, onSelect: select, onInfo: setInfo, selectedId };
+  const openAgent = (agent: ChatAgent) => {
+    agentNavigation.setAgent(agent);
+    setMobileOpen(false);
+    window.location.hash = '/onechat/agent';
+  };
+  const sidebarProps = { onSelectAgent: openAgent, onNewChat: reset, onSelect: select, onInfo: setInfo, selectedId, onNotifications: notifications.open, unreadCount: notifications.unreadCount, notificationsOpen: notifications.isOpen };
 
   return <div className={`onechat ${collapsed ? 'oc-is-collapsed' : ''}`}>
     <a href="#oc-main" className="oc-skip-link" onClick={event => { event.preventDefault(); document.getElementById('oc-main')?.focus(); }}>Skip to chat</a>
@@ -173,7 +193,7 @@ export function OneChatPage() {
             <Button size="icon" aria-label="Private chat" aria-pressed={privateMode} title="Private chat" onClick={() => { setPrivateMode(!privateMode); setStatus(`${privateMode ? 'Standard' : 'Private'} mode selected. This local prototype sends no messages and saves no chat history.`); }}><Asset src={assets.incognito} /></Button>
           </div>
         </div>
-        <BudgetIndicator />
+        <div className="oc-toolbar-end"><Button size="icon" className={`nf-toolbar-trigger nf-compact-trigger ${collapsed ? 'nf-collapsed-trigger' : ''}`} aria-label={`Notifications, ${notifications.unreadCount} unread`} aria-haspopup="dialog" aria-expanded={notifications.isOpen} onClick={notifications.open}><Bell size={20} />{notifications.unreadCount > 0 && <span className="nf-trigger-count">{notifications.unreadCount}</span>}</Button><BudgetIndicator /></div>
       </header>
       <div className="oc-welcome">
         <h1>Good morning, <span>Daniel</span>!</h1>
@@ -202,11 +222,10 @@ export function OneChatPage() {
           </div>
         </div>
       </div>
-      <FeaturedAgents onSelect={selectAgent} onBrowse={() => setAgentsOpen(true)} />
+      <FeaturedAgents onSelect={selectAgent} onBrowse={() => { window.location.hash = '/onechat/agents'; }} />
       <Button size="icon" className="oc-help" aria-label="Help and prototype information" onClick={() => setInfo({ title: 'About this prototype', message: 'ONEchat is a local interface demonstration. Messages, attachments, private mode, and the budget indicator are simulated. No AI service, authentication, or microphone is connected.' })}><Asset src={assets.help} /></Button>
     </main>
     {mobileOpen && <Dialog title="Navigation" hideHeading className="oc-navigation-dialog" onClose={() => setMobileOpen(false)}>{close => <div className="oc-sidebar-content"><SidebarContent {...sidebarProps} mobile onClose={close} /></div>}</Dialog>}
-    {agentsOpen && <Dialog title="Explore agents" className="oc-agents-dialog" onClose={() => setAgentsOpen(false)}><p>Choose a university agent to prepare a suggested prompt. This local demo does not connect to an AI service.</p><div className="oc-agent-directory">{featuredAgents.map(agent => <Button key={agent.id} className="oc-directory-agent" onClick={() => selectAgent(agent)}><span>{agent.name}</span><span>{agent.description}</span></Button>)}</div></Dialog>}
     {modelOpen && <Dialog title="Chat model" className="oc-model-dialog" onClose={() => setModelOpen(false)}><Button className="oc-model-option" onClick={() => setModelOpen(false)}><Asset src={assets.model} /><span>GPT 5.1</span><Check size={18} /><span className="oc-sr-only">Selected</span></Button><p>Model selection is simulated. No AI service is connected.</p></Dialog>}
     {info && <Dialog title={info.title} onClose={() => setInfo(null)}>{close => <><p>{info.message}</p><div className="oc-dialog-footer"><a href="#/">Return to idea workspace</a><Button variant="outline" onClick={close}>Close</Button></div></>}</Dialog>}
   </div>;

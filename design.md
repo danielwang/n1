@@ -1,4 +1,4 @@
----
+![alt text](image.png)---
 version: "1.0.0"
 name: "ONEdesign"
 description: "AI design system for nebulaONE."

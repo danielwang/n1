@@ -1,0 +1,38 @@
+/* Figma Nav, 25508:38112: 280px shell, 36px avatars, 52px row rhythm. */
+body:has(.onechat) { margin: 0; }
+.oc-sidebar, .oc-sidebar *, .oc-navigation-dialog, .oc-navigation-dialog * { box-sizing: border-box; }
+.oc-sidebar :is(button, input), .oc-navigation-dialog :is(button, input) { font-family: inherit; }
+.oc-nav-intro { flex-shrink: 0; }
+.oc-mode-tabs[data-mode="agents"] { height: 41px; }
+.oc-mode-tabs[data-mode="agents"] > button:first-child { width: 120px; gap: 8px; font-weight: 600; }
+.oc-mode-tabs[data-mode="agents"] > button:last-child { width: 136px; font-weight: 400; }
+.oc-mode-tabs[data-mode="agents"] [aria-selected="true"] { background: rgb(255 255 255 / 20%); }
+.oc-history--agents { max-height: 554px; }
+.oc-history--agents + .oc-account { margin-top: auto; }
+.oc-history--agents > .oc-history-body { overflow: visible; background: transparent; }
+.ac-agent-directory { display: flex; flex-direction: column; height: 100%; min-height: 0; }
+.ac-agent-list { display: flex; flex-direction: column; gap: 8px; flex: 1; min-height: 0; overflow-y: auto; overflow-x: hidden; padding: 17.325px 16.773px; background: var(--oc-selection, rgb(255 255 255 / 12%)); border-radius: 12px; scrollbar-width: thin; scrollbar-color: #637381 transparent; }
+.ac-agent-row { width: 100%; min-height: 44px; justify-content: flex-start; gap: 16px; padding: 4px 8px; border: 0; font-weight: 400; text-align: left; }
+.ac-agent-row > span:last-child { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ac-agent-row[aria-current="true"] { background: var(--oc-selection, rgb(255 255 255 / 12%)); box-shadow: inset 2px 0 var(--oc-accent, #efc07b); }
+.ac-collection-tabs { position: relative; }
+.ac-collection-tabs > button { border: 0; }
+.ac-avatar { position: relative; display: block; width: 36px; height: 36px; flex-shrink: 0; background: var(--color-surface-muted, #ecf0f3); border-radius: 8px; }
+.ac-avatar-icon { position: absolute; display: block; left: 6px; top: 6px; width: 24px; height: 24px; }
+.ac-avatar-icon > img { display: block; }
+.ac-official { position: absolute; left: 20px; top: 20px; }
+.ac-art-lyra .ac-avatar-icon > img { position: absolute; left: 15.63%; top: 0; width: 15.75px; height: 24px; object-fit: cover; }
+.ac-art-cassiopeia .ac-avatar-icon { background: #fff; }
+.ac-art-cassiopeia .ac-avatar-icon > img { position: absolute; top: 13.89%; left: 13.89%; width: 17.91px; height: 17.33px; object-fit: cover; }
+.ac-art-centaurus .ac-avatar-icon > img { position: absolute; top: 4.5px; left: 4.5px; width: 15px; height: 15px; object-fit: cover; }
+.ac-avatar-large { width: 64px; height: 64px; }
+.ac-avatar-large .ac-avatar-icon { left: 8px; top: 8px; width: 48px; height: 48px; }
+.ac-avatar-large .ac-official { left: 40px; top: 40px; }
+.ac-avatar--directory .ac-avatar-icon { transform: scale(.666667); transform-origin: top left; }
+.ac-avatar-large.ac-avatar--directory .ac-avatar-icon { transform: scale(1.333333); }
+@media (max-height: 600px) {
+  .oc-navigation-dialog .oc-nav-intro { max-height: 88px; min-height: 44px; overflow-y: auto; margin-bottom: 12px; scrollbar-width: thin; }
+  .oc-navigation-dialog .oc-nav-intro .oc-logo { display: none; }
+  .oc-navigation-dialog .oc-primary-nav { margin-bottom: 0; }
+  .oc-navigation-dialog .oc-history { margin-bottom: 12px; }
+}
