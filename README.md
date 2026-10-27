@@ -28,7 +28,7 @@ If your setup requires an absolute base, update `base` in `vite.config.ts` to `'
 
 ## ONEchat page
 
-Open `/#/onechat` locally, or `/repository-name/#/onechat` on GitHub Pages. The existing idea workspace remains at `/#/`; its sidebar includes a ONEchat link. The requested route was left as `[SPECIFY ROUTE]`, so `#/onechat` was chosen as the page route.
+Open `/onechat#/onechat` locally, or `/repository-name/onechat#/onechat` on GitHub Pages. ONEchat is the application entry point; the previous idea workspace dashboard has been removed from the application.
 
 The page implements [Master - N1 Mockups, frame 21874:28494](https://www.figma.com/design/Xli3DdUg0KWKd32wLXNt4a/Master---N1--Mockups?node-id=21874-28494). The reference contains two overlapping screen instances; the implementation renders one. Its 280px sidebar, 850px composer, 32px greeting, navy/gold client theme, 36px model selector, and restrained border treatment are documented adaptations of the defaults in `design.md`. Exact logo and icon SVGs retrieved through Figma MCP are bundled locally in `src/assets/onechat/`; no temporary Figma URLs are used at runtime.
 
