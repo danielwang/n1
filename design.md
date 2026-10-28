@@ -292,11 +292,14 @@ On mobile, use `{breakpoints.gutter-mobile}` gutters and a single-column flow. A
 
 Interactive controls must provide at least `{components.primitive.touch-target}` square touch area, including when the visible icon is smaller. Avoid density that forces precision tapping, horizontal scrolling for ordinary content, or loss of context at narrow widths.
 
-# Elevation and depth
+# Border and radius
 
 Use `{rounded.primitive.xs}`, `{rounded.primitive.sm}`, `{rounded.primitive.md}`, and `{rounded.primitive.lg}` for progressively larger or more prominent surfaces. Use `{rounded.pill}` only for pills, tags, or fully rounded controls. Default borders use `{components.primitive.border-width}` and `{colors.border}`; use `{colors.border-strong}` for boundaries that must remain visible without shadow.
 
-Use `{elevation.low}` for cards and restrained raised surfaces, `{elevation.medium}` for menus and sticky elements, and `{elevation.high}` for dialogs or prominent overlays. Do not combine strong borders and heavy shadows without a clear hierarchy. Layering follows `{elevation.z-base}`, `{elevation.z-sticky}`, `{elevation.z-dropdown}`, `{elevation.z-overlay}`, `{elevation.z-dialog}`, and `{elevation.z-toast}`. Menus should sit above page content; dialogs should sit above overlays; transient notifications should remain above dialogs only when essential.
+
+# Shadows
+
+Use `{elevation.low}` for raised surfaces, `{elevation.medium}` for menus and sticky elements, and `{elevation.high}` for dialogs or prominent overlays. Do not combine strong borders and heavy shadows without a clear hierarchy. Layering follows `{elevation.z-base}`, `{elevation.z-sticky}`, `{elevation.z-dropdown}`, `{elevation.z-overlay}`, `{elevation.z-dialog}`, and `{elevation.z-toast}`. Menus should sit above page content; dialogs should sit above overlays; transient notifications should remain above dialogs only when essential.
 
 # Motion
 
@@ -327,6 +330,9 @@ Respect reduced-motion preferences by removing non-essential movement, parallax,
 - Do reflow content for mobile rather than simply shrinking desktop layouts.
 - Do preserve `{components.primitive.touch-target}` targets.
 - Don’t require horizontal scrolling for ordinary reading or forms.
+
+## Shadows
+- Don't add shadows to cards, buttons, or text
 
 ## Components
 
@@ -360,8 +366,13 @@ Primary CTAs use the application-wide black action style in `src/components/ui/b
 
 ## Iconography
 
-Use the [Solar icon library](https://icon-sets.iconify.design/solar/) through Iconify. Use outline (`linear`) icons by default. Use duotone (`duotone`) icons for navigation elements.
+Use the [Solar icon library](https://icon-sets.iconify.design/solar/) through Iconify. Use outline (`linear`) icons by default. Use duotone (`duotone`) icons for navigation elements. Alternatively use [Hugeicons](https://hugeicons.com/icons/stroke-rounded)
 
 ## Illustrations
 
 Use the [unDraw illustration library](https://undraw.co/illustrations). Set the illustration accent color to `{colors.primitive.purple}` (`#6B52A2`).
+
+
+## UI rules
+
+Avoid unnecessary secondary labels abd descriptions. Let the layout do the explaining.

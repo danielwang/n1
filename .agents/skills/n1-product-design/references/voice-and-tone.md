@@ -1,7 +1,5 @@
 # N1 voice and tone — working rules
 
-> **Context-based.** These rules synthesize previously discussed product language preferences; treat detailed tone choices as proposed until approved.
-
 ## Core voice
 Clear, calm, helpful, direct and respectful. Avoid unexplained jargon, exaggerated certainty and human-like claims about the assistant's inner state.
 
