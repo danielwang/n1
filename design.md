@@ -214,7 +214,7 @@ Use color roles consistently for surfaces, text, borders, actions, feedback, foc
 
 ## Data-visualization color palette
 
-Use the ordered palette below for categorical series, charts, maps, and dashboards. Start at the first color and add colors only as needed. For sequential data, use a documented light-to-dark ramp derived from one hue rather than treating categorical colors as a scale.
+When generating data visualizations, use the `colors.primitive.viz-*` colors defined in this file and listed in the ordered palette below. This palette is the default for categorical series, charts, maps, and dashboards; do not substitute unrelated colors or the general-purpose `{colors.data-1}`–`{colors.data-5}` palette. Start at the first color and add colors only as needed. For sequential data, use a documented light-to-dark ramp derived from one hue in this palette rather than treating categorical colors as a scale.
 
 | Token | Name | Resolved value | Intended use |
 |---|---|---|---|
@@ -354,4 +354,14 @@ Respect reduced-motion preferences by removing non-essential movement, parallax,
 - Do honor reduced-motion preferences.
 - Don’t use looping, flashing, parallax, or delayed transitions that interfere with usability.
 
+## CTA button
+
 Primary CTAs use the application-wide black action style in `src/components/ui/button.css`: `#212B36` with white text, `#161C24` on hover, and `#000000` while pressed. Disabled CTAs use `#C4CDD5` with `#454F5B` text. Use `Button variant="default"` for primary actions. Secondary, navigation, card, and destructive controls retain their own roles. This user-requested action palette supersedes the earlier blue primary-button default without changing brand or data colours.
+
+## Iconography
+
+Use the [Solar icon library](https://icon-sets.iconify.design/solar/) through Iconify. Use outline (`linear`) icons by default. Use duotone (`duotone`) icons for navigation elements.
+
+## Illustrations
+
+Use the [unDraw illustration library](https://undraw.co/illustrations). Set the illustration accent color to `{colors.primitive.purple}` (`#6B52A2`).
