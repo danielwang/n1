@@ -1,6 +1,6 @@
 ---
 name: n1-product-design
-description: Apply N1/nebulaONE (ONEchat) product and visual design conventions to UX strategy, feature design, interaction patterns, personas, UX writing, accessibility reviews, Figma-to-code workflows, and frontend UI implementation. Use for N1 designs, design critiques, agent and chat experiences, admin workflows, mobile and voice interfaces, design-system documentation, and AI-generated prototypes. Consult task-specific reference files, distinguish established decisions from proposals, and verify tokens against the authoritative Figma or code library.
+description: Apply nebulaONE product and visual design conventions to UX strategy, feature design, interaction patterns, personas, UX writing, accessibility reviews, Figma-to-code workflows, and frontend UI implementation. Use for N1 designs, design critiques, agent and chat experiences, admin workflows, mobile and voice interfaces, design-system documentation, and AI-generated prototypes. Consult task-specific reference files, distinguish established decisions from proposals, and verify tokens against the authoritative Figma or code library.
 ---
 
 # N1 Product Design
@@ -24,13 +24,10 @@ Create and critique N1 experiences that feel familiar, support human agency, and
 6. Distinguish **Verified**, **Context-based** and **Proposed** guidance in conclusions and implementation notes.
 
 ## Reference routing
-- Visual design, components, tokens, code: [DESIGN.md](references/DESIGN.md), [patterns.md](references/patterns.md), [accessibility.md](references/accessibility.md).
+- [patterns.md](references/patterns.md), [accessibility.md](references/accessibility.md).
 - Product decisions, UX critique: [principles.md](references/principles.md), [personas.md](references/personas.md), [patterns.md](references/patterns.md).
-- AI chat, agents, memories, notifications, voice: [ai-experiences.md](references/ai-experiences.md), [patterns.md](references/patterns.md), [voice-and-tone.md](references/voice-and-tone.md).
 - UX writing: [voice-and-tone.md](references/voice-and-tone.md), [accessibility.md](references/accessibility.md).
 - Research or persona work: [personas.md](references/personas.md), [principles.md](references/principles.md). Never pass hypotheses off as actual research.
-- System audits and handoff: [review-checklist.md](references/review-checklist.md), [source-register.md](references/source-register.md).
-- Extracting from Figma: [figma-extraction.md](references/figma-extraction.md), [DESIGN.md](references/DESIGN.md).
 
 ## Default response standards
 - State the problem, user goal and constraints before recommending a complex interaction.
@@ -41,9 +38,3 @@ Create and critique N1 experiences that feel familiar, support human agency, and
 - For implementations use verified design tokens and approved components; if unavailable, use explicitly provisional placeholders rather than invented N1 values.
 - Use "AI" in end-user UI copy unless more precise task language is needed. Product/team name "N1" may appear in technical docs.
 
-## Example requests
-- "Review this ONEchat multi-agent flow for a student and an admin."
-- "Create N1-consistent responsive settings UI with validated token references."
-- "Rewrite N1 agent onboarding and memory-management copy."
-- "Turn N1 Figma design system variables into DESIGN.md without guessing." 
-- "Audit a voice interaction for control, error recovery and accessibility."

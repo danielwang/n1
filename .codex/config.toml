@@ -1,0 +1,6 @@
+# Figma account: dwang@gocloudforce.com
+[mcp_servers.figma]
+enabled = true
+
+[mcp_servers.figma-second]
+enabled = false
