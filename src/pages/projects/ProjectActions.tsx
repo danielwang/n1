@@ -2,7 +2,7 @@ import { useEffect, useId, useRef, useState } from 'react';
 import { Archive, ArchiveRestore, MoreHorizontal, Pencil, Trash2 } from 'lucide-react';
 import { Button } from '../../components/ui/button';
 
-export function ProjectActions({ name, onRename, onDelete, onArchive, archived = false, icon }: { name: string; onRename: () => void; onDelete: () => void; onArchive?: () => void; archived?: boolean; icon?: string }) {
+export function ProjectActions({ name, onRename, onDelete, onArchive, archived = false, icon, itemLabel = 'project' }: { name: string; onRename: () => void; onDelete: () => void; onArchive?: () => void; archived?: boolean; icon?: string; itemLabel?: 'project' | 'course' }) {
   const [open, setOpen] = useState(false);
   const root = useRef<HTMLDivElement>(null);
   const trigger = useRef<HTMLButtonElement>(null);
@@ -29,9 +29,9 @@ export function ProjectActions({ name, onRename, onDelete, onArchive, archived =
   }}>
     <Button ref={trigger} size="icon" aria-label={`Actions for ${name}`} aria-haspopup="menu" aria-expanded={open} aria-controls={id} onClick={() => setOpen(value => !value)}>{icon ? <img src={icon} alt="" /> : <MoreHorizontal size={20} />}</Button>
     <div id={id} role="menu" aria-label={`Actions for ${name}`} className="pj-action-menu" hidden={!open}>
-      <Button role="menuitem" tabIndex={-1} onClick={() => { close(); onRename(); }}><Pencil size={16} />Rename project</Button>
-      {onArchive && <Button role="menuitem" tabIndex={-1} onClick={() => { close(); onArchive(); }}>{archived ? <ArchiveRestore size={16} /> : <Archive size={16} />}{archived ? 'Restore project' : 'Archive project'}</Button>}
-      <Button role="menuitem" tabIndex={-1} className="pj-delete-action" onClick={() => { close(); onDelete(); }}><Trash2 size={16} />Delete project</Button>
+      <Button role="menuitem" tabIndex={-1} onClick={() => { close(); onRename(); }}><Pencil size={16} />Rename {itemLabel}</Button>
+      {onArchive && <Button role="menuitem" tabIndex={-1} onClick={() => { close(); onArchive(); }}>{archived ? <ArchiveRestore size={16} /> : <Archive size={16} />}{archived ? 'Restore' : 'Archive'} {itemLabel}</Button>}
+      <Button role="menuitem" tabIndex={-1} className="pj-delete-action" onClick={() => { close(); onDelete(); }}><Trash2 size={16} />Delete {itemLabel}</Button>
     </div>
   </div>;
 }

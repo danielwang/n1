@@ -73,7 +73,7 @@ export function ArtifactsPage() {
   const selectTab = (next: 'mine' | 'shared') => { setTab(next); setFilter('All'); };
   return <div className={`onechat artifacts-page ${collapsed ? 'oc-is-collapsed' : ''}`}>
     <a className="oc-skip-link" href="#af-main" onClick={event => { event.preventDefault(); document.getElementById('af-main')?.focus(); }}>Skip to artifacts</a>
-    <aside className="oc-sidebar" aria-label="Chat sidebar" hidden={collapsed}><SidebarContent {...sidebarProps} onClose={() => setCollapsed(true)} /></aside>
+    <aside className="oc-sidebar" aria-label="Chat sidebar"><SidebarContent {...sidebarProps} collapsed={collapsed} onClose={() => setCollapsed(value => !value)} /></aside>
     <main className="oc-main af-main" id="af-main" tabIndex={-1}>
       <div className="af-responsive-toolbar">
         <Button className="oc-mobile-menu" size="icon" aria-label="Open navigation" onClick={() => setMobileOpen(true)}><Menu size={22} /></Button>

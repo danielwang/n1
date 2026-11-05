@@ -13,6 +13,7 @@ import bot from '../../assets/onechat/1-icons-navigation-bot.svg';
 import historyTab from '../../assets/onechat/1-vector3.svg';
 import search from '../../assets/onechat/1-icons-generic-search.svg';
 import newChat from '../../assets/onechat/1-icon.svg';
+import courses from '../../assets/onechat/1-icons-navigation-courses.svg';
 import artifacts from '../../assets/onechat/1-icon1.svg';
 import projects from '../../assets/onechat/1-icon2.svg';
 import explore from '../../assets/onechat/1-icon3.svg';
@@ -25,4 +26,4 @@ import budgetProgress from '../../assets/onechat/3-ellipse25.svg';
 
 export const assets = { microphone, plus, voiceBackground, soundwave, help, collapse,
   logo, bell, chatBack, chatFront, chatDots, bot, historyTab, search, newChat,
-  artifacts, projects, explore, model, chevron, toolbarNew, incognito, budgetTrack, budgetProgress };
+  courses, artifacts, projects, explore, model, chevron, toolbarNew, incognito, budgetTrack, budgetProgress };

@@ -23,7 +23,7 @@
   font-size: 14px;
   line-height: 22px;
 }
-.onechat.oc-is-collapsed { grid-template-columns: 0 minmax(0, 1fr); }
+.onechat.oc-is-collapsed { grid-template-columns: 80px minmax(0, 1fr); }
 .ui-button { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; border: 1px solid transparent; border-radius: 8px; padding: 0 16px; background: transparent; color: inherit; font-weight: 600; font-size: 14px; line-height: 22px; cursor: pointer; flex-shrink: 0; }
 .ui-button--outline { border-color: var(--oc-muted, #637381); background: var(--oc-surface, #fff); }
 .ui-button--size-icon { position: relative; width: 44px; height: 44px; padding: 0; }
@@ -34,6 +34,20 @@
 .oc-sidebar, .oc-sidebar-content { position: relative; display: flex; flex-direction: column; min-height: 0; padding: 16px; background: var(--oc-nav, #16213e); color: #fff; }
 .oc-sidebar[hidden] { display: none; }
 .oc-sidebar { z-index: 2; }
+.onechat.oc-is-collapsed .oc-sidebar { width: 80px; padding: 12px 12px 22px; }
+.onechat.oc-is-collapsed .oc-logo { width: 56px; height: 54px; margin-bottom: 12px; overflow: hidden; }
+.onechat.oc-is-collapsed .oc-logo > img { width: 205px; height: 79px; left: -4px; top: 0; transform: scale(.75); transform-origin: top left; filter: saturate(4) brightness(.85) hue-rotate(10deg); }
+.onechat.oc-is-collapsed .oc-collapse-disc > .oc-asset { transform: rotate(180deg); }
+.onechat.oc-is-collapsed .oc-primary-nav { margin-bottom: 0; gap: 4px; }
+.onechat.oc-is-collapsed .oc-nav-item { justify-content: center; width: 48px; margin-inline: auto; padding: 0; }
+.onechat.oc-is-collapsed .oc-nav-item > span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.onechat.oc-is-collapsed .oc-nav-item[aria-current="page"] { background: var(--oc-selection); }
+.onechat.oc-is-collapsed .oc-mode-tabs { display: none; }
+.onechat.oc-is-collapsed .oc-history { display: none; }
+.onechat.oc-is-collapsed .oc-account { flex-direction: column-reverse; height: auto; gap: 8px; margin-top: auto; }
+.onechat.oc-is-collapsed .oc-account-button { width: 56px; justify-content: center; }
+.onechat.oc-is-collapsed .oc-account-button > span:last-child { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+.onechat.oc-is-collapsed .oc-account > .ui-button--size-icon { margin: 0; }
 .oc-logo { flex-shrink: 0; height: 98px; position: relative; margin-bottom: 16px; }
 .oc-logo > img { display: block; position: absolute; left: 21px; top: 10px; }
 .oc-collapse { position: absolute; z-index: 3; top: 20px; right: -22px; border-radius: 50%; }
@@ -88,6 +102,8 @@
 .oc-budget-progress { position: absolute; left: 3.6px; top: .155px; }
 .oc-budget > span { position: absolute; inset: 0; display: grid; place-items: center; font-weight: 600; }
 .oc-mobile-menu { display: none; }
+.oc-is-collapsed .oc-desktop-menu { display: none; }
+.onechat.oc-is-collapsed .nf-toolbar-trigger.nf-collapsed-trigger { display: none; }
 .oc-welcome { position: absolute; top: 37.3767%; left: 50%; transform: translateX(-50%); width: min(850px, calc(100% - 64px)); margin-left: 3px; }
 .oc-welcome h1 { margin: 0 0 33px; position: relative; left: 12px; text-align: center; font-size: 32px; line-height: 48px; font-weight: 300; color: #000; }
 .oc-welcome h1 > span { font-weight: 600; color: var(--oc-accent-text); }
@@ -170,9 +186,11 @@
 }
 @media (max-width: 1023px) {
   .onechat { grid-template-columns: 0 minmax(0, 1fr); }
+  .onechat.oc-is-collapsed { grid-template-columns: 0 minmax(0, 1fr); }
   .oc-sidebar { display: none; }
+  .onechat.oc-is-collapsed .oc-sidebar { display: none; }
   .oc-mobile-menu { display: inline-flex; margin-left: -8px; margin-right: 8px; }
-  .oc-desktop-menu { display: none; }
+  .oc-desktop-menu, .oc-is-collapsed .oc-desktop-menu { display: none; }
   .oc-toolbar { padding: 24px 24px 0; }
   .oc-toolbar-actions > button { width: 44px; }
   .oc-welcome { width: min(850px, calc(100% - 48px)); margin-left: 0; }

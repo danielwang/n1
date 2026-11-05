@@ -7,6 +7,7 @@ import { AgentChatPage } from './pages/onechat/AgentChatPage';
 import { AgentDirectoryPage } from './pages/onechat/AgentDirectoryPage';
 import { ArtifactsPage } from './pages/onechat/ArtifactsPage';
 import { ProjectsPage } from './pages/projects/ProjectsPage';
+import { CoursesPage } from './pages/courses/CoursesPage';
 import { LoginPage } from './pages/login/LoginPage';
 import { ConnectingPage } from './pages/login/ConnectingPage';
 import { AgentNavigationProvider } from './pages/onechat/AgentNavigationState';
@@ -36,6 +37,7 @@ function Root() {
 
   if (!hash || hash === '#' || hash === '#/' || hash === '#/login' || hash === '#/login/') return <LoginPage />;
   if (hash === '#/connecting' || hash === '#/connecting/') return <ConnectingPage />;
+  if (hash === '#/onechat/courses' || hash === '#/onechat/courses/') return <CoursesPage />;
   if (hash === '#/onechat/projects' || hash === '#/onechat/projects/') return <ProjectsPage />;
   if (hash.startsWith('#/onechat/projects/')) {
     const segment = hash.slice('#/onechat/projects/'.length).replace(/\/$/, '');

@@ -66,7 +66,7 @@
 .ep-empty p, .ep-personal-empty { color: var(--oc-muted); line-height: 22px; }
 .agent-directory .oc-help { position: fixed; z-index: 1; }
 .ep-responsive-toolbar { display: none; }
-.agent-directory.oc-is-collapsed .ep-responsive-toolbar { position: absolute; z-index: 2; top: 20px; left: 12px; display: flex; }
+.agent-directory.oc-is-collapsed .ep-responsive-toolbar { display: none; }
 .ep-dialog { width: min(520px, calc(100vw - 32px)); font-family: "Segoe UI", system-ui, -apple-system, sans-serif; font-size: 14px; }
 .ep-form > p { margin: 16px 0 24px; color: #637381; line-height: 24px; }
 .ep-form label { display: block; margin: 16px 0 8px; font-weight: 600; }

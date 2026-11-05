@@ -44,7 +44,7 @@
 .af-empty h2 { font-size: 20px; line-height: 30px; }
 .af-empty p { color: var(--oc-muted); }
 .af-responsive-toolbar { display: none; }
-.artifacts-page.oc-is-collapsed .af-responsive-toolbar { position: absolute; z-index: 2; left: 8px; top: 20px; display: flex; }
+.artifacts-page.oc-is-collapsed .af-responsive-toolbar { display: none; }
 .af-dialog { width: min(560px, calc(100vw - 32px)); font: 14px/22px "Segoe UI", system-ui, -apple-system, sans-serif; }
 .af-preview-meta { display: flex; align-items: center; gap: 12px; margin-top: 24px; }
 .af-preview-meta p { margin: 0; color: #637381; }

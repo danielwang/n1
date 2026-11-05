@@ -6,6 +6,12 @@
 
 Create an idea → review its audience and current signal → start a validation experiment → return to the overview to monitor respondents and confidence.
 
+## Workspace transition
+
+The simulated workspace connection screen shows a full-page network animation and status message without skeleton placeholders. It opens OneChat automatically after five seconds; no authentication or workspace service is contacted.
+
+On desktop, ONEchat navigation can be collapsed to an icon rail and reopened with its edge control. At tablet and mobile widths, navigation opens from the menu button. The Courses landing page follows the Projects layout; its sample courses, create/edit/archive/delete actions, and module previews are local to this browser and do not connect to a learning platform.
+
 ## Run locally
 
 ```bash

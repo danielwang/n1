@@ -77,7 +77,7 @@ export function ProjectsPage({ projectId }: { projectId?: string }) {
 
   return <div className={`onechat projects-page ${!projectId ? 'pj-landing' : 'pd-page'} ${collapsed ? 'oc-is-collapsed' : ''}`}>
     <a className="oc-skip-link" href="#pj-main" onClick={event => { event.preventDefault(); main.current?.focus(); }}>Skip to projects</a>
-    <aside className="oc-sidebar" aria-label="Chat sidebar" hidden={collapsed}><SidebarContent {...sidebarProps} onClose={() => setCollapsed(true)} /></aside>
+    <aside className="oc-sidebar" aria-label="Chat sidebar"><SidebarContent {...sidebarProps} collapsed={collapsed} onClose={() => setCollapsed(value => !value)} /></aside>
     <main ref={main} className="oc-main pj-main" id="pj-main" tabIndex={-1}>
       {!projectId && <div className="pj-responsive-toolbar"><Button className="oc-mobile-menu" size="icon" aria-label="Open navigation" onClick={() => setMobileOpen(true)}><Menu size={22} /></Button>
         {collapsed && <Button className="oc-desktop-menu" size="icon" aria-label="Expand navigation" onClick={() => setCollapsed(false)}><Menu size={22} /></Button>}

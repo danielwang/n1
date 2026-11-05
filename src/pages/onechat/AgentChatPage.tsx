@@ -64,7 +64,7 @@ export function AgentChatPage() {
   };
   return <div className={`onechat agent-chat ${collapsed ? 'oc-is-collapsed' : ''}`}>
     <a className="oc-skip-link" href="#ac-main" onClick={event => { event.preventDefault(); document.getElementById('ac-main')?.focus(); }}>Skip to agent chat</a>
-    <aside className="oc-sidebar" aria-label="Chat sidebar" hidden={collapsed}><SidebarContent {...sidebarProps} onClose={() => setCollapsed(true)} /></aside>
+    <aside className="oc-sidebar" aria-label="Chat sidebar"><SidebarContent {...sidebarProps} collapsed={collapsed} onClose={() => setCollapsed(value => !value)} /></aside>
     <main className="oc-main" id="ac-main" tabIndex={-1}>
       <header className="oc-toolbar ac-toolbar"><div className="oc-toolbar-controls">
         <Button size="icon" className="oc-mobile-menu" aria-label="Open navigation" onClick={() => setMobileOpen(true)}><Menu size={22} /></Button>

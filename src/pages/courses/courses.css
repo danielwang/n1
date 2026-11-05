@@ -1,0 +1,4 @@
+.courses-page .pj-project-link { display: inline; border: 0; padding: 0; background: none; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+.courses-page .cs-overview h3 { margin: 24px 0 8px; font-size: 16px; line-height: 24px; }
+.courses-page .cs-overview ol { margin: 0; padding-left: 24px; }
+.courses-page .cs-overview li { padding: 4px 0; }

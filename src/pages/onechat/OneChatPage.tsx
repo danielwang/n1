@@ -16,6 +16,22 @@ import type { ChatAgent } from './agent-data';
 type SidebarMode = 'chats' | 'agents';
 type Info = { title: string; message: string };
 
+function PrimaryNavigation({ currentPath, mobile, onClose, onNewChat }: Pick<SidebarProps, 'mobile' | 'onClose' | 'onNewChat'> & { currentPath: string }) {
+  const navigate = (path: string) => {
+    window.location.hash = path;
+    if (mobile) onClose();
+  };
+  const current = (path: string) => currentPath.startsWith(path) ? 'page' as const : undefined;
+
+  return <nav className="oc-primary-nav" aria-label="ONEchat navigation">
+    <Button className="oc-nav-item" aria-current={currentPath === '#/onechat' || currentPath === '#/onechat/agent' ? 'page' : undefined} onClick={onNewChat}><Asset src={assets.newChat} /><span>New Chat</span></Button>
+    <Button className="oc-nav-item" aria-current={current('#/onechat/courses')} onClick={() => navigate('/onechat/courses')}><Asset src={assets.courses} /><span>Courses</span></Button>
+    <Button className="oc-nav-item" aria-current={current('#/onechat/artifacts')} onClick={() => navigate('/onechat/artifacts')}><Asset src={assets.artifacts} /><span>Artifacts</span></Button>
+    <Button className="oc-nav-item" aria-current={current('#/onechat/projects')} onClick={() => navigate('/onechat/projects')}><Asset src={assets.projects} /><span>Projects</span></Button>
+    <Button className="oc-nav-item" aria-current={current('#/onechat/agents')} onClick={() => navigate('/onechat/agents')}><Asset src={assets.explore} /><span>Explore Agents</span></Button>
+  </nav>;
+}
+
 export function Asset({ src, className = '' }: { src: string; className?: string }) {
   return <img className={`oc-asset ${className}`} src={src} alt="" draggable={false} />;
 }
@@ -35,6 +51,7 @@ interface SidebarProps {
   onClose: () => void;
   selectedId?: string;
   mobile?: boolean;
+  collapsed?: boolean;
   onNotifications: () => void;
   unreadCount: number;
   notificationsOpen: boolean;
@@ -42,27 +59,28 @@ interface SidebarProps {
   defaultMode?: SidebarMode;
 }
 
-export function SidebarContent({ onNewChat, onSelect, onInfo, onClose, selectedId, mobile, onNotifications, unreadCount, notificationsOpen, onSelectAgent, defaultMode = 'chats' }: SidebarProps) {
+export function SidebarContent({ onNewChat, onSelect, onInfo, onClose, selectedId, mobile, collapsed, onNotifications, unreadCount, notificationsOpen, onSelectAgent, defaultMode = 'chats' }: SidebarProps) {
   const [mode, setMode] = useState<SidebarMode>(defaultMode);
   const [archived, setArchived] = useState(false);
+  const [currentPath, setCurrentPath] = useState(() => window.location.hash);
   const [searchOpen, setSearchOpen] = useState(false);
   const [query, setQuery] = useState('');
   const searchRef = useRef<HTMLInputElement>(null);
   const visible = conversations.filter(item => Boolean(item.archived) === archived && item.title.toLowerCase().includes(query.toLowerCase()));
   useEffect(() => { if (searchOpen) searchRef.current?.focus(); }, [searchOpen]);
+  useEffect(() => {
+    const syncPath = () => setCurrentPath(window.location.hash);
+    window.addEventListener('hashchange', syncPath);
+    return () => window.removeEventListener('hashchange', syncPath);
+  }, []);
 
   return <>
-    <Button className="oc-collapse" size="icon" aria-label={mobile ? 'Close navigation' : 'Collapse navigation'} onClick={onClose}>
+    <Button className="oc-collapse" size="icon" aria-label={mobile ? 'Close navigation' : collapsed ? 'Expand navigation' : 'Collapse navigation'} onClick={onClose}>
       <span className="oc-collapse-disc">{mobile ? <X size={18} /> : <Asset src={assets.collapse} />}</span>
     </Button>
     <div className="oc-nav-intro">
     <div className="oc-logo"><img src={assets.logo} alt="Aqua University" width="205.248" height="78.815" /></div>
-    <nav className="oc-primary-nav" aria-label="ONEchat navigation">
-      <Button className="oc-nav-item" onClick={onNewChat}><Asset src={assets.newChat} /><span>New Chat</span></Button>
-      <Button className="oc-nav-item" aria-current={window.location.hash.startsWith('#/onechat/artifacts') ? 'page' : undefined} onClick={() => { window.location.hash = '/onechat/artifacts'; }}><Asset src={assets.artifacts} /><span>Artifacts</span></Button>
-      <Button className="oc-nav-item" aria-current={window.location.hash.startsWith('#/onechat/projects') ? 'page' : undefined} onClick={() => { window.location.hash = '/onechat/projects'; if (mobile) onClose(); }}><Asset src={assets.projects} /><span>Projects</span></Button>
-      <Button className="oc-nav-item" aria-current={window.location.hash.startsWith('#/onechat/agents') ? 'page' : undefined} onClick={() => { window.location.hash = '/onechat/agents'; }}><Asset src={assets.explore} /><span>Explore Agents</span></Button>
-    </nav>
+    <PrimaryNavigation currentPath={currentPath} mobile={mobile} onClose={onClose} onNewChat={onNewChat} />
     </div>
     <div className="oc-mode-tabs" data-mode={mode} role="tablist" aria-label="Sidebar content" onKeyDown={event => {
       if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
@@ -99,7 +117,7 @@ export function SidebarContent({ onNewChat, onSelect, onInfo, onClose, selectedI
       </div>}
     </section>
     <footer className="oc-account">
-      <Button className="oc-account-button" onClick={() => onInfo({ title: 'Daniel Wang', message: 'Aqua University · Local prototype. Account management is not connected.' })}><span className="oc-avatar" aria-hidden="true">D</span><span>Daniel Wang</span></Button>
+      <Button className="oc-account-button" onClick={() => onInfo({ title: 'Daniel Wang', message: 'Aqua University · Local prototype. Account management is not connected.' })}><span className="oc-avatar" aria-hidden="true">DW</span><span>Daniel Wang</span></Button>
       <Button size="icon" aria-label={`Notifications, ${unreadCount} unread`} aria-haspopup="dialog" aria-expanded={notificationsOpen} onClick={onNotifications}><Asset src={assets.bell} />{unreadCount > 0 && <span className="oc-notification-count">{unreadCount}</span>}</Button>
     </footer>
   </>;
@@ -177,8 +195,8 @@ export function OneChatPage() {
 
   return <div className={`onechat ${collapsed ? 'oc-is-collapsed' : ''}`}>
     <a href="#oc-main" className="oc-skip-link" onClick={event => { event.preventDefault(); document.getElementById('oc-main')?.focus(); }}>Skip to chat</a>
-    <aside className="oc-sidebar" aria-label="Chat sidebar" hidden={collapsed}>
-      <SidebarContent {...sidebarProps} onClose={() => setCollapsed(true)} />
+    <aside className="oc-sidebar" aria-label="Chat sidebar">
+      <SidebarContent {...sidebarProps} collapsed={collapsed} onClose={() => setCollapsed(value => !value)} />
     </aside>
     <main className="oc-main" id="oc-main" tabIndex={-1}>
       <header className="oc-toolbar">

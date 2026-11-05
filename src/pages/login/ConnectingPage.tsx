@@ -132,29 +132,9 @@ export function ConnectingPage() {
   }, []);
 
   return <main className="connecting-page">
-    <div className="connecting-sidebar" aria-hidden="true">
-      <div className="connecting-skeleton-brand" />
-      <div className="connecting-skeleton-nav">
-        {[0, 1, 2, 3].map(item => <div className="connecting-skeleton-nav-row" key={item}>
-          <span className="connecting-skeleton-icon" /><span className="connecting-skeleton-line" />
-        </div>)}
-      </div>
-      <div className="connecting-skeleton-history">
-        <span className="connecting-skeleton-line" />
-        {[0, 1, 2, 3, 4, 5].map(item => <span className="connecting-skeleton-line" key={item} />)}
-      </div>
-      <div className="connecting-skeleton-account"><span className="connecting-skeleton-avatar" /><span className="connecting-skeleton-line" /></div>
-    </div>
-    <div className="connecting-workspace">
-      <div className="connecting-skeleton-content" aria-hidden="true">
-        <div className="connecting-skeleton-toolbar"><span className="connecting-skeleton-line" /><span className="connecting-skeleton-avatar" /></div>
-        <div className="connecting-skeleton-chat"><div className="connecting-skeleton-greeting" /><div className="connecting-skeleton-composer"><span className="connecting-skeleton-icon" /><span className="connecting-skeleton-line" /><span className="connecting-skeleton-avatar" /></div></div>
-        <div className="connecting-skeleton-cards">{[0, 1, 2].map(item => <div className="connecting-skeleton-card" key={item}><span className="connecting-skeleton-avatar" /><span className="connecting-skeleton-line" /><span className="connecting-skeleton-line" /></div>)}</div>
-      </div>
-      <canvas ref={canvas} aria-hidden="true" />
-      <div className="connecting-copy" role="status" aria-live="polite">
-        <h1>Getting your workspace ready ...</h1>
-      </div>
+    <canvas ref={canvas} aria-hidden="true" />
+    <div className="connecting-copy" role="status" aria-live="polite">
+      <h1>Getting your workspace ready ...</h1>
     </div>
   </main>;
 }
