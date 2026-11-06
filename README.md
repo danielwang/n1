@@ -2,6 +2,17 @@
 
 `n1 prototype` is a frontend-only idea validation workspace for product managers, founders, and small product teams. It helps users capture product ideas, run validation experiments, review signal scores, and decide what to build next.
 
+## Tech stack
+
+- **Vite** — build tooling and dev server
+- **React 18** + **TypeScript** — UI framework and type safety
+- **Tailwind CSS** — utility-first styling
+- **shadcn/ui** conventions — dependency-free, locally adapted component API (see [src/components/ui](/Users/danielwang/Workspace/n1-prototype/src/components/ui))
+- **Lucide React** — icon set
+- **ESLint** — linting
+
+The app is a static, frontend-only prototype with no backend, database, or authentication provider; all data and interactions are mocked client-side.
+
 ## Primary workflow
 
 Create an idea → review its audience and current signal → start a validation experiment → return to the overview to monitor respondents and confidence.
