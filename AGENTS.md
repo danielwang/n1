@@ -12,6 +12,12 @@ The assumed product journey is: capture an idea, review its audience and validat
 - Treat it as the source of truth for visual direction, layout, typography, colors, spacing, responsive behavior, accessibility, motion, and interaction patterns.
 - Preserve existing project conventions unless they conflict with `design.md` or these instructions.
 
+## Figma account
+
+- Use the Figma MCP connected as `dwang@gocloudforce.com` for this project. The reference file is [Master – N1 Mockups](https://www.figma.com/design/Xli3DdUg0KWKd32wLXNt4a/Master---N1--Mockups).
+- Before Figma work, call `whoami` and confirm the email is `dwang@gocloudforce.com`. Do not switch to or use another Figma account for this project.
+- If that account is unavailable, stop Figma work and ask the user to reconnect it. Do not use another account as a fallback.
+
 ## Technology
 
 - Use Vite, React, and TypeScript.

@@ -8,7 +8,9 @@ export type Material = {
 
 export const materials: Material[] = [
   { id: 'syllabus', title: 'Course syllabus', kind: 'reading', module: 'Course info', detail: 'Overview · Fall 2026' },
+  { id: 'intro-lab', title: 'Lab 0', kind: 'lab', module: 'Week 1 · Getting started', detail: 'Lab · due Aug 29' },
   { id: 'cell-reading', title: 'Chapter 2 · Cell structure', kind: 'reading', module: 'Week 2 · Cell structure', detail: 'Reading · 12 pages' },
+  { id: 'chapter-response', title: 'Chapter_2 Reading Response', kind: 'lab', module: 'Week 2 · Cell structure', detail: 'Assignment · due Sep 1' },
   { id: 'cell-slides', title: 'Cell structure lecture slides', kind: 'slides', module: 'Week 2 · Cell structure', detail: 'Slides · 24 pages' },
   { id: 'cell-lab', title: 'Lab 2 · Exploring cells', kind: 'lab', module: 'Week 2 · Cell structure', detail: 'Lab · due Friday' },
   { id: 'genetics-reading', title: 'Chapter 5 · Inheritance', kind: 'reading', module: 'Week 3 · Genetics', detail: 'Reading · 16 pages' },
@@ -16,6 +18,14 @@ export const materials: Material[] = [
 ];
 
 export const materialBody: Record<string, { eyebrow: string; heading: string; intro: string; sections: { title: string; text: string }[] }> = {
+  'intro-lab': { eyebrow: 'LAB 00 / GETTING STARTED', heading: 'Lab 0', intro: 'Get familiar with the lab space, the course safety expectations, and the way you will record observations.', sections: [
+    { title: 'Before you begin', text: 'Read the lab safety guidance and bring a notebook. Check where shared equipment is stored and how to report a problem during a practical session.' },
+    { title: 'What to submit', text: 'Submit your completed safety checklist and a short observation from the introductory activity by Aug 29 at 11:59pm.' },
+  ] },
+  'chapter-response': { eyebrow: 'ASSIGNMENT / CHAPTER 02', heading: 'Chapter_2 Reading Response', intro: 'Reflect on how the structures introduced in Chapter 2 support the work of a cell.', sections: [
+    { title: 'Your response', text: 'Choose two cell structures from the reading. Explain what each does and describe how they work together in a specific example.' },
+    { title: 'What to submit', text: 'Write a concise response in your own words and cite the relevant section of Chapter 2. This prototype previews the task; it does not submit your work.' },
+  ] },
   syllabus: { eyebrow: 'BIO101 / FALL 2026', heading: 'Foundations of Biology', intro: 'Explore the structures and processes that make life possible, from individual cells to ecosystems.', sections: [
     { title: 'What you will learn', text: 'By the end of the course, you should be able to explain how cells function, describe basic patterns of inheritance, and connect organisms with their environments.' },
     { title: 'How the course works', text: 'Weekly readings and slides prepare you for labs and practice quizzes. Use the materials in this workspace to review concepts and plan your study.' },

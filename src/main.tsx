@@ -8,7 +8,7 @@ import { AgentDirectoryPage } from './pages/onechat/AgentDirectoryPage';
 import { ArtifactsPage } from './pages/onechat/ArtifactsPage';
 import { ProjectsPage } from './pages/projects/ProjectsPage';
 import { CoursesPage } from './pages/courses/CoursesPage';
-import { CourseDetail } from './pages/courses/CourseDetail';
+import { CourseDetail } from './pages/courses/CourseWorkspace';
 import { LoginPage } from './pages/login/LoginPage';
 import { ConnectingPage } from './pages/login/ConnectingPage';
 import { AgentNavigationProvider } from './pages/onechat/AgentNavigationState';
