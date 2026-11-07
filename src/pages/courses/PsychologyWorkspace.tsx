@@ -19,8 +19,11 @@ import documentIcon from '../../assets/courses/psy201/document.svg';
 import chatsIcon from '../../assets/courses/psy201/chats.svg';
 import fullScreenIcon from '../../assets/courses/psy201/full-screen.svg';
 import fullScreenLightIcon from '../../assets/courses/psy201/full-screen-light.svg';
+import quitFullScreenIcon from '../../assets/courses/psy201/quit-full-screen.svg';
+import quitFullScreenLightIcon from '../../assets/courses/psy201/quit-full-screen-light.svg';
 import closeLightIcon from '../../assets/courses/psy201/close-light.svg';
 import sidebarLeftCloseIcon from '../../assets/courses/psy201/sidebar-left-close.svg';
+import sidebarLeftOpenIcon from '../../assets/courses/psy201/sidebar-left-open.svg';
 import sidebarRightCloseIcon from '../../assets/courses/psy201/sidebar-right-close.svg';
 import './psychology-workspace.css';
 
@@ -62,13 +65,39 @@ export function PsychologyWorkspace() {
   const [info, setInfo] = useState<Info | null>(null);
   const [status, setStatus] = useState('');
   const material = psychologyMaterials.find(item => item.id === selectedMaterial);
-  const visiblePanels = panelOrder.filter(panel => open[panel] && (!expanded || expanded === panel));
+  const chatVisible = open.chat || (!open.material && !open.artifact);
+  const visiblePanels = panelOrder.filter(panel => (panel === 'chat' ? chatVisible : open[panel]) && (!expanded || expanded === panel));
+  const layoutPanels: Panel[] = [
+    ...(!open.explorer && !expanded ? ['explorer' as Panel] : []),
+    ...visiblePanels,
+    ...(!chatVisible && !expanded ? ['chat' as Panel] : []),
+  ];
+  const gridColumns = !open.material && !open.artifact && chatVisible && !expanded
+    ? `${open.explorer ? `${widths.explorer}px` : '56px'} minmax(0, 1fr)`
+    : !open.explorer && open.material && !open.artifact && chatVisible && !expanded
+    ? '56px minmax(0, 1fr) minmax(0, 470px)'
+    : layoutPanels.map(panel => {
+      if (panel === 'explorer' && !open.explorer) return '56px';
+      if (panel === 'chat' && !chatVisible) return '36px';
+      if (panel === 'explorer' && !chatVisible) return `${widths.explorer}px`;
+      return `minmax(0, ${widths[panel]}fr)`;
+    }).join(' ');
 
   useEffect(() => { document.title = 'PSY201 · Cognitive Psychology · Aqua University'; return () => { document.title = 'Aqua University'; }; }, []);
   useEffect(() => { chatEndRef.current?.scrollIntoView({ block: 'end' }); }, [messages]);
 
   const showPanel = (panel: Panel) => { setOpen(value => ({ ...value, [panel]: true })); setExpanded(null); setActiveMobilePanel(panel); };
-  const closePanel = (panel: Panel) => { setOpen(value => ({ ...value, [panel]: false })); setExpanded(null); const fallback = panelOrder.find(item => item !== panel && open[item]); if (fallback) setActiveMobilePanel(fallback); setStatus(`${panel === 'explorer' ? 'Course explorer' : panel} panel closed.`); };
+  const closePanel = (panel: Panel) => {
+    if (panel === 'chat' && !open.material && !open.artifact) return;
+    const next = { ...open, [panel]: false };
+    const onlyChat = !next.material && !next.artifact;
+    if (onlyChat) next.chat = true;
+    setOpen(next);
+    setExpanded(null);
+    const fallback = onlyChat ? 'chat' : panelOrder.find(item => item !== panel && next[item]);
+    if (fallback) setActiveMobilePanel(fallback);
+    setStatus(`${panel === 'explorer' ? 'Course explorer' : panel} panel closed.`);
+  };
   const toggleExpanded = (panel: Panel) => { setExpanded(value => value === panel ? null : panel); setActiveMobilePanel(panel); };
 
   const startResize = (left: Panel, right: Panel, event: PointerEvent<HTMLDivElement>) => {
@@ -154,7 +183,7 @@ export function PsychologyWorkspace() {
     material: (
       <section className="psy-panel psy-content-panel" aria-label="Course material">
         <div className="psy-panel-heading"><span>{material?.title || 'Material'}</span><div className="psy-panel-actions">
-          <button className="psy-icon" aria-label={expanded === 'material' ? 'Restore material panel' : 'Expand material panel'} onClick={() => toggleExpanded('material')}><img src={fullScreenIcon} alt="" width="20" height="20" /></button>
+          <button className="psy-icon" aria-label={expanded === 'material' ? 'Restore material panel' : 'Expand material panel'} onClick={() => toggleExpanded('material')}><img src={expanded === 'material' ? quitFullScreenIcon : fullScreenIcon} alt="" width="20" height="20" /></button>
           <button className="psy-icon" aria-label="Close material panel" onClick={() => closePanel('material')}><img src={closeIcon} alt="" width="20" height="20" /></button>
         </div></div>
         {material && <div className="psy-document"><span>{material.kind} · PSY201</span><h2>{material.title}</h2><p>{material.summary}</p>{material.sections.map(item => <section key={item.heading}><h3>{item.heading}</h3><p>{item.body}</p></section>)}<small>Sample course material · Local prototype</small></div>}
@@ -163,7 +192,7 @@ export function PsychologyWorkspace() {
     artifact: (
       <section className="psy-panel psy-content-panel psy-artifact" aria-label="Study artifact">
         <div className="psy-panel-heading"><span>{noteOpen ? 'My cognitive psychology notes' : 'Artifact'}</span><div className="psy-panel-actions">
-          <button className="psy-icon" aria-label={expanded === 'artifact' ? 'Restore artifact panel' : 'Expand artifact panel'} onClick={() => toggleExpanded('artifact')}><img src={fullScreenLightIcon} alt="" width="20" height="20" /></button>
+          <button className="psy-icon" aria-label={expanded === 'artifact' ? 'Restore artifact panel' : 'Expand artifact panel'} onClick={() => toggleExpanded('artifact')}><img src={expanded === 'artifact' ? quitFullScreenLightIcon : fullScreenLightIcon} alt="" width="20" height="20" /></button>
           <button className="psy-icon" aria-label="Close artifact panel" onClick={() => closePanel('artifact')}><img src={closeLightIcon} alt="" width="20" height="20" /></button>
         </div></div>
         {noteOpen && <div className="psy-note"><label htmlFor="psy-note-text">Study note</label><textarea id="psy-note-text" value={noteText} onChange={event => setNoteText(event.target.value)} /><p>Changes are kept for this session. This is sample content.</p></div>}
@@ -172,8 +201,8 @@ export function PsychologyWorkspace() {
     chat: (
       <section className="psy-chat" aria-label="Course chat">
         <div className="psy-chat-heading"><span className="psy-sr-only">Course chat</span>
-          <button className="psy-icon" aria-label={expanded === 'chat' ? 'Restore chat panel' : 'Expand chat panel'} onClick={() => toggleExpanded('chat')}><img src={fullScreenIcon} alt="" width="20" height="20" /></button>
-          <button className="psy-icon" aria-label="Hide chat panel" onClick={() => closePanel('chat')}><img src={sidebarRightCloseIcon} alt="" width="20" height="20" /></button>
+          <button className="psy-icon" aria-label={expanded === 'chat' ? 'Restore chat panel' : 'Expand chat panel'} onClick={() => toggleExpanded('chat')}><img src={expanded === 'chat' ? quitFullScreenIcon : fullScreenIcon} alt="" width="20" height="20" /></button>
+          {(open.material || open.artifact) && <button className="psy-icon" aria-label="Hide chat panel" onClick={() => closePanel('chat')}><img src={sidebarRightCloseIcon} alt="" width="20" height="20" /></button>}
         </div>
         {messages.length ? <div className="psy-chat-messages" aria-live="polite">{messages.map(item => <article key={item.id} className={item.role === 'student' ? 'psy-message psy-message-student' : 'psy-message'}><strong>{item.role === 'student' ? 'You' : 'Course assistant · Local demo'}</strong><p>{item.text}</p></article>)}{replyPending && <p role="status">Preparing a sample response…</p>}<div ref={chatEndRef} /></div> : <div className="psy-chat-empty"><p>Ask anything about this course, or select materials to focus the conversation</p></div>}
         <form className="psy-composer" onSubmit={sendMessage}>
@@ -188,6 +217,19 @@ export function PsychologyWorkspace() {
     ),
   };
 
+  const collapsedExplorer = (
+    <aside className="psy-panel psy-explorer-rail" aria-label="Collapsed course explorer">
+      <div className="psy-panel-heading">
+        <button className="psy-icon" aria-label="Expand course explorer" onClick={() => showPanel('explorer')}><img src={sidebarLeftOpenIcon} alt="" width="20" height="20" /></button>
+      </div>
+    </aside>
+  );
+  const collapsedChat = (
+    <div className="psy-chat-rail" aria-label="Collapsed course chat">
+      <button className="psy-icon" aria-label="Expand chat panel" onClick={() => showPanel('chat')}><img src={sidebarRightCloseIcon} alt="" width="20" height="20" /></button>
+    </div>
+  );
+
   return <div className={`onechat psy-shell ${navCollapsed ? 'oc-is-collapsed' : ''}`}>
     <aside className="oc-sidebar" aria-label="Chat sidebar"><SidebarContent {...sidebarProps} collapsed={navCollapsed} onClose={() => setNavCollapsed(value => !value)} /></aside>
     <div className="oc-main psy-main">
@@ -197,9 +239,8 @@ export function PsychologyWorkspace() {
         <h1>PSY201 · Cognitive Psychology</h1>
         <Button className="psy-mobile-bell" size="icon" aria-label={`Notifications, ${notifications.unreadCount} unread`} onClick={notifications.open}><img src={bellIcon} alt="" width="20" height="20" /></Button>
       </header>
-      <div className="psy-reopen" role="toolbar" aria-label="Workspace panels">{panelOrder.filter(panel => !open[panel]).map(panel => <button key={panel} onClick={() => showPanel(panel)}>Open {panel === 'explorer' ? 'course explorer' : panel}</button>)}</div>
       <div className="psy-mobile-tabs" role="group" aria-label="Workspace panel">{panelOrder.map(panel => <button key={panel} aria-pressed={activeMobilePanel === panel} onClick={() => showPanel(panel)}>{panel === 'explorer' ? 'Course' : panel === 'material' ? 'Material' : panel === 'artifact' ? 'Artifact' : 'Chat'}</button>)}</div>
-      <main className={`psy-layout ${expanded ? 'psy-layout-expanded' : ''}`} style={{ '--psy-grid': visiblePanels.map(panel => `minmax(0, ${widths[panel]}fr)`).join(' ') } as CSSProperties} aria-label="PSY201 workspace">{visiblePanels.map((panel, index) => <div className={`psy-slot ${activeMobilePanel === panel ? 'psy-slot-active' : ''}`} key={panel}>{index > 0 && divider(visiblePanels[index - 1], panel)}{panels[panel]}</div>)}</main>
+      <main className={`psy-layout ${expanded ? 'psy-layout-expanded' : ''}`} style={{ '--psy-grid': gridColumns } as CSSProperties} aria-label="PSY201 workspace">{layoutPanels.map((panel, index) => <div className={`psy-slot ${activeMobilePanel === panel ? 'psy-slot-active' : ''}`} key={panel}>{index > 0 && !(panel === 'chat' && !chatVisible) && (layoutPanels[index - 1] === 'explorer' && !open.explorer ? <div className="psy-divider psy-divider-static" aria-hidden="true"><span /></div> : divider(layoutPanels[index - 1], panel))}{panel === 'explorer' && !open.explorer ? collapsedExplorer : panel === 'chat' && !chatVisible ? collapsedChat : panels[panel]}</div>)}</main>
       <div className="psy-status psy-sr-only" role="status">{status}</div>
     </div>
     {mobileNavOpen && <Dialog title="Navigation" hideHeading className="oc-navigation-dialog" onClose={() => setMobileNavOpen(false)}>{close => <div className="oc-sidebar-content"><SidebarContent {...sidebarProps} mobile onClose={close} /></div>}</Dialog>}
