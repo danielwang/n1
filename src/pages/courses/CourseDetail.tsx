@@ -1,5 +1,5 @@
 import { useEffect, useLayoutEffect, useRef, useState, type FormEvent, type KeyboardEvent, type PointerEvent } from 'react';
-import { Bell, BookOpen, Bot, Check, ChevronDown, ChevronLeft, ChevronRight, FileText, GripVertical, LayoutPanelLeft, Maximize2, Menu, MessageCircle, Minimize2, PanelLeftClose, PanelRightClose, Search, Send, Sparkles, Undo2, X } from 'lucide-react';
+import { Bell, BookOpen, Bot, Check, ChevronDown, ChevronLeft, ChevronRight, FileText, GripVertical, LayoutPanelLeft, Maximize2, Menu, MessageCircle, Minimize2, PanelLeftClose, PanelRightClose, Search, Send, Sparkles, Undo2, X } from '../../components/ui/solar-icons';
 import { Button } from '../../components/ui/button';
 import { Dialog } from '../../components/ui/dialog';
 import { useNotifications } from '../../components/notifications/NotificationProvider';

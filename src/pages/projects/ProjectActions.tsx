@@ -1,5 +1,5 @@
 import { useEffect, useId, useRef, useState } from 'react';
-import { Archive, ArchiveRestore, MoreHorizontal, Pencil, Trash2 } from 'lucide-react';
+import { Archive, ArchiveRestore, MoreHorizontal, Pencil, Trash2 } from '../../components/ui/solar-icons';
 import { Button } from '../../components/ui/button';
 
 export function ProjectActions({ name, onRename, onDelete, onArchive, archived = false, icon, itemLabel = 'project' }: { name: string; onRename: () => void; onDelete: () => void; onArchive?: () => void; archived?: boolean; icon?: string; itemLabel?: 'project' | 'course' }) {

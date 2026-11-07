@@ -366,7 +366,9 @@ Primary CTAs use the application-wide black action style in `src/components/ui/b
 
 ## Iconography
 
-Use the [Solar icon library](https://icon-sets.iconify.design/solar/) through Iconify. Use outline (`linear`) icons by default. Use duotone (`duotone`) icons for navigation elements. Alternatively use [Hugeicons](https://hugeicons.com/icons/stroke-rounded)
+Use the [Solar icon library](https://icon-sets.iconify.design/solar/) through Iconify for interface icons. Use Solar's `-linear` outline variant for every library icon, including navigation. Bundle icon data locally so icons render without a runtime API request. Do not use Lucide, Solar duotone or filled variants, Hugeicons, or another icon library.
+
+When implementing a supplied mockup, reuse its exact icon assets where available instead of substituting a library icon. Give icon-only controls an accessible name, and hide decorative icons from assistive technology.
 
 ## Illustrations
 

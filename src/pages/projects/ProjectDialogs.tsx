@@ -1,5 +1,5 @@
 import { useEffect, useId, useRef, useState, type FormEvent } from 'react';
-import { ArrowUp, FileText, MessageSquare, Pencil, Trash2 } from 'lucide-react';
+import { ArrowUp, FileText, MessageSquare, Pencil, Trash2 } from '../../components/ui/solar-icons';
 import { Button } from '../../components/ui/button';
 import { Dialog } from '../../components/ui/dialog';
 import { Feedback } from '../../components/ui/feedback';

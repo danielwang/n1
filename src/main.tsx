@@ -9,6 +9,7 @@ import { ArtifactsPage } from './pages/onechat/ArtifactsPage';
 import { ProjectsPage } from './pages/projects/ProjectsPage';
 import { CoursesPage } from './pages/courses/CoursesPage';
 import { CourseDetail } from './pages/courses/CourseWorkspace';
+import { PsychologyWorkspace } from './pages/courses/PsychologyWorkspace';
 import { LoginPage } from './pages/login/LoginPage';
 import { ConnectingPage } from './pages/login/ConnectingPage';
 import { AgentNavigationProvider } from './pages/onechat/AgentNavigationState';
@@ -43,7 +44,7 @@ function Root() {
     const segment = hash.slice('#/onechat/courses/'.length).replace(/\/$/, '');
     let courseId = segment;
     try { courseId = decodeURIComponent(segment); } catch { /* Keep the invalid id for the not-found view. */ }
-    return <CourseDetail courseId={courseId} />;
+    return courseId === 'psy201' ? <PsychologyWorkspace /> : <CourseDetail courseId={courseId} />;
   }
   if (hash === '#/onechat/projects' || hash === '#/onechat/projects/') return <ProjectsPage />;
   if (hash.startsWith('#/onechat/projects/')) {

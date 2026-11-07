@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { ArrowLeft, Bell, Check, FileText, Gauge, ShieldAlert, ShieldCheck } from 'lucide-react';
+import { ArrowLeft, Bell, Check, FileText, Gauge, ShieldAlert, ShieldCheck } from '../ui/solar-icons';
 import { Button } from '../ui/button';
 import { Dialog } from '../ui/dialog';
 import { notificationTypes, type NotificationItem, type NotificationScope, type NotificationType } from './data';

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react';
-import { Bell, Check, LoaderCircle, Menu, Pin, X } from 'lucide-react';
+import { Bell, Check, LoaderCircle, Menu, Pin, X } from '../../components/ui/solar-icons';
 import { Button } from '../../components/ui/button';
 import { Dialog } from '../../components/ui/dialog';
 import { Feedback } from '../../components/ui/feedback';

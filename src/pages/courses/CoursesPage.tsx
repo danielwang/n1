@@ -1,5 +1,5 @@
 import { useEffect, useId, useRef, useState, type FormEvent } from 'react';
-import { Bell, FolderPlus, Menu, Trash2 } from 'lucide-react';
+import { Bell, FolderPlus, Menu, Trash2 } from '../../components/ui/solar-icons';
 import { Button } from '../../components/ui/button';
 import { Dialog } from '../../components/ui/dialog';
 import { Feedback } from '../../components/ui/feedback';
@@ -105,7 +105,7 @@ export function CoursesPage() {
         </div>
         <div id="cs-course-panel" role="tabpanel" aria-labelledby={`cs-tab-${collection}`}>
           {visible.length ? <div className="pj-project-grid">{visible.map(course => <CourseCard key={course.id} course={course}
-            onOpen={() => course.id === 'bio101' ? window.location.hash = `/onechat/courses/${encodeURIComponent(course.id)}` : setDialog({ type: 'overview', courseId: course.id })}
+            onOpen={() => ['bio101', 'psy201'].includes(course.id) ? window.location.hash = `/onechat/courses/${encodeURIComponent(course.id)}` : setDialog({ type: 'overview', courseId: course.id })}
             onEdit={() => setDialog({ type: 'edit', courseId: course.id })}
             onArchive={() => { update(course.id, item => ({ ...item, archived: !item.archived })); setStatus(course.archived ? 'Course restored to My Courses.' : 'Course moved to Archived.'); tabs.current?.querySelector<HTMLButtonElement>('[aria-selected="true"]')?.focus(); }}
             onDelete={() => setDialog({ type: 'delete', courseId: course.id })} />)}</div>

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { AlertCircle, Check, Info, LoaderCircle, X } from 'lucide-react';
+import { AlertCircle, Check, Info, LoaderCircle, X } from './solar-icons';
 import { Button } from './button';
 
 interface FeedbackProps {
