@@ -57,12 +57,14 @@ The assumed product journey is: capture an idea, review its audience and validat
 - Keep changes focused on the requested task.
 - Do not rewrite unrelated code or remove existing behavior without a clear reason.
 - Do not add unnecessary abstractions or dependencies.
-- Update `README.md` when setup, build, deployment, or user-visible prototype behavior changes.
+- Do not change `README.md` unless explicitly told to do so.
 - Do not modify application code for documentation-only tasks unless required to validate documented commands.
 
 ## Verification
 
-Before completing an implementation change:
+Do not run `npm run lint` or `npm run build` unless explicitly told to do so.
+
+When told to verify an implementation change:
 
 1. Run `npm run lint`.
 2. Run `npm run build` (this includes the TypeScript project check and creates `dist/`).
