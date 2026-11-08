@@ -99,8 +99,28 @@
   .psy-mobile-tabs{margin:0 24px 10px}
 }
 @media(max-width:599px){
-  .psy-mobile-tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px}
+  .psy-mobile-tabs{display:flex;gap:4px}
   .psy-mobile-tabs button{min-height:44px;padding:0 3px;font-size:12px}
   .psy-layout-small .psy-chat:has(.psy-chat-empty) .psy-chat-empty{width:100%}
   .psy-layout-small .psy-chat:has(.psy-chat-empty) .psy-chat-empty p{width:100%;font-size:16px;line-height:24px}
 }
+
+/* File browser and editor tabs keep the course hierarchy visible as panes open. */
+.psy-folder,.psy-file{width:100%;display:flex;align-items:center;gap:8px;border:0;border-radius:6px;background:transparent;text-align:left;color:#212b36;font:600 13px/20px Segoe UI,system-ui,sans-serif}
+.psy-folder{min-height:38px;padding:6px 8px}
+.psy-folder svg{flex:none;color:#637381}
+.psy-folder:hover,.psy-file:hover,.psy-file[aria-current=page]{background:#ecf0f3}
+.psy-folder-children{margin:0 0 8px 15px;padding-left:10px;border-left:1px solid #dfe2e8}
+.psy-file{min-height:42px;padding:6px 8px;font-weight:400}
+.psy-file>img{flex:none}
+.psy-file>span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.psy-file small{display:block;color:#637381;font:400 11px/16px Segoe UI,system-ui,sans-serif;overflow:hidden;text-overflow:ellipsis}
+.psy-file-tabs{display:flex;flex:none;min-height:42px;overflow-x:auto;border-top:1px solid #ecf0f3;border-bottom:1px solid #dfe2e8;background:#f9fafb}
+.psy-file-tab{min-width:120px;max-width:220px;display:flex;align-items:center;gap:6px;padding:0 6px 0 12px;border-right:1px solid #dfe2e8;color:#637381;cursor:pointer;font:400 12px/18px Segoe UI,system-ui,sans-serif}
+.psy-file-tab[aria-selected=true]{background:#fff;color:#161c24;border-bottom:2px solid #4759a7}
+.psy-file-tab>span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.psy-file-tab>button{width:28px;height:28px;flex:none;display:grid;place-items:center;margin-left:auto;padding:0;border:0;border-radius:5px;background:transparent}
+.psy-file-tab>button:hover{background:#ecf0f3}
+.psy-reply-artifact{display:inline-flex;align-items:center;gap:5px;margin-top:8px;padding:5px 7px;border:1px solid #c4cdd5;border-radius:6px;background:#fff;color:#212b36;font:600 12px/18px Segoe UI,system-ui,sans-serif}
+.psy-reply-artifact:hover{background:#ecf0f3}
+@media(min-width:900px) and (max-width:1199px){.psy-layout-medium .psy-divider{display:grid}}
