@@ -212,7 +212,6 @@ export function PsychologyWorkspace() {
           <button type="button" className="psy-icon psy-mic" aria-label="Microphone demo information" onClick={() => setInfo({ title: 'Voice input', message: 'Voice input is not connected in this local prototype. Type your question to try the course chat.' })}><img src={micIcon} alt="" width="18" height="18" /></button>
           {draft.trim() ? <button type="submit" className="psy-send" aria-label="Send message" disabled={replyPending}>Send</button> : <button type="button" className="psy-voice" aria-label="Voice conversation demo information" onClick={() => setInfo({ title: 'Voice conversation', message: 'Voice conversation is not connected in this local prototype. Type your question to try the course chat.' })}><img src={chatCtaIcon} alt="" width="36" height="36" /><img className="psy-voice-wave" src={soundwaveIcon} alt="" width="24" height="24" /></button>}
         </form>
-        <p className="psy-chat-disclosure">Local demo · Sample responses, no AI service</p>
       </section>
     ),
   };
@@ -229,6 +228,15 @@ export function PsychologyWorkspace() {
       <button className="psy-icon" aria-label="Expand chat panel" onClick={() => showPanel('chat')}><img src={sidebarRightCloseIcon} alt="" width="20" height="20" /></button>
     </div>
   );
+  const panelDivider = (panel: Panel, index: number) => {
+    if (index === 0 || (panel === 'chat' && !chatVisible)) return null;
+    const previous = layoutPanels[index - 1];
+    if (previous === 'explorer' && !open.explorer) {
+      if (layoutPanels.length === 2 && panel === 'chat') return null;
+      return <div className="psy-divider psy-divider-static" aria-hidden="true"><span /></div>;
+    }
+    return divider(previous, panel);
+  };
 
   return <div className={`onechat psy-shell ${navCollapsed ? 'oc-is-collapsed' : ''}`}>
     <aside className="oc-sidebar" aria-label="Chat sidebar"><SidebarContent {...sidebarProps} collapsed={navCollapsed} onClose={() => setNavCollapsed(value => !value)} /></aside>
@@ -240,7 +248,7 @@ export function PsychologyWorkspace() {
         <Button className="psy-mobile-bell" size="icon" aria-label={`Notifications, ${notifications.unreadCount} unread`} onClick={notifications.open}><img src={bellIcon} alt="" width="20" height="20" /></Button>
       </header>
       <div className="psy-mobile-tabs" role="group" aria-label="Workspace panel">{panelOrder.map(panel => <button key={panel} aria-pressed={activeMobilePanel === panel} onClick={() => showPanel(panel)}>{panel === 'explorer' ? 'Course' : panel === 'material' ? 'Material' : panel === 'artifact' ? 'Artifact' : 'Chat'}</button>)}</div>
-      <main className={`psy-layout ${expanded ? 'psy-layout-expanded' : ''}`} style={{ '--psy-grid': gridColumns } as CSSProperties} aria-label="PSY201 workspace">{layoutPanels.map((panel, index) => <div className={`psy-slot ${activeMobilePanel === panel ? 'psy-slot-active' : ''}`} key={panel}>{index > 0 && !(panel === 'chat' && !chatVisible) && (layoutPanels[index - 1] === 'explorer' && !open.explorer ? <div className="psy-divider psy-divider-static" aria-hidden="true"><span /></div> : divider(layoutPanels[index - 1], panel))}{panel === 'explorer' && !open.explorer ? collapsedExplorer : panel === 'chat' && !chatVisible ? collapsedChat : panels[panel]}</div>)}</main>
+      <main className={`psy-layout ${expanded ? 'psy-layout-expanded' : ''}`} style={{ '--psy-grid': gridColumns } as CSSProperties} aria-label="PSY201 workspace">{layoutPanels.map((panel, index) => <div className={`psy-slot ${activeMobilePanel === panel ? 'psy-slot-active' : ''}`} key={panel}>{panelDivider(panel, index)}{panel === 'explorer' && !open.explorer ? collapsedExplorer : panel === 'chat' && !chatVisible ? collapsedChat : panels[panel]}</div>)}</main>
       <div className="psy-status psy-sr-only" role="status">{status}</div>
     </div>
     {mobileNavOpen && <Dialog title="Navigation" hideHeading className="oc-navigation-dialog" onClose={() => setMobileNavOpen(false)}>{close => <div className="oc-sidebar-content"><SidebarContent {...sidebarProps} mobile onClose={close} /></div>}</Dialog>}

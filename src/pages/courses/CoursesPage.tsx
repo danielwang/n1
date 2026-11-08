@@ -92,7 +92,7 @@ export function CoursesPage() {
         <Button size="icon" className="nf-compact-trigger" aria-label={`Notifications, ${notifications.unreadCount} unread`} aria-haspopup="dialog" aria-expanded={notifications.isOpen} onClick={notifications.open}><Bell size={20} /></Button>
       </div>
       <div className="pj-content">
-        <header className="pj-page-heading pj-library-heading"><h1 tabIndex={-1}>Courses</h1><p>Keep lessons, notes, and assignments together so you can pick up where you left off.</p><Button className="pj-new-project" variant="default" onClick={() => setDialog({ type: 'create' })}>New Course</Button></header>
+        <header className="pj-page-heading pj-library-heading"><h1 tabIndex={-1}>Courses</h1><p>Keep lessons, notes, and assignments together so you can pick up where you left off.</p></header>
         {data.warning && <div className="pj-storage-warning"><Feedback message={data.warning} tone="error" /></div>}
         <div className="pj-tabs" ref={tabs} role="tablist" aria-label="Course collections" onKeyDown={event => {
           if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
