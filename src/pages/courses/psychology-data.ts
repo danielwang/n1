@@ -6,6 +6,14 @@ export type PsychologyMaterial = {
   sections: { heading: string; body: string }[];
 };
 
+export type DueMaterial = { id: PsychologyMaterial['id']; title: string; due: string };
+
+// Sample deadlines for the PSY201 course explorer.
+export const dueMaterials: DueMaterial[] = [
+  { id: 'attention', title: 'Attention and perception quiz', due: 'Due Nov 12 at 11:59pm' },
+  { id: 'memory', title: 'Learning and memory response', due: 'Due Nov 15 at 11:59pm' },
+];
+
 // Sample course content for this static prototype.
 export const psychologyMaterials: PsychologyMaterial[] = [
   { id: 'attention', title: 'Week 1 · Attention and perception', kind: 'Reading · 14 pages', summary: 'Explore how selective attention shapes what we notice and how we interpret sensory information.', sections: [

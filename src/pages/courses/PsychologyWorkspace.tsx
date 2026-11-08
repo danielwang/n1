@@ -6,17 +6,24 @@ import { SidebarContent } from '../onechat/OneChatPage';
 import { useAgentNavigation } from '../onechat/AgentNavigationState';
 import type { ChatAgent } from '../onechat/agent-data';
 import type { Conversation } from '../onechat/data';
-import { psychologyMaterials } from './psychology-data';
+import { dueMaterials, psychologyMaterials } from './psychology-data';
 import backIcon from '../../assets/projects/detail/back.svg';
 import closeIcon from '../../assets/notifications/close.svg';
 import bellIcon from '../../assets/onechat/1-icons-generic-bell.svg';
 import artifactIcon from '../../assets/onechat/course-artifact-tab.svg';
 import plusIcon from '../../assets/onechat/course-plus.svg';
 import chatCtaIcon from '../../assets/onechat/course-chat-cta.svg';
+import chatTabIcon from '../../assets/onechat/course-chat-tab.svg';
 import soundwaveIcon from '../../assets/onechat/course-soundwave.svg';
 import micIcon from '../../assets/projects/detail/mic.svg';
 import documentIcon from '../../assets/courses/psy201/document.svg';
 import chatsIcon from '../../assets/courses/psy201/chats.svg';
+import assignmentIcon from '../../assets/courses/psy201/assignment.svg';
+import chatBudgetIcon from '../../assets/courses/psy201/chat/budget.svg';
+import chatModelIcon from '../../assets/courses/psy201/chat/model.svg';
+import chatChevronIcon from '../../assets/courses/psy201/chat/chevron.svg';
+import chatExportIcon from '../../assets/courses/psy201/chat/export.svg';
+import chatNewIcon from '../../assets/onechat/2-icons-agent-new-chat.svg';
 import fullScreenIcon from '../../assets/courses/psy201/full-screen.svg';
 import fullScreenLightIcon from '../../assets/courses/psy201/full-screen-light.svg';
 import quitFullScreenIcon from '../../assets/courses/psy201/quit-full-screen.svg';
@@ -24,17 +31,27 @@ import quitFullScreenLightIcon from '../../assets/courses/psy201/quit-full-scree
 import closeLightIcon from '../../assets/courses/psy201/close-light.svg';
 import sidebarLeftCloseIcon from '../../assets/courses/psy201/sidebar-left-close.svg';
 import sidebarLeftOpenIcon from '../../assets/courses/psy201/sidebar-left-open.svg';
-import sidebarRightCloseIcon from '../../assets/courses/psy201/sidebar-right-close.svg';
 import './psychology-workspace.css';
 
 type Panel = 'explorer' | 'material' | 'artifact' | 'chat';
+type ContentPanel = Exclude<Panel, 'explorer'>;
+type ViewportBand = 'wide' | 'compact' | 'medium' | 'small';
 type Section = 'materials' | 'chats' | 'artifacts';
 type ChatMessage = { id: number; role: 'student' | 'assistant'; text: string };
 type Info = { title: string; message: string };
-const initialWidths: Record<Panel, number> = { explorer: 280, material: 496, artifact: 500, chat: 470 };
-const minimumWidths: Record<Panel, number> = { explorer: 210, material: 250, artifact: 250, chat: 290 };
+const initialWidths: Record<Panel, number> = { explorer: 352, material: 496, artifact: 500, chat: 470 };
+const minimumWidths: Record<Panel, number> = { explorer: 320, material: 250, artifact: 250, chat: 290 };
 const maximumWidths: Record<Panel, number> = { explorer: 440, material: 850, artifact: 850, chat: 700 };
-const panelOrder: Panel[] = ['explorer', 'material', 'artifact', 'chat'];
+const panelOrder: Panel[] = ['explorer', 'material', 'chat', 'artifact'];
+const contentOrder: ContentPanel[] = ['material', 'chat', 'artifact'];
+
+function getViewportBand(navCollapsed: boolean): ViewportBand {
+  if (window.innerWidth >= 1920) return 'wide';
+  if (window.innerWidth >= 1536) return navCollapsed ? 'wide' : 'compact';
+  if (window.innerWidth >= 1200) return 'compact';
+  if (window.innerWidth >= 900) return 'medium';
+  return 'small';
+}
 
 function sampleReply(question: string, sourceTitle?: string) {
   const context = sourceTitle ? `Using ${sourceTitle} as context, ` : 'For this course, ';
@@ -49,12 +66,16 @@ export function PsychologyWorkspace() {
   const notifications = useNotifications();
   const chatEndRef = useRef<HTMLDivElement>(null);
   const nextMessageId = useRef(0);
+  const replyTimerRef = useRef<number | null>(null);
   const [navCollapsed, setNavCollapsed] = useState(true);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [open, setOpen] = useState<Record<Panel, boolean>>({ explorer: true, material: true, artifact: true, chat: true });
+  const [viewportBand, setViewportBand] = useState(() => getViewportBand(true));
+  const [compactExplorerOpen, setCompactExplorerOpen] = useState(false);
   const [widths, setWidths] = useState(initialWidths);
   const [expanded, setExpanded] = useState<Panel | null>(null);
   const [activeMobilePanel, setActiveMobilePanel] = useState<Panel>('chat');
+  const [activeContentPanel, setActiveContentPanel] = useState<ContentPanel>('chat');
   const [section, setSection] = useState<Section>('materials');
   const [selectedMaterial, setSelectedMaterial] = useState<string | null>(null);
   const [noteOpen, setNoteOpen] = useState(false);
@@ -63,31 +84,54 @@ export function PsychologyWorkspace() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [replyPending, setReplyPending] = useState(false);
   const [info, setInfo] = useState<Info | null>(null);
+  const [modelOpen, setModelOpen] = useState(false);
   const [status, setStatus] = useState('');
   const material = psychologyMaterials.find(item => item.id === selectedMaterial);
   const chatVisible = open.chat || (!open.material && !open.artifact);
-  const visiblePanels = panelOrder.filter(panel => (panel === 'chat' ? chatVisible : open[panel]) && (!expanded || expanded === panel));
-  const layoutPanels: Panel[] = [
-    ...(!open.explorer && !expanded ? ['explorer' as Panel] : []),
-    ...visiblePanels,
-    ...(!chatVisible && !expanded ? ['chat' as Panel] : []),
-  ];
-  const gridColumns = !open.material && !open.artifact && chatVisible && !expanded
+  const availableContent = contentOrder.filter(panel => panel === 'chat' ? chatVisible : open[panel]);
+  const mediumPanel = availableContent.includes(activeContentPanel) ? activeContentPanel : availableContent[0];
+  const layoutPanels: Panel[] = expanded ? [expanded]
+    : viewportBand === 'medium' ? ['explorer', mediumPanel]
+    : panelOrder.filter(panel => panel === 'explorer' || (panel === 'chat' ? chatVisible : open[panel]));
+  const gridColumns = viewportBand === 'medium' && !expanded ? '320px minmax(0, 1fr)'
+    : viewportBand === 'compact' && !expanded ? ['56px', ...layoutPanels.slice(1).map(panel => `minmax(${minimumWidths[panel]}px, 1fr)`)].join(' ')
+    : !open.material && !open.artifact && chatVisible && !expanded
     ? `${open.explorer ? `${widths.explorer}px` : '56px'} minmax(0, 1fr)`
     : !open.explorer && open.material && !open.artifact && chatVisible && !expanded
     ? '56px minmax(0, 1fr) minmax(0, 470px)'
     : layoutPanels.map(panel => {
       if (panel === 'explorer' && !open.explorer) return '56px';
-      if (panel === 'chat' && !chatVisible) return '36px';
-      if (panel === 'explorer' && !chatVisible) return `${widths.explorer}px`;
+      if (panel === 'explorer') return `${widths.explorer}px`;
       return `minmax(0, ${widths[panel]}fr)`;
     }).join(' ');
 
   useEffect(() => { document.title = 'PSY201 · Cognitive Psychology · Aqua University'; return () => { document.title = 'Aqua University'; }; }, []);
+  useEffect(() => {
+    const updateViewport = () => setViewportBand(getViewportBand(navCollapsed));
+    updateViewport();
+    window.addEventListener('resize', updateViewport);
+    return () => window.removeEventListener('resize', updateViewport);
+  }, [navCollapsed]);
+  useEffect(() => { setCompactExplorerOpen(false); }, [viewportBand]);
   useEffect(() => { chatEndRef.current?.scrollIntoView({ block: 'end' }); }, [messages]);
+  useEffect(() => () => { if (replyTimerRef.current !== null) window.clearTimeout(replyTimerRef.current); }, []);
 
-  const showPanel = (panel: Panel) => { setOpen(value => ({ ...value, [panel]: true })); setExpanded(null); setActiveMobilePanel(panel); };
+  const showPanel = (panel: Panel) => {
+    if (panel === 'explorer' && viewportBand === 'compact') {
+      setCompactExplorerOpen(true);
+      return;
+    }
+    setOpen(value => ({ ...value, [panel]: true }));
+    setExpanded(null);
+    setActiveMobilePanel(panel);
+    if (panel !== 'explorer') setActiveContentPanel(panel);
+    if (viewportBand === 'compact') setCompactExplorerOpen(false);
+  };
   const closePanel = (panel: Panel) => {
+    if (panel === 'explorer' && viewportBand === 'compact') {
+      setCompactExplorerOpen(false);
+      return;
+    }
     if (panel === 'chat' && !open.material && !open.artifact) return;
     const next = { ...open, [panel]: false };
     const onlyChat = !next.material && !next.artifact;
@@ -96,9 +140,15 @@ export function PsychologyWorkspace() {
     setExpanded(null);
     const fallback = onlyChat ? 'chat' : panelOrder.find(item => item !== panel && next[item]);
     if (fallback) setActiveMobilePanel(fallback);
+    const contentFallback = contentOrder.find(item => item !== panel && (item === 'chat' ? next.chat : next[item]));
+    if (contentFallback) setActiveContentPanel(contentFallback);
     setStatus(`${panel === 'explorer' ? 'Course explorer' : panel} panel closed.`);
   };
-  const toggleExpanded = (panel: Panel) => { setExpanded(value => value === panel ? null : panel); setActiveMobilePanel(panel); };
+  const toggleExpanded = (panel: Panel) => {
+    setExpanded(value => value === panel ? null : panel);
+    setActiveMobilePanel(panel);
+    if (panel !== 'explorer') setActiveContentPanel(panel);
+  };
 
   const startResize = (left: Panel, right: Panel, event: PointerEvent<HTMLDivElement>) => {
     event.preventDefault();
@@ -137,10 +187,33 @@ export function PsychologyWorkspace() {
     setMessages(items => [...items, { id: ++nextMessageId.current, role: 'student', text: question }]);
     setDraft('');
     setReplyPending(true);
-    window.setTimeout(() => {
+    replyTimerRef.current = window.setTimeout(() => {
       setMessages(items => [...items, { id: ++nextMessageId.current, role: 'assistant', text: sampleReply(question, material?.title) }]);
       setReplyPending(false);
+      replyTimerRef.current = null;
     }, 450);
+  };
+  const newCourseChat = () => {
+    if (replyTimerRef.current !== null) window.clearTimeout(replyTimerRef.current);
+    replyTimerRef.current = null;
+    setReplyPending(false);
+    setMessages([]);
+    setDraft('');
+    setStatus('Started a new local course chat.');
+  };
+  const exportChat = () => {
+    if (!messages.length) {
+      setInfo({ title: 'Export chat', message: 'There are no messages to export yet.' });
+      return;
+    }
+    const transcript = messages.map(item => `${item.role === 'student' ? 'You' : 'Course assistant'}: ${item.text}`).join('\n\n');
+    const url = URL.createObjectURL(new Blob([`PSY201 · Cognitive Psychology\n\n${transcript}\n`], { type: 'text/plain' }));
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'psy201-course-chat.txt';
+    link.click();
+    window.setTimeout(() => URL.revokeObjectURL(url), 60_000);
+    setStatus('Course chat exported.');
   };
   const sidebarProps = {
     onNewChat: () => { window.location.hash = '/onechat'; },
@@ -155,23 +228,23 @@ export function PsychologyWorkspace() {
   const panels: Record<Panel, React.ReactNode> = {
     explorer: (
       <aside className="psy-panel psy-explorer" aria-label="Course explorer">
-        <div className="psy-panel-heading">
-          <strong>Course</strong>
+        <div className="psy-explorer-header">
+          <div className="psy-explorer-tabs" role="group" aria-label="Course sections">
+            <button aria-label="Materials" aria-pressed={section === 'materials'} onClick={() => setSection('materials')}><img src={documentIcon} alt="" width="20" height="20" />{section === 'materials' && <span>Material</span>}</button>
+            <button aria-label="Chats" aria-pressed={section === 'chats'} onClick={() => setSection('chats')}><img src={chatsIcon} alt="" width="20" height="20" />{section === 'chats' && <span>Chats</span>}</button>
+            <button aria-label="Artifacts" aria-pressed={section === 'artifacts'} onClick={() => setSection('artifacts')}><img src={artifactIcon} alt="" width="20" height="20" />{section === 'artifacts' && <span>Artifacts</span>}</button>
+          </div>
           <button className="psy-icon" aria-label="Collapse course explorer" onClick={() => closePanel('explorer')}><img src={sidebarLeftCloseIcon} alt="" width="20" height="20" /></button>
-        </div>
-        <div className="psy-explorer-tabs" role="group" aria-label="Course sections">
-          <button aria-pressed={section === 'materials'} onClick={() => setSection('materials')}><img src={documentIcon} alt="" width="20" height="20" /> Materials</button>
-          <button aria-pressed={section === 'chats'} onClick={() => setSection('chats')}><img src={chatsIcon} alt="" width="20" height="20" /> Chats</button>
-          <button aria-pressed={section === 'artifacts'} onClick={() => setSection('artifacts')}><img src={artifactIcon} alt="" width="20" height="20" /> Artifacts</button>
         </div>
         <div className="psy-explorer-content">
           {section === 'materials' ? <>
-            <h2>Course materials</h2><p>Sample content for this course</p>
-            {psychologyMaterials.map(item => <button key={item.id} className="psy-material-link" aria-current={selectedMaterial === item.id ? 'true' : undefined} onClick={() => { setSelectedMaterial(item.id); showPanel('material'); }}><img src={documentIcon} alt="" width="20" height="20" /><span>{item.title}<small>{item.kind}</small></span></button>)}
+            <h2>Due This Week</h2>
+            {dueMaterials.map(item => <button key={item.id} className="psy-due-link" aria-current={selectedMaterial === item.id ? 'true' : undefined} onClick={() => { setSelectedMaterial(item.id); showPanel('material'); }}><img src={assignmentIcon} alt="" width="24" height="24" /><span><span className="psy-due-title">{item.title}</span><small>{item.due}</small></span></button>)}
+            <button className="psy-all-materials" onClick={() => { setSelectedMaterial('methods'); showPanel('material'); }}>Research methods study guide</button>
           </> : section === 'chats' ? <>
             <h2>Course chats</h2>
             <button className="psy-material-link" onClick={() => showPanel('chat')}><img src={chatsIcon} alt="" width="20" height="20" /><span>Current conversation<small>{messages.length ? `${Math.ceil(messages.length / 2)} exchanges` : 'No messages yet'}</small></span></button>
-            <Button variant="outline" onClick={() => { setMessages([]); setStatus('New local course chat started.'); showPanel('chat'); }}>New chat</Button>
+            <Button variant="outline" onClick={() => { newCourseChat(); showPanel('chat'); }}>New chat</Button>
           </> : <>
             <h2>Artifacts</h2>
             {noteOpen ? <button className="psy-material-link" onClick={() => showPanel('artifact')}><img src={artifactIcon} alt="" width="20" height="20" /><span>My cognitive psychology notes<small>Saved in this browser session</small></span></button> : <p>No artifacts yet.</p>}
@@ -200,18 +273,28 @@ export function PsychologyWorkspace() {
     ),
     chat: (
       <section className="psy-chat" aria-label="Course chat">
-        <div className="psy-chat-heading"><span className="psy-sr-only">Course chat</span>
-          <button className="psy-icon" aria-label={expanded === 'chat' ? 'Restore chat panel' : 'Expand chat panel'} onClick={() => toggleExpanded('chat')}><img src={expanded === 'chat' ? quitFullScreenIcon : fullScreenIcon} alt="" width="20" height="20" /></button>
-          {(open.material || open.artifact) && <button className="psy-icon" aria-label="Hide chat panel" onClick={() => closePanel('chat')}><img src={sidebarRightCloseIcon} alt="" width="20" height="20" /></button>}
+        <div className="psy-chat-heading">
+          <div className="psy-chat-heading-start">
+            <Button variant="outline" className="psy-chat-model" aria-label="Chat model: GPT 5.1" aria-haspopup="dialog" aria-expanded={modelOpen} onClick={() => setModelOpen(true)}><img src={chatModelIcon} alt="" width="18" height="18" /><span>GPT 5.1</span><img src={chatChevronIcon} alt="" width="18" height="18" /></Button>
+            <button className="psy-icon" aria-label="New course chat" onClick={newCourseChat}><img src={chatNewIcon} alt="" width="20" height="20" /></button>
+            <button className="psy-icon" aria-label="Export course chat" onClick={exportChat}><img src={chatExportIcon} alt="" width="20" height="20" /></button>
+          </div>
+          <div className="psy-chat-heading-end">
+            <button className="psy-icon" aria-label={expanded === 'chat' ? 'Restore chat panel' : 'Expand chat panel'} onClick={() => toggleExpanded('chat')}><img src={expanded === 'chat' ? quitFullScreenIcon : fullScreenIcon} alt="" width="20" height="20" /></button>
+            {(open.material || open.artifact) && <button className="psy-icon" aria-label="Close chat panel" onClick={() => closePanel('chat')}><img src={closeIcon} alt="" width="20" height="20" /></button>}
+            <div className="psy-chat-budget" role="meter" aria-label="Budget indicator" aria-valuemin={0} aria-valuemax={100} aria-valuenow={68} title="Budget indicator: 68% (demo)"><img src={chatBudgetIcon} alt="" width="24" height="24" /></div>
+          </div>
         </div>
-        {messages.length ? <div className="psy-chat-messages" aria-live="polite">{messages.map(item => <article key={item.id} className={item.role === 'student' ? 'psy-message psy-message-student' : 'psy-message'}><strong>{item.role === 'student' ? 'You' : 'Course assistant · Local demo'}</strong><p>{item.text}</p></article>)}{replyPending && <p role="status">Preparing a sample response…</p>}<div ref={chatEndRef} /></div> : <div className="psy-chat-empty"><p>Ask anything about this course, or select materials to focus the conversation</p></div>}
-        <form className="psy-composer" onSubmit={sendMessage}>
+        <div className="psy-chat-body">
+          {messages.length ? <div className="psy-chat-messages" aria-live="polite">{messages.map(item => <article key={item.id} className={item.role === 'student' ? 'psy-message psy-message-student' : 'psy-message'}><strong>{item.role === 'student' ? 'You' : 'Course assistant · Local demo'}</strong><p>{item.text}</p></article>)}{replyPending && <p role="status">Preparing a sample response…</p>}<div ref={chatEndRef} /></div> : <div className="psy-chat-empty"><p>Ask anything about this course, or select materials to focus the conversation</p></div>}
+          <form className="psy-composer" onSubmit={sendMessage}>
           <button type="button" className="psy-icon" aria-label="Create study note" onClick={() => { setNoteOpen(true); showPanel('artifact'); }}><img src={plusIcon} alt="" width="24" height="24" /></button>
           <label className="psy-sr-only" htmlFor="psy-chat-input">Ask about this course</label>
-          <textarea id="psy-chat-input" rows={1} value={draft} placeholder="Let’s discover what only you could ask" onChange={event => setDraft(event.target.value)} onKeyDown={event => { if (event.key === 'Enter' && !event.shiftKey) { event.preventDefault(); event.currentTarget.form?.requestSubmit(); } }} />
+          <textarea id="psy-chat-input" rows={1} value={draft} placeholder={viewportBand === 'compact' ? 'Ask…' : viewportBand === 'small' ? 'Ask a question' : 'Let’s discover what only you could ask'} onChange={event => setDraft(event.target.value)} onKeyDown={event => { if (event.key === 'Enter' && !event.shiftKey) { event.preventDefault(); event.currentTarget.form?.requestSubmit(); } }} />
           <button type="button" className="psy-icon psy-mic" aria-label="Microphone demo information" onClick={() => setInfo({ title: 'Voice input', message: 'Voice input is not connected in this local prototype. Type your question to try the course chat.' })}><img src={micIcon} alt="" width="18" height="18" /></button>
           {draft.trim() ? <button type="submit" className="psy-send" aria-label="Send message" disabled={replyPending}>Send</button> : <button type="button" className="psy-voice" aria-label="Voice conversation demo information" onClick={() => setInfo({ title: 'Voice conversation', message: 'Voice conversation is not connected in this local prototype. Type your question to try the course chat.' })}><img src={chatCtaIcon} alt="" width="36" height="36" /><img className="psy-voice-wave" src={soundwaveIcon} alt="" width="24" height="24" /></button>}
-        </form>
+          </form>
+        </div>
       </section>
     ),
   };
@@ -223,14 +306,10 @@ export function PsychologyWorkspace() {
       </div>
     </aside>
   );
-  const collapsedChat = (
-    <div className="psy-chat-rail" aria-label="Collapsed course chat">
-      <button className="psy-icon" aria-label="Expand chat panel" onClick={() => showPanel('chat')}><img src={sidebarRightCloseIcon} alt="" width="20" height="20" /></button>
-    </div>
-  );
   const panelDivider = (panel: Panel, index: number) => {
-    if (index === 0 || (panel === 'chat' && !chatVisible)) return null;
+    if (index === 0) return null;
     const previous = layoutPanels[index - 1];
+    if (viewportBand === 'compact') return <div className="psy-divider psy-divider-static" aria-hidden="true"><span /></div>;
     if (previous === 'explorer' && !open.explorer) {
       if (layoutPanels.length === 2 && panel === 'chat') return null;
       return <div className="psy-divider psy-divider-static" aria-hidden="true"><span /></div>;
@@ -245,13 +324,15 @@ export function PsychologyWorkspace() {
         <Button className="oc-mobile-menu" size="icon" aria-label="Open navigation" onClick={() => setMobileNavOpen(true)}>Menu</Button>
         <button className="psy-back" aria-label="Back to courses" onClick={() => { window.location.hash = '/onechat/courses'; }}><img src={backIcon} alt="" width="24" height="24" /></button>
         <h1>PSY201 · Cognitive Psychology</h1>
+        {!chatVisible && <Button variant="outline" className="psy-header-chat" onClick={() => showPanel('chat')}><img src={chatTabIcon} alt="" width="20" height="20" />Chat</Button>}
         <Button className="psy-mobile-bell" size="icon" aria-label={`Notifications, ${notifications.unreadCount} unread`} onClick={notifications.open}><img src={bellIcon} alt="" width="20" height="20" /></Button>
       </header>
-      <div className="psy-mobile-tabs" role="group" aria-label="Workspace panel">{panelOrder.map(panel => <button key={panel} aria-pressed={activeMobilePanel === panel} onClick={() => showPanel(panel)}>{panel === 'explorer' ? 'Course' : panel === 'material' ? 'Material' : panel === 'artifact' ? 'Artifact' : 'Chat'}</button>)}</div>
-      <main className={`psy-layout ${expanded ? 'psy-layout-expanded' : ''}`} style={{ '--psy-grid': gridColumns } as CSSProperties} aria-label="PSY201 workspace">{layoutPanels.map((panel, index) => <div className={`psy-slot ${activeMobilePanel === panel ? 'psy-slot-active' : ''}`} key={panel}>{panelDivider(panel, index)}{panel === 'explorer' && !open.explorer ? collapsedExplorer : panel === 'chat' && !chatVisible ? collapsedChat : panels[panel]}</div>)}</main>
+      <div className="psy-mobile-tabs" role="group" aria-label="Workspace panel">{(viewportBand === 'medium' ? contentOrder : panelOrder).map(panel => <button key={panel} aria-pressed={viewportBand === 'medium' ? mediumPanel === panel : activeMobilePanel === panel} onClick={() => showPanel(panel)}>{panel === 'explorer' ? 'Course' : panel === 'material' ? 'Material' : panel === 'artifact' ? 'Artifact' : 'Chat'}</button>)}</div>
+      <main className={`psy-layout psy-layout-${viewportBand} ${expanded ? 'psy-layout-expanded' : ''}`} style={{ '--psy-grid': gridColumns } as CSSProperties} aria-label="PSY201 workspace">{layoutPanels.map((panel, index) => <div className={`psy-slot ${activeMobilePanel === panel ? 'psy-slot-active' : ''}`} key={panel}>{panelDivider(panel, index)}{panel === 'explorer' ? viewportBand === 'compact' && !expanded ? <div className="psy-compact-explorer">{collapsedExplorer}{compactExplorerOpen && panels.explorer}</div> : viewportBand === 'medium' || viewportBand === 'small' ? panels.explorer : !open.explorer ? collapsedExplorer : panels.explorer : panels[panel]}</div>)}</main>
       <div className="psy-status psy-sr-only" role="status">{status}</div>
     </div>
     {mobileNavOpen && <Dialog title="Navigation" hideHeading className="oc-navigation-dialog" onClose={() => setMobileNavOpen(false)}>{close => <div className="oc-sidebar-content"><SidebarContent {...sidebarProps} mobile onClose={close} /></div>}</Dialog>}
+    {modelOpen && <Dialog title="Chat model" onClose={() => setModelOpen(false)}><Button variant="outline" onClick={() => setModelOpen(false)}><img src={chatModelIcon} alt="" width="18" height="18" /> GPT 5.1 · Selected</Button><p>Model selection is simulated in this local prototype.</p></Dialog>}
     {info && <Dialog title={info.title} onClose={() => setInfo(null)}><p>{info.message}</p></Dialog>}
   </div>;
 }

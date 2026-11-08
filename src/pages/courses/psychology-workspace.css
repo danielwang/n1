@@ -15,4 +15,92 @@
 
 .psy-explorer-rail .psy-panel-heading{justify-content:center;padding:0}
 .psy-divider-static{pointer-events:none}
-.psy-chat-rail{height:100%;display:flex;justify-content:center;align-items:flex-start;padding-top:8px}
+
+/* Course explorer follows the compact pane in the course workspace mockup. */
+.psy-explorer{padding:16px}
+.psy-explorer-header{height:36px;min-height:36px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.psy-explorer-tabs{width:192px;height:36px;flex:none;flex-direction:row;align-items:center;gap:0;padding:4px;border:1px solid #c4cdd5;border-radius:8px}
+.psy-explorer-tabs button{height:28px;min-height:28px;min-width:36px;justify-content:center;gap:4px;padding:0 6px;border-radius:6px;white-space:nowrap;font:600 14px/22px Segoe UI,system-ui,sans-serif}
+.psy-explorer-tabs button[aria-pressed=true]{flex:1;background:#dfe2e8}
+.psy-explorer-tabs button:not([aria-pressed=true]):hover{background:#ecf0f3}
+.psy-explorer-header>.psy-icon{margin-right:-8px}
+.psy-explorer-content{padding:16px 0 0}
+.psy-explorer-content h2{margin:0 0 4px;font-size:14px;line-height:22px;font-weight:600}
+.psy-due-link{width:100%;min-height:60px;display:flex;align-items:center;gap:8px;padding:8px 0;border:0;border-radius:6px;background:transparent;color:#161c24;text-align:left;font:400 14px/22px Segoe UI,system-ui,sans-serif}
+.psy-due-link:hover,.psy-due-link[aria-current=true]{background:#f5f7f9}
+.psy-due-link>span{min-width:0;max-width:205px}
+.psy-due-title{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.psy-due-link small{display:block;color:#a74d08;font:400 12px/18px Segoe UI,system-ui,sans-serif;white-space:nowrap}
+.psy-all-materials{min-height:44px;margin-top:12px;padding:6px 0;border:0;background:transparent;color:#454f5b;text-align:left;font:400 12px/18px Segoe UI,system-ui,sans-serif;text-decoration:underline;text-underline-offset:2px}
+.psy-all-materials:hover{color:#161c24}
+@media(pointer:coarse){.psy-explorer-header{height:52px;min-height:52px}.psy-explorer-tabs{width:216px;height:52px}.psy-explorer-tabs button{height:44px;min-height:44px;min-width:44px}}
+
+/* Course chat panel styling. */
+.psy-chat{container-type:inline-size;border:1px solid #dfe2e8;border-radius:12px;background:#fff;overflow:hidden}
+.psy-chat-heading,.psy-chat:has(.psy-chat-empty) .psy-chat-heading{position:relative;top:auto;left:auto;right:auto;height:54px;min-height:54px;flex:none;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:0 16px;background:#ecf0f3}
+.psy-chat-heading-start,.psy-chat-heading-end{display:flex;align-items:center;gap:4px;min-width:0}
+.psy-chat-heading-end{margin-left:auto}
+.psy-chat-heading .psy-icon{width:28px;height:36px}
+.psy-chat-model.ui-button{height:30px;min-height:30px;gap:8px;margin-right:4px;padding:0 12px;border-color:#637381;background:#fff;color:#161c24;font:700 12px/22px Segoe UI,system-ui,sans-serif;white-space:nowrap}
+.psy-chat-model img,.psy-chat-heading .psy-icon img,.psy-chat-budget img{display:block;flex:none}
+.psy-chat-budget{width:24px;height:24px;flex:none;margin-left:4px}
+.psy-chat-body{flex:1;min-width:0;min-height:0;display:flex;flex-direction:column}
+.psy-chat-body:has(.psy-chat-empty){align-items:center;justify-content:center;gap:28px;padding:0 20px 46px}
+.psy-chat:has(.psy-chat-empty) .psy-chat-empty{display:block;flex:none;min-height:0;padding:0}
+.psy-chat:has(.psy-chat-empty) .psy-chat-empty p{width:307px;max-width:100%;margin:0;color:#000;text-align:center;font-size:18px;line-height:27px;font-weight:300}
+.psy-chat .psy-composer{width:calc(100% - 40px);max-width:401px;min-height:52px;gap:4px;margin:0 auto 16px;padding:7px 16px}
+.psy-chat-body:has(.psy-chat-empty) .psy-composer{flex:none;margin-bottom:0}
+.psy-composer textarea{resize:none}
+.psy-layout-expanded .psy-chat .psy-composer{max-width:850px}
+@media(max-width:699px){.psy-chat-heading,.psy-chat:has(.psy-chat-empty) .psy-chat-heading{padding:0 8px}.psy-chat-body:has(.psy-chat-empty){padding-right:12px;padding-left:12px}.psy-chat .psy-composer{padding-right:8px;padding-left:8px}}
+@container(max-width:320px){.psy-chat-heading,.psy-chat:has(.psy-chat-empty) .psy-chat-heading{padding:0 8px}.psy-chat-model.ui-button{width:36px;padding:0}.psy-chat-model span,.psy-chat-model img:last-child{display:none}.psy-chat-heading-start,.psy-chat-heading-end{gap:2px}.psy-chat-heading .psy-icon{width:24px}.psy-chat-budget{margin-left:0}}
+@media(pointer:coarse){.psy-chat-heading .psy-icon{width:44px;height:44px}}
+@media(pointer:coarse){@container(max-width:370px){.psy-chat-model.ui-button{width:36px;padding:0}.psy-chat-model span,.psy-chat-model img:last-child{display:none}.psy-chat-heading-start,.psy-chat-heading-end{gap:0}.psy-chat-heading .psy-icon{width:36px}.psy-chat-budget{margin-left:0}}}
+
+.psy-header-chat.ui-button{flex:none;min-height:36px;display:inline-flex;align-items:center;justify-content:center;gap:8px;margin-left:auto;padding:3px 16px;border:3px solid transparent;border-radius:8px;background:linear-gradient(#fff,#fff) padding-box,conic-gradient(from 135deg,#6da2fa 0%,#c0a700 24.383%,#f95d6a 46.318%,#83a200 75%,#6da2fa 100%) border-box;color:#161c24;font:700 14px/24px Segoe UI,system-ui,sans-serif}
+.psy-header-chat.ui-button:hover{background:linear-gradient(#f9fafb,#f9fafb) padding-box,conic-gradient(from 135deg,#6da2fa 0%,#c0a700 24.383%,#f95d6a 46.318%,#83a200 75%,#6da2fa 100%) border-box}
+.psy-header-chat img{display:block;flex:none}
+@media(max-width:699px){.psy-header-chat.ui-button{min-height:44px;padding:6px 10px}.psy-header:has(.psy-header-chat) .psy-mobile-bell{margin-left:0}}
+
+/* Below the wide desktop layout, keep content panes readable without changing their order. */
+@media(min-width:1200px) and (max-width:1919px){
+  .psy-layout-compact{display:grid;grid-template-columns:var(--psy-grid)}
+  .psy-layout-compact .psy-slot{display:block;height:100%}
+  .psy-layout-compact .psy-slot:first-child{z-index:4}
+  .psy-mobile-tabs{display:none}
+  .psy-compact-explorer{position:relative;height:100%}
+  .psy-compact-explorer .psy-explorer-rail{width:56px}
+  .psy-compact-explorer .psy-explorer{position:absolute;z-index:5;top:0;left:0;width:320px;max-width:min(320px,calc(100vw - 112px));height:100%}
+  .psy-layout-compact .psy-divider{display:grid}
+  .psy-layout-compact .psy-divider-static span{display:none}
+  .psy-layout-compact .psy-chat .psy-composer{width:calc(100% - 24px);padding-right:8px;padding-left:8px}
+  .psy-layout-compact .psy-chat:has(.psy-chat-empty) .psy-chat-empty{width:100%}
+  .psy-layout-compact .psy-chat:has(.psy-chat-empty) .psy-chat-empty p{width:100%;font-size:16px;line-height:24px}
+}
+@media(min-width:900px) and (max-width:1199px){
+  .psy-layout-medium{display:grid;grid-template-columns:var(--psy-grid)}
+  .psy-layout-medium .psy-slot{display:block;height:100%}
+  .psy-layout-medium .psy-explorer-header>.psy-icon{display:none}
+  .psy-layout-medium .psy-divider{display:none}
+  .psy-layout-medium.psy-layout-expanded{display:block}
+  .psy-mobile-tabs{margin-left:calc(24px + 328px)}
+  .psy-mobile-tabs button{min-width:0}
+}
+@media(max-width:899px){
+  .psy-layout-small .psy-explorer-header>.psy-icon{display:none}
+  .psy-layout-small .psy-chat .psy-composer{width:calc(100% - 24px)}
+  .psy-mobile-tabs{overflow:visible}
+  .psy-mobile-tabs button{min-width:0}
+}
+@media(min-width:600px) and (max-width:699px){
+  .psy-header{height:54px;min-height:54px;margin:16px 24px 0}
+  .psy-header h1{font-size:20px;line-height:30px}
+  .psy-layout{margin:0 24px 16px}
+  .psy-mobile-tabs{margin:0 24px 10px}
+}
+@media(max-width:599px){
+  .psy-mobile-tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px}
+  .psy-mobile-tabs button{min-height:44px;padding:0 3px;font-size:12px}
+  .psy-layout-small .psy-chat:has(.psy-chat-empty) .psy-chat-empty{width:100%}
+  .psy-layout-small .psy-chat:has(.psy-chat-empty) .psy-chat-empty p{width:100%;font-size:16px;line-height:24px}
+}
