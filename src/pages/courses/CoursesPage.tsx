@@ -12,6 +12,7 @@ import { ProjectActions } from '../projects/ProjectActions';
 import { projectArt } from '../projects/project-art';
 import { projectDate } from '../projects/project-data';
 import { courseStorageKey, loadCourses, type Course } from './course-data';
+import hamburgerMenuIcon from '../../assets/courses/hamburger-menu.svg';
 import '../projects/projects.css';
 import './courses.css';
 
@@ -92,7 +93,11 @@ export function CoursesPage() {
         <Button size="icon" className="nf-compact-trigger" aria-label={`Notifications, ${notifications.unreadCount} unread`} aria-haspopup="dialog" aria-expanded={notifications.isOpen} onClick={notifications.open}><Bell size={20} /></Button>
       </div>
       <div className="pj-content">
-        <header className="pj-page-heading pj-library-heading"><h1 tabIndex={-1}>Courses</h1><p>Keep lessons, notes, and assignments together so you can pick up where you left off.</p></header>
+        <header className="pj-page-heading pj-library-heading cs-page-heading">
+          <Button className="cs-header-menu" size="icon" aria-label="Open navigation" onClick={() => setMobileOpen(true)}><img src={hamburgerMenuIcon} alt="" width="24" height="24" /></Button>
+          <h1 tabIndex={-1}>Courses</h1>
+          <p>Keep lessons, notes, and assignments together so you can pick up where you left off.</p>
+        </header>
         {data.warning && <div className="pj-storage-warning"><Feedback message={data.warning} tone="error" /></div>}
         <div className="pj-tabs" ref={tabs} role="tablist" aria-label="Course collections" onKeyDown={event => {
           if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;

@@ -70,7 +70,6 @@ export function MathematicsWorkspace() {
   const nextMessageId = useRef(0);
   const replyTimerRef = useRef<number | null>(null);
   const [navCollapsed, setNavCollapsed] = useState(true);
-  const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [open, setOpen] = useState<Record<Panel, boolean>>({ explorer: true, material: false, artifact: false, chat: true });
   const [viewportBand, setViewportBand] = useState(() => getViewportBand(true));
   const [compactExplorerOpen, setCompactExplorerOpen] = useState(false);
@@ -335,7 +334,6 @@ export function MathematicsWorkspace() {
     <aside className="oc-sidebar" aria-label="Chat sidebar"><SidebarContent {...sidebarProps} collapsed={navCollapsed} onClose={() => setNavCollapsed(value => !value)} /></aside>
     <div className="oc-main psy-main">
       <header className="psy-header">
-        <Button className="oc-mobile-menu" size="icon" aria-label="Open navigation" onClick={() => setMobileNavOpen(true)}>Menu</Button>
         <button className="psy-back" aria-label="Back to courses" onClick={() => { window.location.hash = '/onechat/courses'; }}><img src={backIcon} alt="" width="24" height="24" /></button>
         <h1>{courseTitle}</h1>
         {!chatVisible && <Button variant="outline" className="psy-header-chat" onClick={() => showPanel('chat')}><img src={chatTabIcon} alt="" width="20" height="20" />Chat</Button>}
@@ -345,7 +343,6 @@ export function MathematicsWorkspace() {
       <main className={`psy-layout psy-layout-${viewportBand} ${expanded ? 'psy-layout-expanded' : ''}`} style={{ '--psy-grid': gridColumns } as CSSProperties} aria-label={`$MAT203 workspace`}>{layoutPanels.map((panel, index) => <div className={`psy-slot ${activeMobilePanel === panel ? 'psy-slot-active' : ''}`} key={panel}>{panelDivider(panel, index)}{panel === 'explorer' ? compactExplorerRail && !expanded ? <div className="psy-compact-explorer">{collapsedExplorer}{compactExplorerOpen && panels.explorer}</div> : viewportBand === 'medium' || viewportBand === 'small' ? panels.explorer : !open.explorer ? collapsedExplorer : panels.explorer : panels[panel]}</div>)}</main>
       <div className="psy-status psy-sr-only" role="status">{status}</div>
     </div>
-    {mobileNavOpen && <Dialog title="Navigation" hideHeading className="oc-navigation-dialog" onClose={() => setMobileNavOpen(false)}>{close => <div className="oc-sidebar-content"><SidebarContent {...sidebarProps} mobile onClose={close} /></div>}</Dialog>}
     {modelOpen && <Dialog title="Chat model" onClose={() => setModelOpen(false)}><Button variant="outline" onClick={() => setModelOpen(false)}><img src={chatModelIcon} alt="" width="18" height="18" /> GPT 5.1 · Selected</Button><p>Model selection is simulated in this local prototype.</p></Dialog>}
     {info && <Dialog title={info.title} onClose={() => setInfo(null)}><p>{info.message}</p></Dialog>}
   </div>;

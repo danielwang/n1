@@ -2,3 +2,14 @@
 .courses-page .cs-overview h3 { margin: 24px 0 8px; font-size: 16px; line-height: 24px; }
 .courses-page .cs-overview ol { margin: 0; padding-left: 24px; }
 .courses-page .cs-overview li { padding: 4px 0; }
+.courses-page .cs-header-menu { display: none; }
+@media (max-width: 639px) {
+  .courses-page .pj-responsive-toolbar { display: none; }
+  .courses-page .pj-content { padding-top: 0; }
+  .courses-page .cs-page-heading { min-height: 56px; grid-template-columns: 24px minmax(0, 1fr); align-items: center; gap: 0 16px; }
+  .courses-page .cs-header-menu { display: inline-flex; grid-column: 1; grid-row: 1; width: 44px; height: 44px; min-height: 44px; margin-left: -10px; padding: 0; }
+  .courses-page .cs-header-menu img { display: block; width: 24px; height: 24px; }
+  .courses-page .cs-page-heading h1 { grid-column: 2; grid-row: 1; font-size: 20px; line-height: 30px; }
+  .courses-page .cs-page-heading p { display: none; }
+  .courses-page .pj-tabs { margin-top: 0; }
+}

@@ -76,7 +76,7 @@ export function SidebarContent({ onNewChat, onSelect, onInfo, onClose, selectedI
 
   return <>
     <Button className="oc-collapse" size="icon" aria-label={mobile ? 'Close navigation' : collapsed ? 'Expand navigation' : 'Collapse navigation'} onClick={onClose}>
-      <span className="oc-collapse-disc">{mobile ? <X size={18} /> : <Asset src={assets.collapse} />}</span>
+      <span className="oc-collapse-disc"><Asset src={assets.collapse} /></span>
     </Button>
     <div className="oc-nav-intro">
     <div className="oc-logo"><img src={assets.logo} alt="Aqua University" width="205.248" height="78.815" /></div>
