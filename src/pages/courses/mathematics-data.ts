@@ -1,4 +1,4 @@
-import type { CourseMaterial, DueMaterial } from './psychology-data';
+import type { PsychologyMaterial, DueMaterial } from './psychology-data';
 
 // Sample course files and deadlines for the static MAT203 workspace.
 export const mathematicsDueMaterials: DueMaterial[] = [
@@ -6,7 +6,7 @@ export const mathematicsDueMaterials: DueMaterial[] = [
   { id: 'probability', title: 'Probability practice quiz', due: 'Due Nov 17 at 11:59pm' },
 ];
 
-export const mathematicsMaterials: CourseMaterial[] = [
+export const mathematicsMaterials: PsychologyMaterial[] = [
   { id: 'describing-data', title: 'Week 1 · Describing data', kind: 'Lecture notes · 16 pages', summary: 'Summarise a data set with suitable measures and see how a visualisation can reveal its shape.', sections: [
     { heading: 'Centre and spread', body: 'The mean uses every value, while the median identifies the middle of an ordered data set. Compare both when values are skewed or contain outliers. The interquartile range describes the spread of the middle half.' },
     { heading: 'Choosing a display', body: 'Histograms show the distribution of a quantitative variable. Box plots make the median, quartiles, and possible outliers easier to compare across groups. Always label the variable and its units.' },
