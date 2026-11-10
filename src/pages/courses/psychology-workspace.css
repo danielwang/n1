@@ -19,6 +19,7 @@
 /* Course explorer follows the compact pane in the course workspace mockup. */
 .psy-explorer{padding:16px}
 .psy-explorer-header{height:36px;min-height:36px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.psy-explorer-header>h2{margin:0;color:#161c24;font-size:14px;line-height:22px;font-weight:600}
 .psy-explorer-tabs{width:192px;height:36px;flex:none;flex-direction:row;align-items:center;gap:0;padding:4px;border:1px solid #c4cdd5;border-radius:8px}
 .psy-explorer-tabs button{height:28px;min-height:28px;min-width:36px;justify-content:center;gap:4px;padding:0 6px;border-radius:6px;white-space:nowrap;font:600 14px/22px Segoe UI,system-ui,sans-serif}
 .psy-explorer-tabs button[aria-pressed=true]{flex:1;background:#dfe2e8}

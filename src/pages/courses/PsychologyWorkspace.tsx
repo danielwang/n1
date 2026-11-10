@@ -18,7 +18,6 @@ import chatTabIcon from '../../assets/onechat/course-chat-tab.svg';
 import soundwaveIcon from '../../assets/onechat/course-soundwave.svg';
 import micIcon from '../../assets/projects/detail/mic.svg';
 import documentIcon from '../../assets/courses/psy201/document.svg';
-import chatsIcon from '../../assets/courses/psy201/chats.svg';
 import assignmentIcon from '../../assets/courses/psy201/assignment.svg';
 import chatBudgetIcon from '../../assets/courses/psy201/chat/budget.svg';
 import chatModelIcon from '../../assets/courses/psy201/chat/model.svg';
@@ -37,7 +36,6 @@ import './psychology-workspace.css';
 type Panel = 'explorer' | 'material' | 'artifact' | 'chat';
 type ContentPanel = Exclude<Panel, 'explorer'>;
 type ViewportBand = 'wide' | 'compact' | 'medium' | 'small';
-type Section = 'materials' | 'chats' | 'artifacts';
 type ChatMessage = { id: number; role: 'student' | 'assistant'; text: string };
 type Info = { title: string; message: string };
 const initialWidths: Record<Panel, number> = { explorer: 352, material: 496, artifact: 500, chat: 470 };
@@ -77,7 +75,6 @@ export function PsychologyWorkspace() {
   const [expanded, setExpanded] = useState<Panel | null>(null);
   const [activeMobilePanel, setActiveMobilePanel] = useState<Panel>('chat');
   const [activeContentPanel, setActiveContentPanel] = useState<ContentPanel>('chat');
-  const [section, setSection] = useState<Section>('materials');
   const [selectedMaterial, setSelectedMaterial] = useState<string | null>(null);
   const [openFiles, setOpenFiles] = useState<string[]>([]);
   const [expandedFolders, setExpandedFolders] = useState<Record<string, boolean>>({ coursework: true, resources: true });
@@ -253,29 +250,16 @@ export function PsychologyWorkspace() {
     explorer: (
       <aside className="psy-panel psy-explorer" aria-label="Course explorer">
         <div className="psy-explorer-header">
-          <div className="psy-explorer-tabs" role="group" aria-label="Course sections">
-            <button aria-label="Materials" aria-pressed={section === 'materials'} onClick={() => setSection('materials')}><img src={documentIcon} alt="" width="20" height="20" />{section === 'materials' && <span>Material</span>}</button>
-            <button aria-label="Chats" aria-pressed={section === 'chats'} onClick={() => setSection('chats')}><img src={chatsIcon} alt="" width="20" height="20" />{section === 'chats' && <span>Chats</span>}</button>
-            <button aria-label="Artifacts" aria-pressed={section === 'artifacts'} onClick={() => setSection('artifacts')}><img src={artifactIcon} alt="" width="20" height="20" />{section === 'artifacts' && <span>Artifacts</span>}</button>
-          </div>
+          <h2>Sources</h2>
           <button className="psy-icon" aria-label="Collapse course explorer" onClick={() => closePanel('explorer')}><img src={sidebarLeftCloseIcon} alt="" width="20" height="20" /></button>
         </div>
         <div className="psy-explorer-content">
-          {section === 'materials' ? <>
-            <h2>Course files</h2>
+          <>
             <button className="psy-folder" aria-expanded={expandedFolders.coursework} onClick={() => toggleFolder('coursework')}>{expandedFolders.coursework ? <ChevronDown size={16} /> : <ChevronRight size={16} />}<Folder size={18} />Coursework</button>
             {expandedFolders.coursework && <div className="psy-folder-children">{dueMaterials.map(item => <button key={item.id} className="psy-file" aria-current={selectedMaterial === item.id && open.material ? 'page' : undefined} onClick={() => openMaterial(item.id)}><img src={assignmentIcon} alt="" width="20" height="20" /><span>{item.title}<small>{item.due}</small></span></button>)}</div>}
             <button className="psy-folder" aria-expanded={expandedFolders.resources} onClick={() => toggleFolder('resources')}>{expandedFolders.resources ? <ChevronDown size={16} /> : <ChevronRight size={16} />}<Folder size={18} />Learning resources</button>
             {expandedFolders.resources && <div className="psy-folder-children">{psychologyMaterials.map(item => <button key={item.id} className="psy-file" aria-current={selectedMaterial === item.id && open.material ? 'page' : undefined} onClick={() => openMaterial(item.id)}><img src={documentIcon} alt="" width="20" height="20" /><span>{item.title}<small>{item.kind}</small></span></button>)}</div>}
-          </> : section === 'chats' ? <>
-            <h2>Course chats</h2>
-            <button className="psy-material-link" onClick={() => showPanel('chat')}><img src={chatsIcon} alt="" width="20" height="20" /><span>Current conversation<small>{messages.length ? `${Math.ceil(messages.length / 2)} exchanges` : 'No messages yet'}</small></span></button>
-            <Button variant="outline" onClick={() => { newCourseChat(); showPanel('chat'); }}>New chat</Button>
-          </> : <>
-            <h2>Artifacts</h2>
-            {noteOpen ? <button className="psy-material-link" onClick={() => showPanel('artifact')}><img src={artifactIcon} alt="" width="20" height="20" /><span>My cognitive psychology notes<small>Saved in this browser session</small></span></button> : <p>No artifacts yet.</p>}
-            <Button variant="outline" onClick={() => { setNoteOpen(true); showPanel('artifact'); }}>Create study note</Button>
-          </>}
+          </>
         </div>
       </aside>
     ),
