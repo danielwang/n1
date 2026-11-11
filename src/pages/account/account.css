@@ -1,0 +1,53 @@
+.account-page { height: auto; min-height: 100dvh; background: #f9fafb; }
+.account-page .oc-main { overflow: visible; }
+.ua-main { min-width: 0; padding: 24px 24px 48px; }
+.ua-responsive-toolbar { display: none; }
+.ua-card { display: grid; grid-template-columns: 210px minmax(0, 1fr); width: min(1200px, 100%); min-height: 980px; margin: 0 auto; border: 1px solid #dfe2e8; border-radius: 12px; background: #fff; }
+.ua-sections { display: flex; flex-direction: column; gap: 8px; min-width: 0; padding: 24px 24px; border-right: 1px solid rgb(145 158 171 / 20%); }
+.ua-section-button.ui-button { justify-content: flex-start; width: 161px; min-height: 34px; height: 34px; gap: 8px; padding: 6px 8px; border-radius: 4px; font-weight: 400; color: #161c24; white-space: nowrap; }
+.ua-section-button img { display: block; flex: 0 0 20px; width: 20px; height: 20px; }
+.ua-section-button.ui-button[aria-current="page"] { background: #ecf0f3; font-weight: 600; }
+.ua-section-button.ui-button:hover { background: #f2f4f6; }
+.ua-section-button.ui-button[aria-current="page"]:hover { background: #ecf0f3; }
+.ua-content { min-width: 0; padding: 24px; }
+.ua-heading h1 { margin: 0; font-size: 20px; line-height: 30px; font-weight: 700; color: #000; }
+.ua-heading p { margin: 8px 0 0; font-size: 14px; line-height: 22px; color: #000; }
+.ua-empty { display: flex; flex-direction: column; align-items: center; width: min(411px, 100%); margin: 94px auto 0; transform: translateX(-47px); text-align: center; }
+.ua-empty img { display: block; width: 150px; height: 146px; }
+.ua-empty p { margin: 25px 0 20px; font-size: 16px; line-height: 24px; color: #161c24; }
+.ua-empty .ui-button { min-height: 36px; height: 36px; font-weight: 700; }
+.ua-skill-list { display: flex; flex-direction: column; gap: 16px; max-width: 720px; margin-top: 48px; }
+.ua-skill-list > .ui-button { align-self: flex-start; }
+.ua-skill-card { padding: 20px 24px; border: 1px solid #dfe2e8; border-radius: 8px; }
+.ua-skill-card h2 { margin: 0 0 8px; font-size: 16px; line-height: 24px; }
+.ua-skill-card p { margin: 0; white-space: pre-wrap; color: #637381; }
+.ua-skill-card > div { display: flex; gap: 8px; margin-top: 16px; }
+.ua-placeholder { max-width: 600px; margin-top: 72px; padding: 24px; border: 1px solid #dfe2e8; border-radius: 8px; background: #f9fafb; }
+.ua-placeholder h2 { margin: 0 0 8px; font-size: 16px; line-height: 24px; }
+.ua-placeholder p { margin: 0; color: #637381; }
+.ua-editor p { color: #637381; }
+.ua-editor label { display: block; margin-top: 16px; font-weight: 600; }
+.ua-editor label span { color: #637381; font-weight: 400; }
+.ua-editor input, .ua-editor textarea { display: block; width: 100%; margin-top: 6px; padding: 10px 12px; border: 1px solid #c4cdd5; border-radius: 8px; color: #161c24; background: #fff; }
+.ua-editor textarea { resize: vertical; }
+.ua-editor-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 24px; }
+@media (max-width: 1439px) { .ua-empty { transform: none; } }
+@media (max-width: 1023px) {
+  .ua-main { padding-top: 80px; }
+  .ua-responsive-toolbar { position: absolute; top: 16px; left: 24px; right: 24px; display: flex; justify-content: space-between; align-items: center; height: 44px; }
+  .ua-responsive-toolbar .oc-mobile-menu { display: inline-flex; margin: 0; }
+  .ua-card { min-height: calc(100dvh - 128px); }
+  .ua-section-button.ui-button { min-height: 44px; height: 44px; }
+  .ua-empty .ui-button { min-height: 44px; height: 44px; }
+}
+@media (max-width: 767px) {
+  .ua-main { padding: 72px 16px 32px; }
+  .ua-responsive-toolbar { left: 16px; right: 16px; }
+  .ua-card { display: flex; flex-direction: column; min-height: calc(100dvh - 104px); }
+  .ua-sections { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px; padding: 16px; border-right: 0; border-bottom: 1px solid #dfe2e8; }
+  .ua-section-button.ui-button { width: 100%; height: auto; min-height: 44px; white-space: normal; text-align: left; }
+  .ua-section-button span { min-width: 0; }
+  .ua-content { padding: 24px 16px 40px; }
+  .ua-empty { margin-top: 56px; }
+  .ua-empty p { font-size: 14px; line-height: 22px; }
+}

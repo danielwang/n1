@@ -1,0 +1,32 @@
+.oc-account { position: relative; }
+.oc-user-panel { position: absolute; z-index: 5; bottom: 49px; left: 0; width: 228px; height: 279px; border-radius: 12px; color: #161c24; }
+.oc-user-panel-paper { position: absolute; inset: 0; border-radius: inherit; pointer-events: none; }
+.oc-user-panel-surface { position: absolute; inset: 0; border-radius: inherit; background: rgb(255 255 255 / 90%); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+.oc-user-panel-red, .oc-user-panel-cyan { position: absolute; width: 80px; height: 80px; pointer-events: none; mask-image: url('../../assets/onechat/account-panel/bg.svg'); mask-size: 228px 279px; mask-repeat: no-repeat; }
+.oc-user-panel-red { left: -16px; bottom: -16px; mask-position: 16px -215px; }
+.oc-user-panel-cyan { right: -16px; top: -16px; mask-position: -164px 16px; }
+.oc-user-panel-red img, .oc-user-panel-cyan img { display: block; position: absolute; inset: -100%; width: 240px; height: 240px; }
+.oc-user-panel-tail { position: absolute; left: 0; bottom: -6px; display: block; }
+.oc-user-panel-content { position: relative; display: flex; flex-direction: column; gap: 16px; padding: 12px 16px; }
+.oc-user-panel-identity { display: flex; flex-direction: column; height: 44px; white-space: nowrap; font-size: 14px; line-height: 22px; }
+.oc-user-panel-identity span:last-child { color: #637381; }
+.oc-user-panel-switch { display: flex; width: 195px; height: 44px; padding: 4px; border: 1px solid #c4cdd5; border-radius: 8px; background: #fff; }
+.oc-user-panel-switch .ui-button { flex: 1; min-width: 0; min-height: 34px; height: 34px; padding: 0 8px; border-radius: 8px; color: #637381; }
+.oc-user-panel-switch .ui-button:first-child { flex: 0 0 85px; }
+.oc-user-panel-switch .ui-button[aria-pressed="true"] { background: #dfe3e8; color: #161c24; }
+.oc-user-panel-switch .ui-button:hover { background: #ecf0f3; }
+.oc-user-panel-switch .ui-button[aria-pressed="true"]:hover { background: #dfe3e8; }
+.oc-user-panel-actions { display: flex; flex-direction: column; align-items: stretch; gap: 4px; }
+.oc-user-panel-actions .ui-button { justify-content: flex-start; width: 100%; min-height: 34px; height: 34px; padding: 0 8px; border-radius: 6px; font-weight: 400; text-align: left; }
+.oc-user-panel-actions .ui-button:last-child { margin-top: 12px; }
+.oc-user-panel-actions .ui-button:hover { background: rgb(99 115 129 / 10%); }
+.oc-sidebar .oc-user-panel .ui-button:hover, .oc-sidebar-content .oc-user-panel .ui-button:hover { background: rgb(99 115 129 / 10%); }
+.oc-sidebar .oc-user-panel-switch .ui-button[aria-pressed="true"]:hover, .oc-sidebar-content .oc-user-panel-switch .ui-button[aria-pressed="true"]:hover { background: #dfe3e8; }
+.onechat.oc-is-collapsed .oc-user-panel { left: 0; }
+@media (max-width: 1023px), (pointer: coarse) {
+  .oc-user-panel { height: 306px; }
+  .oc-user-panel-switch { height: 54px; }
+  .oc-user-panel-switch .ui-button { min-height: 44px; height: 44px; }
+  .oc-user-panel-actions .ui-button { min-height: 44px; height: 44px; }
+}
+@media (max-height: 440px) { .oc-user-panel { bottom: 44px; max-height: calc(100dvh - 80px); overflow-y: auto; } }

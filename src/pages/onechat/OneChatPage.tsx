@@ -5,8 +5,12 @@ import { Dialog } from '../../components/ui/dialog';
 import { Feedback } from '../../components/ui/feedback';
 import { useNotifications } from '../../components/notifications/NotificationProvider';
 import { assets } from './assets';
+import accountPanelTail from '../../assets/onechat/account-panel/bottom-left.svg';
+import accountPanelRed from '../../assets/onechat/account-panel/red-blur.svg';
+import accountPanelCyan from '../../assets/onechat/account-panel/cyan-blur.svg';
 import { conversations, type Conversation } from './data';
 import './onechat.css';
+import './account-panel.css';
 import { FeaturedAgents } from './FeaturedAgents';
 import type { FeaturedAgent } from './featured-agent-data';
 import { AgentNavigation } from './AgentNavigation';
@@ -65,6 +69,11 @@ export function SidebarContent({ onNewChat, onSelect, onInfo, onClose, selectedI
   const [currentPath, setCurrentPath] = useState(() => window.location.hash);
   const [searchOpen, setSearchOpen] = useState(false);
   const [query, setQuery] = useState('');
+  const [accountOpen, setAccountOpen] = useState(false);
+  const [accountArea, setAccountArea] = useState<'chats' | 'management'>('chats');
+  const accountRef = useRef<HTMLElement>(null);
+  const accountButtonRef = useRef<HTMLButtonElement>(null);
+  const accountFirstActionRef = useRef<HTMLButtonElement>(null);
   const searchRef = useRef<HTMLInputElement>(null);
   const visible = conversations.filter(item => Boolean(item.archived) === archived && item.title.toLowerCase().includes(query.toLowerCase()));
   useEffect(() => { if (searchOpen) searchRef.current?.focus(); }, [searchOpen]);
@@ -73,6 +82,28 @@ export function SidebarContent({ onNewChat, onSelect, onInfo, onClose, selectedI
     window.addEventListener('hashchange', syncPath);
     return () => window.removeEventListener('hashchange', syncPath);
   }, []);
+  useEffect(() => {
+    if (!accountOpen) return;
+    accountFirstActionRef.current?.focus();
+    const dismissOnOutsideClick = (event: PointerEvent) => {
+      if (!accountRef.current?.contains(event.target as Node)) setAccountOpen(false);
+    };
+    const dismissOnEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') { setAccountOpen(false); accountButtonRef.current?.focus(); }
+    };
+    document.addEventListener('pointerdown', dismissOnOutsideClick);
+    document.addEventListener('keydown', dismissOnEscape);
+    return () => {
+      document.removeEventListener('pointerdown', dismissOnOutsideClick);
+      document.removeEventListener('keydown', dismissOnEscape);
+    };
+  }, [accountOpen]);
+
+  const openAccountAction = (title: 'Settings' | 'Account') => {
+    setAccountOpen(false);
+    if (title === 'Account') { window.location.hash = '/onechat/account'; return; }
+    onInfo({ title, message: `${accountArea === 'chats' ? 'Chat' : 'Management'} settings are simulated in this local prototype. No account service is connected.` });
+  };
 
   return <>
     <Button className="oc-collapse" size="icon" aria-label={mobile ? 'Close navigation' : collapsed ? 'Expand navigation' : 'Collapse navigation'} onClick={onClose}>
@@ -116,8 +147,28 @@ export function SidebarContent({ onNewChat, onSelect, onInfo, onClose, selectedI
         <Button aria-pressed={archived} onClick={() => setArchived(true)}>{archived && <Asset src={assets.historyTab} />}<span>Archived</span></Button>
       </div>}
     </section>
-    <footer className="oc-account">
-      <Button className="oc-account-button" onClick={() => onInfo({ title: 'Daniel Wang', message: 'Aqua University · Local prototype. Account management is not connected.' })}><span className="oc-avatar" aria-hidden="true">DW</span><span>Daniel Wang</span></Button>
+    <footer className="oc-account" ref={accountRef}>
+      {accountOpen && <div className="oc-user-panel" id={`oc-user-panel-${mobile ? 'mobile' : 'desktop'}`} role="group" aria-label="User account" data-node-id="27275:13389">
+        <div className="oc-user-panel-paper" aria-hidden="true">
+          <div className="oc-user-panel-surface" />
+          <span className="oc-user-panel-red"><img src={accountPanelRed} alt="" /></span>
+          <span className="oc-user-panel-cyan"><img src={accountPanelCyan} alt="" /></span>
+          <img className="oc-user-panel-tail" src={accountPanelTail} alt="" width="24" height="6" />
+        </div>
+        <div className="oc-user-panel-content">
+          <div className="oc-user-panel-identity"><span>Daniel Wang</span><span>dwang@gocloudforce.com</span></div>
+          <div className="oc-user-panel-switch" role="group" aria-label="Account area">
+            <Button ref={accountFirstActionRef} aria-pressed={accountArea === 'chats'} onClick={() => setAccountArea('chats')}>Chats</Button>
+            <Button aria-pressed={accountArea === 'management'} onClick={() => setAccountArea('management')}>Management</Button>
+          </div>
+          <div className="oc-user-panel-actions">
+            <Button onClick={() => openAccountAction('Settings')}>Settings</Button>
+            <Button onClick={() => openAccountAction('Account')}>Account</Button>
+            <Button aria-label="Logout (return to demo login)" onClick={() => { setAccountOpen(false); window.location.hash = '/login'; }}>Logout</Button>
+          </div>
+        </div>
+      </div>}
+      <Button ref={accountButtonRef} className="oc-account-button" aria-label="Daniel Wang, user account" aria-expanded={accountOpen} aria-controls={accountOpen ? `oc-user-panel-${mobile ? 'mobile' : 'desktop'}` : undefined} onClick={() => setAccountOpen(value => !value)}><span className="oc-avatar" aria-hidden="true">DW</span><span>Daniel Wang</span></Button>
       <Button size="icon" aria-label={`Notifications, ${unreadCount} unread`} aria-haspopup="dialog" aria-expanded={notificationsOpen} onClick={onNotifications}><Asset src={assets.bell} />{unreadCount > 0 && <span className="oc-notification-count">{unreadCount}</span>}</Button>
     </footer>
   </>;

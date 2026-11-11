@@ -13,6 +13,7 @@ import { PsychologyWorkspace } from './pages/courses/PsychologyWorkspace';
 import { MathematicsWorkspace } from './pages/courses/MathematicsWorkspace';
 import { LoginPage } from './pages/login/LoginPage';
 import { ConnectingPage } from './pages/login/ConnectingPage';
+import { AccountPage } from './pages/account/AccountPage';
 import { AgentNavigationProvider } from './pages/onechat/AgentNavigationState';
 import './styles.css';
 import './styles.module.css';
@@ -40,6 +41,7 @@ function Root() {
 
   if (!hash || hash === '#' || hash === '#/' || hash === '#/login' || hash === '#/login/') return <LoginPage />;
   if (hash === '#/connecting' || hash === '#/connecting/') return <ConnectingPage />;
+  if (hash === '#/onechat/account' || hash === '#/onechat/account/') return <AccountPage />;
   if (hash === '#/onechat/courses' || hash === '#/onechat/courses/') return <CoursesPage />;
   if (hash.startsWith('#/onechat/courses/')) {
     const segment = hash.slice('#/onechat/courses/'.length).replace(/\/$/, '');
