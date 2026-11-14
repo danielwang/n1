@@ -10,7 +10,7 @@ import { ProjectsPage } from './pages/projects/ProjectsPage';
 import { CoursesPage } from './pages/courses/CoursesPage';
 import { CourseDetail } from './pages/courses/CourseWorkspace';
 import { PsychologyWorkspace } from './pages/courses/PsychologyWorkspace';
-import { MathematicsWorkspace } from './pages/courses/MathematicsWorkspace';
+import { SiblingCourseWorkspace } from './pages/courses/SiblingCourseWorkspace';
 import { LoginPage } from './pages/login/LoginPage';
 import { ConnectingPage } from './pages/login/ConnectingPage';
 import { AccountPage } from './pages/account/AccountPage';
@@ -48,7 +48,7 @@ function Root() {
     let courseId = segment;
     try { courseId = decodeURIComponent(segment); } catch { /* Keep the invalid id for the not-found view. */ }
     if (courseId === 'psy201') return <PsychologyWorkspace />;
-    if (courseId === 'mat203') return <MathematicsWorkspace />;
+    if (courseId === 'bio101' || courseId === 'mat203' || courseId === 'eng220') return <SiblingCourseWorkspace key={courseId} courseId={courseId} />;
     return <CourseDetail courseId={courseId} />;
   }
   if (hash === '#/onechat/projects' || hash === '#/onechat/projects/') return <ProjectsPage />;
