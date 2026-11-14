@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, type CSSProperties, type FormEvent, type KeyboardEvent, type PointerEvent } from 'react';
 import { Button } from '../../components/ui/button';
+import { ToggleButtonGroup } from '../../components/ui/toggle-button-group';
 import { Dialog } from '../../components/ui/dialog';
 import { useNotifications } from '../../components/notifications/NotificationProvider';
 import { SidebarContent } from '../onechat/OneChatPage';
@@ -106,6 +107,7 @@ export function PsychologyWorkspace() {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [open, setOpen] = useState<Record<Panel, boolean>>({ explorer: true, material: false, artifact: true, chat: true });
   const [viewportBand, setViewportBand] = useState(() => getViewportBand(true));
+  const isDesktopWorkspace = viewportBand === 'compact' || viewportBand === 'wide';
   const [compactExplorerOpen, setCompactExplorerOpen] = useState(false);
   const [widths, setWidths] = useState(initialWidths);
   const [expanded, setExpanded] = useState<Panel | null>(null);
@@ -329,7 +331,7 @@ export function PsychologyWorkspace() {
     material: (
       <section className="psy-panel psy-content-panel" aria-label="Course material">
         <div className="psy-panel-heading"><strong>File Viewer</strong><div className="psy-panel-actions">
-          <button className="psy-icon" aria-label={expanded === 'material' ? 'Restore material panel' : 'Expand material panel'} onClick={() => toggleExpanded('material')}><img src={expanded === 'material' ? quitFullScreenIcon : fullScreenIcon} alt="" width="20" height="20" /></button>
+          {isDesktopWorkspace && <button className="psy-icon" aria-label={expanded === 'material' ? 'Restore material panel' : 'Expand material panel'} onClick={() => toggleExpanded('material')}><img src={expanded === 'material' ? quitFullScreenIcon : fullScreenIcon} alt="" width="20" height="20" /></button>}
           <button className="psy-icon" aria-label="Close material panel" onClick={() => closePanel('material')}><img src={closeIcon} alt="" width="20" height="20" /></button>
         </div></div>
         <div className="psy-file-tabs" role="tablist" aria-label="Open course files">{openFiles.map((id, index) => { const file = psychologyMaterials.find(item => item.id === id); return <div key={id} className="psy-file-tab" role="tab" aria-selected={id === selectedMaterial} tabIndex={id === selectedMaterial ? 0 : -1} onClick={() => setSelectedMaterial(id)} onKeyDown={event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); setSelectedMaterial(id); } else if (['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) { event.preventDefault(); const nextIndex = event.key === 'Home' ? 0 : event.key === 'End' ? openFiles.length - 1 : (index + (event.key === 'ArrowRight' ? 1 : -1) + openFiles.length) % openFiles.length; setSelectedMaterial(openFiles[nextIndex]); (event.currentTarget.parentElement?.children[nextIndex] as HTMLElement | undefined)?.focus(); } }}><img src={id === selectedMaterial ? tabFileActiveIcon : tabFileInactiveIcon} alt="" /><span>{file?.title}</span><button aria-label={`Close ${file?.title}`} onClick={event => { event.stopPropagation(); closeMaterialTab(id); }}><img src={tabCloseIcon} alt="" /></button></div>; })}</div>
@@ -339,8 +341,8 @@ export function PsychologyWorkspace() {
     artifact: (
       <section className={`psy-panel psy-content-panel psy-artifact ${selectedArtifact ? 'psy-artifact-viewing' : ''}`} aria-label="My Notebook">
         <div className="psy-panel-heading"><strong>{selectedArtifact || 'My Notebook'}</strong><div className="psy-panel-actions">
-          <button className="psy-icon" aria-label={expanded === 'artifact' ? 'Restore artifact panel' : 'Expand artifact panel'} onClick={() => toggleExpanded('artifact')}><img src={expanded === 'artifact' ? quitFullScreenLightIcon : fullScreenLightIcon} alt="" width="20" height="20" /></button>
-          <button className="psy-icon" aria-label={selectedArtifact ? 'Back to notebook' : 'Close notebook'} onClick={() => selectedArtifact ? setSelectedArtifact(null) : closePanel('artifact')}><img src={selectedArtifact ? closeLightIcon : sidebarRightCloseIcon} alt="" width="20" height="20" /></button>
+          {viewportBand !== 'small' && <button className="psy-icon" aria-label={expanded === 'artifact' ? 'Restore artifact panel' : 'Expand artifact panel'} onClick={() => toggleExpanded('artifact')}><img src={expanded === 'artifact' ? quitFullScreenLightIcon : fullScreenLightIcon} alt="" width="20" height="20" /></button>}
+          {(isDesktopWorkspace || selectedArtifact !== null) && <button className="psy-icon" aria-label={selectedArtifact ? 'Back to notebook' : 'Close notebook'} onClick={() => selectedArtifact ? setSelectedArtifact(null) : closePanel('artifact')}><img src={selectedArtifact ? closeLightIcon : sidebarRightCloseIcon} alt="" width="20" height="20" /></button>}
         </div></div>
         {selectedArtifact ? <div className="psy-artifact-document"><span>PSY201 · SAMPLE ARTIFACT</span><h2>{selectedArtifact}</h2><p>How attention and memory work together during study.</p><div className="psy-artifact-diagram"><div>Information</div><span>→</span><div>Attention</div><span>→</span><div>Working memory</div></div><h3>Key idea</h3><p>Selective attention helps determine which information enters working memory. Repeated retrieval and meaningful connections can support later recall.</p><h3>Try it</h3><p>After a short reading, close the source and write down three ideas you can remember. Reopen the reading to check and correct your notes.</p><table><caption>Study strategy comparison</caption><thead><tr><th scope="col">Strategy</th><th scope="col">What it checks</th></tr></thead><tbody><tr><td>Rereading</td><td>Familiarity</td></tr><tr><td>Retrieval</td><td>What you can recall</td></tr><tr><td>Spacing</td><td>Later recall</td></tr></tbody></table><small>Illustrative local content · No learning platform connected</small></div> : <>
           <div className="psy-notebook-tabs" role="group" aria-label="Notebook collection"><button aria-pressed={notebookTab === 'artifacts'} onClick={() => setNotebookTab('artifacts')}><img src={notebookArtifactsIcon} alt="" />Artifacts</button><button aria-pressed={notebookTab === 'notes'} onClick={() => setNotebookTab('notes')}><img src={notebookNotesIcon} alt="" />Notes</button><button aria-pressed={notebookTab === 'history'} onClick={() => setNotebookTab('history')}><img src={notebookHistoryIcon} alt="" />Chat History</button></div>
@@ -357,8 +359,8 @@ export function PsychologyWorkspace() {
             <button className="psy-icon" aria-label="Export course chat" onClick={exportChat}><img src={chatExportIcon} alt="" width="20" height="20" /></button>
           </div>
           <div className="psy-chat-heading-end">
-            <button className="psy-icon" aria-label={expanded === 'chat' ? 'Restore chat panel' : 'Expand chat panel'} onClick={() => toggleExpanded('chat')}><img src={expanded === 'chat' ? quitFullScreenIcon : fullScreenIcon} alt="" width="20" height="20" /></button>
-            {(open.material || open.artifact) && <button className="psy-icon" aria-label="Close chat panel" onClick={() => closePanel('chat')}><img src={closeIcon} alt="" width="20" height="20" /></button>}
+            {viewportBand !== 'small' && <button className="psy-icon" aria-label={expanded === 'chat' ? 'Restore chat panel' : 'Expand chat panel'} onClick={() => toggleExpanded('chat')}><img src={expanded === 'chat' ? quitFullScreenIcon : fullScreenIcon} alt="" width="20" height="20" /></button>}
+            {isDesktopWorkspace && (open.material || open.artifact) && <button className="psy-icon" aria-label="Close chat panel" onClick={() => closePanel('chat')}><img src={closeIcon} alt="" width="20" height="20" /></button>}
             <div className="psy-chat-budget" role="meter" aria-label="Budget indicator" aria-valuemin={0} aria-valuemax={100} aria-valuenow={68} title="Budget indicator: 68% (demo)"><img src={chatBudgetIcon} alt="" width="24" height="24" /></div>
           </div>
         </div>
@@ -400,12 +402,22 @@ export function PsychologyWorkspace() {
       <header className="psy-header">
         <Button className="oc-mobile-menu" size="icon" aria-label="Open navigation" onClick={() => setMobileNavOpen(true)}>Menu</Button>
         <button className="psy-back" aria-label="Back to courses" onClick={() => { window.location.hash = '/onechat/courses'; }}><img src={backIcon} alt="" width="24" height="24" /></button>
-        <h1>PSY201 · Cognitive Psychology</h1>
-        {!chatVisible && <Button variant="outline" className="psy-header-chat" onClick={() => showPanel('chat')}><img src={chatTabIcon} alt="" width="20" height="20" />Chat</Button>}
-        {!open.artifact && ((expanded !== null && expanded !== 'chat') || viewportBand === 'small' || viewportBand === 'medium') && <Button variant="outline" className="psy-header-notebook" onClick={() => showPanel('artifact')}>My Notebook</Button>}
+        <h1>{viewportBand === 'small' ? 'PSY201 - Cognitive Psychology' : 'PSY201 · Cognitive Psychology'}</h1>
+        {viewportBand !== 'small' && !chatVisible && <Button variant="outline" className="psy-header-chat" onClick={() => showPanel('chat')}><img src={chatTabIcon} alt="" width="20" height="20" />Chat</Button>}
+        {viewportBand !== 'small' && !open.artifact && (expanded !== null && expanded !== 'chat' || viewportBand === 'medium') && <Button variant="outline" className="psy-header-notebook" onClick={() => showPanel('artifact')}>My Notebook</Button>}
         <Button className="psy-mobile-bell" size="icon" aria-label={`Notifications, ${notifications.unreadCount} unread`} onClick={notifications.open}><img src={bellIcon} alt="" width="20" height="20" /></Button>
       </header>
-      <div className="psy-mobile-tabs" role="group" aria-label="Workspace panel">{(viewportBand === 'medium' ? availableContent : panelOrder.filter(panel => panel === 'explorer' || open[panel])).map(panel => <button key={panel} aria-pressed={viewportBand === 'medium' ? mediumPanel === panel : activeMobilePanel === panel} onClick={() => showPanel(panel)}>{panel === 'explorer' ? 'Sources' : panel === 'material' ? 'File Viewer' : panel === 'artifact' ? 'Notebook' : 'Chat'}</button>)}</div>
+      <ToggleButtonGroup
+        className="psy-mobile-tabs"
+        style={{ '--psy-tab-offset': `${(widths.explorer + 8) / 2}px` } as CSSProperties}
+        ariaLabel="Workspace panel"
+        options={(viewportBand === 'medium' ? availableContent : viewportBand === 'small' ? panelOrder.filter(panel => panel !== 'material' || open.material) : panelOrder.filter(panel => panel === 'explorer' || open[panel])).map(panel => ({
+          value: panel,
+          label: panel === 'explorer' ? 'Sources' : panel === 'material' ? 'File Viewer' : panel === 'artifact' ? 'Notebook' : 'Chat',
+        }))}
+        value={viewportBand === 'medium' ? mediumPanel : activeMobilePanel}
+        onValueChange={showPanel}
+      />
       <main className={`psy-layout psy-layout-${viewportBand} ${expanded ? 'psy-layout-expanded' : ''}`} style={{ '--psy-grid': gridColumns } as CSSProperties} aria-label="PSY201 workspace">{layoutPanels.map((panel, index) => <div className={`psy-slot ${activeMobilePanel === panel ? 'psy-slot-active' : ''}`} key={panel}>{panelDivider(panel, index)}{panel === 'explorer' ? compactExplorerRail && !expanded ? <div className="psy-compact-explorer">{collapsedExplorer}{compactExplorerOpen && panels.explorer}</div> : viewportBand === 'medium' || viewportBand === 'small' ? panels.explorer : !open.explorer ? collapsedExplorer : panels.explorer : panels[panel]}</div>)}{notebookRailVisible && <div className="psy-slot psy-notebook-rail-slot"><aside className="psy-notebook-rail" aria-label="Collapsed My Notebook"><button className="psy-icon" aria-label="Open My Notebook" title="Open My Notebook" onClick={() => showPanel('artifact')}><img src={sidebarRightOpenIcon} alt="" width="20" height="20" /></button></aside></div>}</main>
       <div className="psy-status psy-sr-only" role="status">{status}</div>
     </div>

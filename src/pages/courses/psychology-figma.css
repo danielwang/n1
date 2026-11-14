@@ -1,6 +1,5 @@
 /* PSY201's three Figma states: sources, optional file viewer, chat, notebook. */
 .psy-shell--figma .psy-header{margin-top:24px;height:36px;min-height:36px;margin-bottom:18px}
-.psy-shell--figma .psy-header h1{font-size:24px;line-height:36px}
 .psy-shell--figma .psy-header-notebook.ui-button{margin-left:auto;min-height:36px;padding:4px 12px;border-color:#c4cdd5;background:#fff;color:#212b36;font-size:12px}
 .psy-shell--figma .psy-layout{margin-bottom:14px}
 .psy-shell--figma .psy-explorer{padding:12px 13px}
@@ -79,4 +78,4 @@
 .psy-shell--figma .psy-notebook-rail .psy-icon{position:absolute;top:6px;left:3px;width:44px;height:44px}
 .psy-shell--figma .psy-notebook-rail .psy-icon img{display:block;width:20px;height:20px}
 @media(max-width:1279px){.psy-shell--figma .psy-header{margin-top:16px;margin-bottom:8px}}
-@media(max-width:699px){.psy-shell--figma .psy-header{height:62px;min-height:62px;margin:0 12px 4px}.psy-shell--figma .psy-header h1{font-size:16px;line-height:24px}.psy-shell--figma .psy-notebook-tabs{width:auto;margin:8px 8px 0}.psy-shell--figma .psy-notebook-list{width:auto;margin-left:0;gap:4px;padding:8px}}
+@media(max-width:699px){.psy-shell--figma .psy-header{height:auto;min-height:56px;margin:0 16px 4px;padding:0;gap:16px}.psy-shell--figma .psy-header h1{color:#000;white-space:normal;overflow:visible;text-overflow:clip}.psy-shell--figma .psy-header .oc-mobile-menu,.psy-shell--figma .psy-header .psy-mobile-bell{display:none!important}.psy-shell--figma .psy-back{width:24px;height:24px}.psy-shell--figma .psy-notebook-tabs{width:auto;margin:8px 8px 0}.psy-shell--figma .psy-notebook-list{width:auto;margin-left:0;gap:4px;padding:8px}}
