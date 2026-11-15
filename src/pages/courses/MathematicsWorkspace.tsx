@@ -3,7 +3,7 @@ import { Button } from '../../components/ui/button';
 import { ChevronDown, ChevronRight, Folder } from '../../components/ui/solar-icons';
 import { Dialog } from '../../components/ui/dialog';
 import { useNotifications } from '../../components/notifications/NotificationProvider';
-import { SidebarContent } from '../onechat/OneChatPage';
+import { SidebarContent } from '../onechat/ChatShell';
 import { useAgentNavigation } from '../onechat/AgentNavigationState';
 import type { ChatAgent } from '../onechat/agent-data';
 import type { Conversation } from '../onechat/data';

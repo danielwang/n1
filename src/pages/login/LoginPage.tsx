@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Button } from '../../components/ui/button';
 import logo from '../../assets/login/aqua-university.svg';
 import campus from '../../assets/login/campus.png';
+import campusWebp from '../../assets/login/campus.webp';
 import './login.css';
 
 export function LoginPage() {
@@ -25,7 +26,7 @@ export function LoginPage() {
   }
 
   return <main className="login-page">
-    <img className="login-campus" src={campus} alt="" />
+    <picture><source srcSet={campusWebp} type="image/webp" /><img className="login-campus" src={campus} alt="" width="1900" height="650" fetchPriority="high" /></picture>
     <section className="login-panel" aria-labelledby="login-heading">
       <img className="login-logo" src={logo} alt="Aqua University" width="205" height="79" />
       <h1 id="login-heading">Log in to AI portal</h1>

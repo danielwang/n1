@@ -1,9 +1,12 @@
-import { useEffect, useRef, useState, type CSSProperties, type FormEvent, type KeyboardEvent, type PointerEvent } from 'react';
+import { coursePanelControls } from './course-panel-controls';
+import { courseWorkspaceLayout, getViewportBand, initialWidths, panelOrder, type ContentPanel, type Panel } from './course-workspace-layout';
+import { useEffect, useRef, useState, type CSSProperties, type FormEvent } from 'react';
 import { Button } from '../../components/ui/button';
 import { ToggleButtonGroup } from '../../components/ui/toggle-button-group';
 import { Dialog } from '../../components/ui/dialog';
 import { useNotifications } from '../../components/notifications/NotificationProvider';
-import { SidebarContent } from '../onechat/OneChatPage';
+import { CourseFileTabs } from './CourseFileTabs';
+import { SidebarContent } from '../onechat/ChatShell';
 import { useAgentNavigation } from '../onechat/AgentNavigationState';
 import type { ChatAgent } from '../onechat/agent-data';
 import type { Conversation } from '../onechat/data';
@@ -26,9 +29,6 @@ import sourceChatsIcon from '../../assets/courses/psy201/figma/source-chats.svg'
 import notebookArtifactsIcon from '../../assets/courses/psy201/figma/notebook-artifacts.svg';
 import notebookNotesIcon from '../../assets/courses/psy201/figma/notebook-notes.svg';
 import notebookHistoryIcon from '../../assets/courses/psy201/figma/notebook-history.svg';
-import tabFileActiveIcon from '../../assets/courses/psy201/figma/tab-file-active.svg';
-import tabFileInactiveIcon from '../../assets/courses/psy201/figma/tab-file-inactive.svg';
-import tabCloseIcon from '../../assets/courses/psy201/figma/tab-close.svg';
 import cardResearchBase from '../../assets/courses/psy201/figma/card-research-base.svg';
 import cardResearchMark from '../../assets/courses/psy201/figma/card-research-mark.svg';
 import cardCodeIcon from '../../assets/courses/psy201/figma/card-code.svg';
@@ -55,9 +55,6 @@ import chatEmptyArt from '../../assets/courses/psy201/figma/chat-empty.svg';
 import './psychology-workspace.css';
 import './psychology-figma.css';
 
-type Panel = 'explorer' | 'material' | 'artifact' | 'chat';
-type ContentPanel = Exclude<Panel, 'explorer'>;
-type ViewportBand = 'wide' | 'compact' | 'medium' | 'small';
 type ChatMessage = { id: number; role: 'student' | 'assistant'; text: string };
 type Info = { title: string; message: string };
 function NotebookFileIcon({ index }: { index: number }) {
@@ -67,20 +64,6 @@ function NotebookFileIcon({ index }: { index: number }) {
   if (index === 3) return <span className="psy-notebook-file-icon" aria-hidden="true"><img src={cardSlidesBase} alt="" /><img className="psy-icon-slides-mark" src={cardSlidesMark} alt="" /></span>;
   return <span className="psy-notebook-file-icon" aria-hidden="true"><img src={cardExcelIcon} alt="" /></span>;
 }
-const initialWidths: Record<Panel, number> = { explorer: 278, material: 630, artifact: 386, chat: 470 };
-const minimumWidths: Record<Panel, number> = { explorer: 220, material: 280, artifact: 260, chat: 300 };
-const maximumWidths: Record<Panel, number> = { explorer: 440, material: 850, artifact: 850, chat: 700 };
-const panelOrder: Panel[] = ['explorer', 'material', 'chat', 'artifact'];
-const contentOrder: ContentPanel[] = ['material', 'chat', 'artifact'];
-
-function getViewportBand(navCollapsed: boolean): ViewportBand {
-  if (window.innerWidth >= 1920) return 'wide';
-  if (window.innerWidth >= 1536) return navCollapsed ? 'wide' : 'compact';
-  if (window.innerWidth >= 1200) return 'compact';
-  if (window.innerWidth >= 900) return 'medium';
-  return 'small';
-}
-
 export function SiblingCourseWorkspace({ courseId }: { courseId: SiblingCourseId }) {
   const course = siblingCourses[courseId];
   const courseTitle = course.title;
@@ -129,31 +112,9 @@ export function SiblingCourseWorkspace({ courseId }: { courseId: SiblingCourseId
     if (!remaining.length) closePanel('material');
   };
   const toggleFolder = (folder: string) => setExpandedFolders(value => ({ ...value, [folder]: !value[folder] }));
-  const chatVisible = open.chat || (!open.material && !open.artifact);
-  const availableContent = contentOrder.filter(panel => panel === 'chat' ? chatVisible : open[panel]);
-  const mediumPanel = availableContent.includes(activeContentPanel) ? activeContentPanel : availableContent[0];
-  const layoutPanels: Panel[] = expanded ? [expanded]
-    : viewportBand === 'medium' ? ['explorer', mediumPanel]
-    : panelOrder.filter(panel => panel === 'explorer' || (panel === 'chat' ? chatVisible : open[panel]));
-  const notebookRailVisible = !open.artifact && !expanded && (viewportBand === 'wide' || viewportBand === 'compact');
-  const canFitCompactExplorer = widths.explorer + layoutPanels.slice(1).reduce((total, panel) => total + minimumWidths[panel], 0)
-    + (notebookRailVisible ? 56 : 0) + (layoutPanels.length - 1 + (notebookRailVisible ? 1 : 0)) * 8
-    <= window.innerWidth - (navCollapsed ? 80 : 280) - (window.innerWidth < 1280 ? 48 : 64);
-  const compactExplorerRail = viewportBand === 'compact' && (!open.explorer || !canFitCompactExplorer);
-  const contentGridColumns = viewportBand === 'medium' && !expanded ? `${widths.explorer}px minmax(0, 1fr)`
-    : viewportBand === 'compact' && !expanded ? [compactExplorerRail ? '56px' : `${widths.explorer}px`, ...layoutPanels.slice(1).map(panel => `minmax(${minimumWidths[panel]}px, ${widths[panel]}fr)`)].join(' ')
-    : open.material && !open.artifact && chatVisible && !expanded
-    ? `${open.explorer ? `${widths.explorer}px` : '56px'} minmax(0, ${widths.material}px) minmax(0, 1fr)`
-    : !open.material && open.artifact && chatVisible && !expanded
-    ? `${open.explorer ? `${widths.explorer}px` : '56px'} minmax(0, 1fr) ${widths.artifact}px`
-    : !open.material && !open.artifact && chatVisible && !expanded
-    ? `${open.explorer ? `${widths.explorer}px` : '56px'} minmax(0, 1fr)`
-    : layoutPanels.map(panel => {
-      if (panel === 'explorer' && !open.explorer) return '56px';
-      if (panel === 'explorer') return `${widths.explorer}px`;
-      return `minmax(0, ${widths[panel]}fr)`;
-    }).join(' ');
-  const gridColumns = notebookRailVisible ? `${contentGridColumns} 56px` : contentGridColumns;
+  const { chatVisible, availableContent, mediumPanel, layoutPanels, notebookRailVisible, canFitCompactExplorer, compactExplorerRail, gridColumns } = courseWorkspaceLayout({
+    open, widths, expanded, viewportBand, navCollapsed, activeContentPanel, viewportWidth: window.innerWidth,
+  });
 
   useEffect(() => { document.title = `${courseTitle} · Aqua University`; return () => { document.title = 'Aqua University'; }; }, [courseTitle]);
   useEffect(() => {
@@ -172,75 +133,10 @@ export function SiblingCourseWorkspace({ courseId }: { courseId: SiblingCourseId
   useEffect(() => { chatEndRef.current?.scrollIntoView({ block: 'end' }); }, [messages]);
   useEffect(() => () => { if (replyTimerRef.current !== null) window.clearTimeout(replyTimerRef.current); }, []);
 
-  const showPanel = (panel: Panel) => {
-    if (panel === 'explorer' && compactExplorerRail) {
-      if (canFitCompactExplorer) {
-        setOpen(value => ({ ...value, explorer: true }));
-        setCompactExplorerOpen(false);
-      } else {
-        setCompactExplorerOpen(true);
-      }
-      return;
-    }
-    setOpen(value => ({ ...value, [panel]: true }));
-    setExpanded(null);
-    setActiveMobilePanel(panel);
-    if (panel !== 'explorer') setActiveContentPanel(panel);
-    if (viewportBand === 'compact') setCompactExplorerOpen(false);
-  };
-  const closePanel = (panel: Panel) => {
-    if (panel === 'explorer' && compactExplorerRail) {
-      setCompactExplorerOpen(false);
-      return;
-    }
-    if (panel === 'chat' && !open.material && !open.artifact) return;
-    const next = { ...open, [panel]: false };
-    if (panel === 'artifact') next.chat = true;
-    const onlyChat = !next.material && !next.artifact;
-    if (onlyChat) next.chat = true;
-    setOpen(next);
-    setExpanded(null);
-    const fallback = next.chat && panel !== 'chat' ? 'chat' : panelOrder.find(item => item !== panel && next[item]);
-    if (fallback) setActiveMobilePanel(fallback);
-    const contentFallback = contentOrder.find(item => item !== panel && (item === 'chat' ? next.chat : next[item]));
-    if (contentFallback) setActiveContentPanel(contentFallback);
-    setStatus(`${panel === 'explorer' ? 'Course explorer' : panel} panel closed.`);
-  };
-  const toggleExpanded = (panel: Panel) => {
-    setExpanded(value => value === panel ? null : panel);
-    setActiveMobilePanel(panel);
-    if (panel !== 'explorer') setActiveContentPanel(panel);
-  };
-
-  const startResize = (left: Panel, right: Panel, event: PointerEvent<HTMLDivElement>) => {
-    event.preventDefault();
-    const start = event.clientX;
-    const leftStart = widths[left];
-    const rightStart = widths[right];
-    const move = (next: globalThis.PointerEvent) => {
-      const delta = next.clientX - start;
-      const lower = Math.max(minimumWidths[left] - leftStart, rightStart - maximumWidths[right]);
-      const upper = Math.min(maximumWidths[left] - leftStart, rightStart - minimumWidths[right]);
-      const adjusted = Math.max(lower, Math.min(upper, delta));
-      setWidths(value => ({ ...value, [left]: leftStart + adjusted, [right]: rightStart - adjusted }));
-    };
-    const end = () => { window.removeEventListener('pointermove', move); window.removeEventListener('pointerup', end); window.removeEventListener('pointercancel', end); document.body.style.cursor = ''; };
-    document.body.style.cursor = 'col-resize';
-    window.addEventListener('pointermove', move);
-    window.addEventListener('pointerup', end);
-    window.addEventListener('pointercancel', end);
-  };
-  const resizeWithKeyboard = (left: Panel, right: Panel, event: KeyboardEvent<HTMLDivElement>) => {
-    if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
-    event.preventDefault();
-    const pair = widths[left] + widths[right];
-    const min = Math.max(minimumWidths[left], pair - maximumWidths[right]);
-    const max = Math.min(maximumWidths[left], pair - minimumWidths[right]);
-    const target = event.key === 'Home' ? min : event.key === 'End' ? max : widths[left] + (event.key === 'ArrowLeft' ? -16 : 16);
-    const next = Math.max(min, Math.min(max, target));
-    setWidths(value => ({ ...value, [left]: next, [right]: pair - next }));
-  };
-  const divider = (left: Panel, right: Panel) => <div key={`${left}-${right}`} className="psy-divider" role="separator" tabIndex={0} aria-orientation="vertical" aria-label={`Resize ${left} and ${right} panels`} aria-valuenow={Math.round(widths[left])} aria-valuemin={minimumWidths[left]} aria-valuemax={maximumWidths[left]} onPointerDown={event => startResize(left, right, event)} onKeyDown={event => resizeWithKeyboard(left, right, event)}><span aria-hidden="true" /></div>;
+  const { showPanel, closePanel, toggleExpanded, divider } = coursePanelControls({
+    open, widths, viewportBand, compactExplorerRail, canFitCompactExplorer, setOpen, setCompactExplorerOpen,
+    setExpanded, setActiveMobilePanel, setActiveContentPanel, setWidths, setStatus,
+  });
 
   const sendMessage = (event: FormEvent) => {
     event.preventDefault();
@@ -323,7 +219,7 @@ export function SiblingCourseWorkspace({ courseId }: { courseId: SiblingCourseId
           {isDesktopWorkspace && <button className="psy-icon" aria-label={expanded === 'material' ? 'Restore material panel' : 'Expand material panel'} onClick={() => toggleExpanded('material')}><img src={expanded === 'material' ? quitFullScreenIcon : fullScreenIcon} alt="" width="20" height="20" /></button>}
           <button className="psy-icon" aria-label="Close material panel" onClick={() => closePanel('material')}><img src={closeIcon} alt="" width="20" height="20" /></button>
         </div></div>
-        <div className="psy-file-tabs" role="tablist" aria-label="Open course files">{openFiles.map((id, index) => { const file = courseMaterials.find(item => item.id === id); return <div key={id} className="psy-file-tab" role="tab" aria-selected={id === selectedMaterial} tabIndex={id === selectedMaterial ? 0 : -1} onClick={() => setSelectedMaterial(id)} onKeyDown={event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); setSelectedMaterial(id); } else if (['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) { event.preventDefault(); const nextIndex = event.key === 'Home' ? 0 : event.key === 'End' ? openFiles.length - 1 : (index + (event.key === 'ArrowRight' ? 1 : -1) + openFiles.length) % openFiles.length; setSelectedMaterial(openFiles[nextIndex]); (event.currentTarget.parentElement?.children[nextIndex] as HTMLElement | undefined)?.focus(); } }}><img src={id === selectedMaterial ? tabFileActiveIcon : tabFileInactiveIcon} alt="" /><span>{file?.title}</span><button aria-label={`Close ${file?.title}`} onClick={event => { event.stopPropagation(); closeMaterialTab(id); }}><img src={tabCloseIcon} alt="" /></button></div>; })}</div>
+        <CourseFileTabs openFiles={openFiles} selectedMaterial={selectedMaterial} materials={courseMaterials} onSelect={setSelectedMaterial} onClose={closeMaterialTab} />
         {material && <div className="psy-document"><span>{material.kind} · {course.code}</span><h2>{material.title}</h2><p>{material.summary}</p>{material.sections.map(item => <section key={item.heading}><h3>{item.heading}</h3><p>{item.body}</p></section>)}<small>Sample course material · Local prototype</small></div>}
       </section>
     ),

@@ -1,6 +1,6 @@
-import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
+import { createContext, lazy, Suspense, useContext, useEffect, useState, type ReactNode } from 'react';
 import { demoNotifications, notificationTypes, type NotificationType } from './data';
-import { NotificationPanel } from './NotificationPanel';
+const NotificationPanel = lazy(() => import('./NotificationPanel').then(module => ({ default: module.NotificationPanel })));
 
 interface NotificationState {
   readIds: string[];
@@ -37,11 +37,11 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
   const unreadCount = items.filter(item => !state.readIds.includes(item.id)).length;
   return <NotificationContext.Provider value={{ unreadCount, open: () => setOpen(true), isOpen }}>
     {children}
-    {isOpen && <NotificationPanel items={items} readIds={state.readIds} mutedTypes={state.mutedTypes} persistent={persistent}
+    {isOpen && <Suspense fallback={null}><NotificationPanel items={items} readIds={state.readIds} mutedTypes={state.mutedTypes} persistent={persistent}
       onClose={() => setOpen(false)}
       onRead={(id, read) => setState(current => ({ ...current, readIds: read ? [...new Set([...current.readIds, id])] : current.readIds.filter(value => value !== id) }))}
       onReadAll={ids => setState(current => ({ ...current, readIds: [...new Set([...current.readIds, ...ids])] }))}
-      onToggleType={type => setState(current => ({ ...current, mutedTypes: current.mutedTypes.includes(type) ? current.mutedTypes.filter(value => value !== type) : [...current.mutedTypes, type] }))} />}
+      onToggleType={type => setState(current => ({ ...current, mutedTypes: current.mutedTypes.includes(type) ? current.mutedTypes.filter(value => value !== type) : [...current.mutedTypes, type] }))} /></Suspense>}
   </NotificationContext.Provider>;
 }
 

@@ -4,7 +4,7 @@ import { Button } from '../../components/ui/button';
 import { Dialog } from '../../components/ui/dialog';
 import { Feedback } from '../../components/ui/feedback';
 import { useNotifications } from '../../components/notifications/NotificationProvider';
-import { Asset, BudgetIndicator, SidebarContent } from './OneChatPage';
+import { Asset, BudgetIndicator, SidebarContent } from './ChatShell';
 import { assets } from './assets';
 import { agentAssets, chatStarters, type ChatAgent } from './agent-data';
 import { AgentAvatar } from './AgentNavigation';

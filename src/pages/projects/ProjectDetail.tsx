@@ -3,7 +3,7 @@ import { Check } from '../../components/ui/solar-icons';
 import { Button } from '../../components/ui/button';
 import { Dialog } from '../../components/ui/dialog';
 import { Feedback } from '../../components/ui/feedback';
-import { Asset, BudgetIndicator } from '../onechat/OneChatPage';
+import { Asset, BudgetIndicator } from '../onechat/ChatShell';
 import { assets } from '../onechat/assets';
 import { projectArt } from './project-art';
 import { projectUrl, relativeTime, type Project, type ProjectArtifact, type ProjectConversation, type ProjectFile } from './project-data';

@@ -1,9 +1,5 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 /* Values below are the resolved values documented in design.md. */
-:global(:root) {
+:root {
   --color-white: #FFFFFF;
   --color-black: #1E2529;
   --color-surface-subtle: #F9FAFB;

@@ -4,7 +4,7 @@ import { Button } from '../../components/ui/button';
 import { Dialog } from '../../components/ui/dialog';
 import { Feedback } from '../../components/ui/feedback';
 import { useNotifications } from '../../components/notifications/NotificationProvider';
-import { SidebarContent } from '../onechat/OneChatPage';
+import { SidebarContent } from '../onechat/ChatShell';
 import { useAgentNavigation } from '../onechat/AgentNavigationState';
 import type { ChatAgent } from '../onechat/agent-data';
 import type { Conversation } from '../onechat/data';

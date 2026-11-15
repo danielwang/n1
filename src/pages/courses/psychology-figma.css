@@ -27,8 +27,8 @@
 .psy-shell--figma .psy-content-panel:not(.psy-artifact)>.psy-panel-heading strong{font-size:14px}
 .psy-shell--figma .psy-file-tabs{min-height:42px;border-top:0}
 .psy-shell--figma .psy-file-tab{min-width:135px;max-width:235px}
-.psy-shell--figma .psy-file-tab>img{display:block;flex:none;width:12px;height:12px}
-.psy-shell--figma .psy-file-tab>button img{display:block;width:14px;height:14px}
+.psy-shell--figma .psy-file-tab-select>img{display:block;flex:none;width:12px;height:12px}
+.psy-shell--figma .psy-file-tab-close img{display:block;width:14px;height:14px}
 .psy-shell--figma .psy-artifact .psy-panel-heading{height:46px;min-height:46px;padding:0 12px;background:#fff;color:#161c24}
 .psy-shell--figma .psy-artifact .psy-panel-heading strong{font-size:14px}
 .psy-shell--figma .psy-artifact .psy-icon:hover{background:#ecf0f3}

@@ -3,8 +3,8 @@ import library from '../../assets/onechat/featured/library.png';
 import admissions from '../../assets/onechat/featured/admissions.svg';
 import academic from '../../assets/onechat/featured/academic.png';
 import campus from '../../assets/onechat/featured/campus.png';
-import admissionsBackground from '../../assets/onechat/featured/admissions-background.png';
-import advisorBackground from '../../assets/onechat/featured/advisor-background.png';
+import admissionsBackground from '../../assets/onechat/featured/admissions-background.jpg';
+import advisorBackground from '../../assets/onechat/featured/advisor-background.jpg';
 
 export interface FeaturedAgent {
   id: string;
