@@ -22,6 +22,7 @@ export interface Artifact {
 
 // Titles, summaries, dates and resolved icon overrides are from Figma 20427:47955.
 export const artifacts: Artifact[] = [
+  { id: 'interactive-demo', title: 'Interactive Artifact Demo', type: 'Code', icon: code, updated: 'Mar 29, 11:33 AM', categories: ['Code', 'HTML'], description: 'A single-page website maintenance notice with a live preview and downloadable HTML.' },
   { id: 'ai-trends', title: 'AI Trends Shaping 2025', type: 'Markdown', icon: markdown, updated: 'Dec 12, 6:30 PM', categories: [], description: 'A concise overview of AI trends, adoption drivers, and the likely impact on work, products, and society.' },
   { id: 'blockchain', title: 'Blockchain Beyond Digital Currency', type: 'Deep Research', icon: research, updated: 'Nov 2, 4:44 PM', categories: ['Deep Research'], description: 'Explore how blockchain is reshaping supply chains, identity, healthcare, and finance beyond digital currency.' },
   { id: 'energy', title: 'Sustainable Energy Solutions', type: 'HTML / Javascript', icon: code, updated: 'Jan 1, 1:00 AM', categories: ['HTML', 'Code'], description: 'A practical overview of clean energy systems, storage, and the technologies driving the transition.' },
@@ -35,4 +36,4 @@ export const artifacts: Artifact[] = [
 ];
 
 // The reference supplies a count, but no shared-tab content. Reuse two sample records.
-export const sharedArtifacts: Artifact[] = [artifacts[1], artifacts[2]];
+export const sharedArtifacts: Artifact[] = [artifacts[2], artifacts[3]];

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react';
-import { ArrowUp, Check, LoaderCircle, Menu, Bell, X } from '../../components/ui/solar-icons';
+import { Check, Menu, Bell, X } from '../../components/ui/solar-icons';
 import { Button } from '../../components/ui/button';
 import { Dialog } from '../../components/ui/dialog';
 import { Feedback } from '../../components/ui/feedback';
@@ -14,6 +14,7 @@ import './account-panel.css';
 import { FeaturedAgents } from './FeaturedAgents';
 import type { FeaturedAgent } from './featured-agent-data';
 import { AgentNavigation } from './AgentNavigation';
+import { ChatComposer } from './ChatComposer';
 import { useAgentNavigation } from './AgentNavigationState';
 import type { ChatAgent } from './agent-data';
 
@@ -267,23 +268,16 @@ export function OneChatPage() {
       <div className="oc-welcome">
         <h1>Good morning, <span>Daniel</span>!</h1>
         <div className="oc-composer-area">
-          <form className={`oc-composer ${error ? 'oc-composer-error' : ''}`} onSubmit={submit} aria-label="Chat prompt" aria-busy={submitting}>
-            <input ref={fileRef} type="file" hidden onChange={event => {
+          <input ref={fileRef} type="file" hidden onChange={event => {
               const file = event.target.files?.[0]; event.target.value = '';
               if (!file) return;
               if (file.size > 10 * 1024 * 1024) { setStatus(''); setError('Choose an attachment smaller than 10 MB.'); return; }
               setError(''); setAttachment(file); setStatus('Attachment selected locally. It will not be uploaded.');
             }} />
-            <Button size="icon" className="oc-attach" aria-label="Attach a file" title="Attach a file" onClick={() => fileRef.current?.click()}><Asset src={assets.plus} /></Button>
-            <textarea ref={inputRef} aria-label="Message" placeholder="Let’s discover what only you could ask" rows={1} maxLength={4000} value={prompt} aria-invalid={Boolean(error)} aria-describedby={error ? 'oc-prompt-error' : undefined}
-              onChange={event => { setPrompt(event.target.value.slice(0, 4000)); setError(''); }}
-              onKeyDown={event => { if (event.key === 'Enter' && !event.shiftKey && !event.nativeEvent.isComposing) { event.preventDefault(); event.currentTarget.form?.requestSubmit(); } }} />
-            <div className="oc-composer-actions">
-              <Button size="icon" aria-label="Dictate a message" title="Dictate a message" onClick={() => setInfo({ title: 'Dictation', message: 'Dictation is shown in the design but is not connected in this prototype. Your microphone has not been accessed.' })}><span className="oc-mic"><Asset src={assets.microphone} /></span></Button>
-              {prompt.length > 0 ? <Button variant="default" size="icon" className="oc-send" type="submit" disabled={submitting} aria-label={submitting ? 'Sending message' : 'Send message'}>{submitting ? <LoaderCircle className="oc-loading" size={20} /> : <ArrowUp size={20} />}</Button> :
-                <Button size="icon" className="oc-voice" aria-label="Start voice chat" title="Start voice chat" onClick={() => setInfo({ title: 'Voice chat', message: 'Voice chat is shown in the design but is not connected in this prototype. Your microphone has not been accessed.' })}><Asset src={assets.voiceBackground} /><Asset src={assets.soundwave} /></Button>}
-            </div>
-          </form>
+          <ChatComposer value={prompt} onChange={value => { setPrompt(value.slice(0, 4000)); setError(''); }} onSubmit={submit} inputRef={inputRef} placeholder="Let’s discover what only you could ask" error={error} errorId="oc-prompt-error" busy={submitting}
+            onAttach={() => fileRef.current?.click()}
+            onDictate={() => setInfo({ title: 'Dictation', message: 'Dictation is shown in the design but is not connected in this prototype. Your microphone has not been accessed.' })}
+            onVoice={() => setInfo({ title: 'Voice chat', message: 'Voice chat is shown in the design but is not connected in this prototype. Your microphone has not been accessed.' })} />
           {attachment && <div className="oc-attachment"><span>{attachment.name}</span><Button size="icon" aria-label="Remove attachment" onClick={() => setAttachment(null)}><X size={16} /></Button></div>}
           <div className="oc-feedback-area">
             <Feedback id="oc-prompt-error" message={error} tone="error" />

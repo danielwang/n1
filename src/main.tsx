@@ -6,6 +6,7 @@ import { OneChatPage } from './pages/onechat/OneChatPage';
 import { AgentChatPage } from './pages/onechat/AgentChatPage';
 import { AgentDirectoryPage } from './pages/onechat/AgentDirectoryPage';
 import { ArtifactsPage } from './pages/onechat/ArtifactsPage';
+import { ArtifactOpenPage } from './pages/onechat/ArtifactOpenPage';
 import { ProjectsPage } from './pages/projects/ProjectsPage';
 import { CoursesPage } from './pages/courses/CoursesPage';
 import { CourseDetail } from './pages/courses/CourseWorkspace';
@@ -59,6 +60,7 @@ function Root() {
     return <ProjectsPage projectId={projectId} />;
   }
   if (hash === '#/onechat/artifacts' || hash === '#/onechat/artifacts/') return <ArtifactsPage />;
+  if (hash === '#/onechat/artifacts/interactive-demo') return <ArtifactOpenPage />;
   if (hash === '#/onechat/agents' || hash === '#/onechat/agents/') return <AgentDirectoryPage />;
   if (hash === '#/release-notes') return <ReleaseNotesPage />;
   if (hash === '#/onechat/agent' || hash === '#/onechat/agent/') return <AgentChatPage />;

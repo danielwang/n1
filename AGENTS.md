@@ -22,7 +22,7 @@ The assumed product journey is: capture an idea, review its audience and validat
 
 - Use Vite, React, and TypeScript.
 - Use shadcn/ui as the primary component system when adding or extending UI. Customize components to follow `design.md`.
-- Use Tailwind CSS and Lucide icons where appropriate.
+- Use Tailwind CSS where appropriate.
 - Keep dependencies minimal; do not add a library when an existing primitive or small reusable component is sufficient.
 - Prefer reusable, typed, maintainable components and realistic interface copy.
 
