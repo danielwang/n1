@@ -1,0 +1,56 @@
+.management-page { --oc-selection: rgb(255 255 255 / 20%); min-height: 100dvh; height: 100dvh; }
+.management-page .oc-nav-intro { min-height: 0; flex: 1; overflow-y: auto; scrollbar-width: thin; }
+.management-page .oc-logo { margin-bottom: 16px; }
+.mg-nav { display: flex; flex-direction: column; gap: 12px; }
+.mg-nav-group { display: flex; flex-direction: column; gap: 4px; }
+.mg-nav-group h2 { margin: 0; padding: 0 12px 4px; color: #919eab; font-size: 12px; line-height: 18px; font-weight: 700; text-transform: uppercase; }
+.mg-nav-item { flex-shrink: 0; }
+.mg-nav-item > .oc-asset:first-child { width: 24px; height: 24px; object-fit: contain; }
+.mg-nav-item > .oc-asset.mg-foundry { width: 22px; height: 22px; margin: 1px; }
+.mg-nav-item > span { min-width: 0; flex: 1; text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mg-nav-item[aria-current="page"] { background: var(--oc-selection); font-weight: 600; }
+.mg-chevron { width: 16px; height: 16px; object-fit: contain; }
+.mg-count { margin-left: auto; min-width: 24px; height: 24px; padding: 1px 5px; border-radius: 6px; background: #e88310; color: #212b36; font-size: 14px; line-height: 22px; text-align: center; }
+.management-page.oc-is-collapsed .mg-nav-group h2, .management-page.oc-is-collapsed .mg-nav-item .mg-count, .management-page.oc-is-collapsed .mg-nav-item .mg-chevron { display: none; }
+.management-page.oc-is-collapsed .mg-nav { gap: 16px; }
+.management-page.oc-is-collapsed .mg-nav-item { width: 48px; justify-content: center; margin-inline: auto; padding: 0; }
+.mg-main { grid-column: 2; min-width: 0; overflow-y: auto; outline: 0; background: #f9fafb; }
+.mg-dashboard { width: min(1054px, calc(100% - 64px)); margin: 34px auto 56px; }
+.mg-tabs { display: flex; gap: 2px; width: fit-content; max-width: 100%; margin: 0 auto 24px; padding: 4px; border: 1px solid #c4cdd5; border-radius: 8px; background: #fff; overflow-x: auto; }
+.mg-tabs .ui-button { min-height: 34px; height: 34px; padding: 0 12px; color: #454f5b; white-space: nowrap; font-size: 12px; font-weight: 400; }
+.mg-tabs [aria-selected="true"] { background: #dfe2e8; color: #161c24; font-weight: 600; }
+.mg-card { margin-bottom: 24px; padding: 24px; border: 1px solid #c4cdd5; border-radius: 12px; background: #fff; }
+.mg-card h1, .mg-card h2, .mg-card h3 { margin: 0; color: #212b36; }
+.mg-card h1, .mg-card h2 { font-size: 20px; line-height: 30px; font-weight: 700; }
+.mg-card-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+.mg-card-heading .ui-button { width: 32px; min-height: 32px; height: 32px; margin: -4px -8px 0 0; padding: 0; }
+.mg-insight-columns { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; margin-top: 24px; }
+.mg-insight-columns h2 { font-size: 14px; line-height: 21px; }
+.mg-insight-columns ul { margin: 12px 0 0; padding-left: 28px; }
+.mg-insight-columns li { margin-top: 6px; }
+.mg-subtitle { margin: 0; color: #637381; font-size: 14px; line-height: 22px; }
+.mg-metrics { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; margin-top: 24px; }
+.mg-metric { display: flex; flex-direction: column; min-height: 162px; padding: 16px; border: 1px solid #dfe2e8; border-radius: 12px; }
+.mg-metric h3 { font-size: 14px; line-height: 22px; font-weight: 600; }
+.mg-metric > span { margin-top: 16px; font-size: 14px; }
+.mg-trend-up { color: #0f913b; }
+.mg-trend-down { color: #b4232e; }
+.mg-metric strong { margin-top: auto; font-size: 32px; line-height: 40px; color: #212b36; }
+.mg-chart-placeholder { display: grid; place-items: center; height: 290px; margin-top: 24px; border: 1px dashed #c4cdd5; border-radius: 8px; color: #637381; background: #f9fafb; }
+.mg-empty-panel { min-height: 280px; }
+.mg-empty-panel p { max-width: 560px; color: #637381; }
+.mg-mobile-toolbar { display: none; }
+@media (max-width: 1023px) {
+  .mg-mobile-toolbar { display: flex; align-items: center; justify-content: space-between; padding: 12px 24px; background: #fff; border-bottom: 1px solid #dfe2e8; }
+  .mg-navigation-dialog .oc-nav-intro { max-height: none; flex: 1; margin-bottom: 0; }
+  .mg-navigation-dialog .mg-nav { overflow-y: auto; }
+}
+@media (max-width: 767px) {
+  .mg-mobile-toolbar { padding: 8px 16px; }
+  .mg-dashboard { width: calc(100% - 32px); margin-top: 24px; }
+  .mg-tabs { width: 100%; justify-content: flex-start; }
+  .mg-card { padding: 16px; }
+  .mg-insight-columns { grid-template-columns: 1fr; gap: 16px; }
+  .mg-metrics { grid-template-columns: 1fr; gap: 12px; }
+  .mg-metric { min-height: 140px; }
+}

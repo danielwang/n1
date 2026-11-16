@@ -5,6 +5,7 @@ import { assets } from './assets';
 import accountPanelTail from '../../assets/onechat/account-panel/bottom-left.svg';
 import accountPanelRed from '../../assets/onechat/account-panel/red-blur.svg';
 import accountPanelCyan from '../../assets/onechat/account-panel/cyan-blur.svg';
+import { managementItems, managementChevron } from '../management/data';
 import { conversations, type Conversation } from './data';
 import { AgentNavigation } from './AgentNavigation';
 import type { ChatAgent } from './agent-data';
@@ -55,16 +56,17 @@ interface SidebarProps {
   notificationsOpen: boolean;
   onSelectAgent: (agent: ChatAgent) => void;
   defaultMode?: SidebarMode;
+  management?: boolean;
 }
 
-export function SidebarContent({ onNewChat, onSelect, onInfo, onClose, selectedId, mobile, collapsed, onNotifications, unreadCount, notificationsOpen, onSelectAgent, defaultMode = 'chats' }: SidebarProps) {
+export function SidebarContent({ onNewChat, onSelect, onInfo, onClose, selectedId, mobile, collapsed, onNotifications, unreadCount, notificationsOpen, onSelectAgent, defaultMode = 'chats', management = false }: SidebarProps) {
   const [mode, setMode] = useState<SidebarMode>(defaultMode);
   const [archived, setArchived] = useState(false);
   const [currentPath, setCurrentPath] = useState(() => window.location.hash);
   const [searchOpen, setSearchOpen] = useState(false);
   const [query, setQuery] = useState('');
   const [accountOpen, setAccountOpen] = useState(false);
-  const [accountArea, setAccountArea] = useState<'chats' | 'management'>('chats');
+  const accountArea = management ? 'management' : 'chats';
   const accountRef = useRef<HTMLElement>(null);
   const accountButtonRef = useRef<HTMLButtonElement>(null);
   const accountFirstActionRef = useRef<HTMLButtonElement>(null);
@@ -105,9 +107,14 @@ export function SidebarContent({ onNewChat, onSelect, onInfo, onClose, selectedI
     </Button>
     <div className="oc-nav-intro">
     <div className="oc-logo"><img src={assets.logo} alt="Aqua University" width="205.248" height="78.815" /></div>
-    <PrimaryNavigation currentPath={currentPath} mobile={mobile} onClose={onClose} onNewChat={onNewChat} />
+    {management ? <nav className="mg-nav" aria-label="Management navigation">
+      {(['agents', 'admin'] as const).map(group => <div key={group} className="mg-nav-group">
+        <h2>{group === 'agents' ? 'Managing Agents' : 'Admin'}</h2>
+        {managementItems.filter(item => item.group === group).map(item => <Button key={item.id} className="oc-nav-item mg-nav-item" title={item.label} aria-current={currentPath === `#/onechat/management/${item.id}` || (item.id === 'dashboard' && currentPath === '#/onechat/management') ? 'page' : undefined} onClick={() => { window.location.hash = `/onechat/management/${item.id}`; if (mobile) onClose(); }}><Asset src={item.icon} className={item.id === 'foundry-models' ? 'mg-foundry' : ''} /><span>{item.label}</span>{item.id === 'moderation' && <b className="mg-count" aria-label="12 pending">12</b>}{'hasChildren' in item && item.hasChildren && <Asset src={managementChevron} className="mg-chevron" />}</Button>)}
+      </div>)}
+    </nav> : <PrimaryNavigation currentPath={currentPath} mobile={mobile} onClose={onClose} onNewChat={onNewChat} />}
     </div>
-    <div className="oc-mode-tabs" data-mode={mode} role="tablist" aria-label="Sidebar content" onKeyDown={event => {
+    {!management && <div className="oc-mode-tabs" data-mode={mode} role="tablist" aria-label="Sidebar content" onKeyDown={event => {
       if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
       event.preventDefault();
       const nextMode = event.key === 'Home' ? 'chats' : event.key === 'End' ? 'agents' : mode === 'chats' ? 'agents' : 'chats';
@@ -116,8 +123,8 @@ export function SidebarContent({ onNewChat, onSelect, onInfo, onClose, selectedI
     }}>
       <Button id={`oc-chats-${mobile ? 'mobile' : 'desktop'}`} role="tab" tabIndex={mode === 'chats' ? 0 : -1} aria-selected={mode === 'chats'} aria-controls={`oc-panel-${mobile ? 'mobile' : 'desktop'}`} onClick={() => setMode('chats')}><ChatsIcon />Chats</Button>
       <Button id={`oc-agents-${mobile ? 'mobile' : 'desktop'}`} role="tab" tabIndex={mode === 'agents' ? 0 : -1} aria-selected={mode === 'agents'} aria-controls={`oc-panel-${mobile ? 'mobile' : 'desktop'}`} onClick={() => setMode('agents')}><Asset src={assets.bot} />Agents</Button>
-    </div>
-    <section className={`oc-history ${mode === 'agents' ? 'oc-history--agents' : ''}`} id={`oc-panel-${mobile ? 'mobile' : 'desktop'}`} role="tabpanel" aria-labelledby={`oc-${mode}-${mobile ? 'mobile' : 'desktop'}`}>
+    </div>}
+    {!management && <section className={`oc-history ${mode === 'agents' ? 'oc-history--agents' : ''}`} id={`oc-panel-${mobile ? 'mobile' : 'desktop'}`} role="tabpanel" aria-labelledby={`oc-${mode}-${mobile ? 'mobile' : 'desktop'}`}>
       <div className="oc-history-body">
         {mode === 'chats' ? <>
           <div className="oc-history-search">
@@ -140,7 +147,7 @@ export function SidebarContent({ onNewChat, onSelect, onInfo, onClose, selectedI
         <Button aria-pressed={!archived} onClick={() => setArchived(false)}>{!archived && <Asset src={assets.historyTab} />}<span>History</span></Button>
         <Button aria-pressed={archived} onClick={() => setArchived(true)}>{archived && <Asset src={assets.historyTab} />}<span>Archived</span></Button>
       </div>}
-    </section>
+    </section>}
     <footer className="oc-account" ref={accountRef}>
       {accountOpen && <div className="oc-user-panel" id={`oc-user-panel-${mobile ? 'mobile' : 'desktop'}`} role="group" aria-label="User account" data-node-id="27275:13389">
         <div className="oc-user-panel-paper" aria-hidden="true">
@@ -152,8 +159,8 @@ export function SidebarContent({ onNewChat, onSelect, onInfo, onClose, selectedI
         <div className="oc-user-panel-content">
           <div className="oc-user-panel-identity"><span>Daniel Wang</span><span>dwang@gocloudforce.com</span></div>
           <div className="oc-user-panel-switch" role="group" aria-label="Account area">
-            <Button ref={accountFirstActionRef} aria-pressed={accountArea === 'chats'} onClick={() => setAccountArea('chats')}>Chats</Button>
-            <Button aria-pressed={accountArea === 'management'} onClick={() => setAccountArea('management')}>Management</Button>
+            <Button ref={accountFirstActionRef} aria-pressed={accountArea === 'chats'} onClick={() => { setAccountOpen(false); window.location.hash = '/onechat'; }}>Chats</Button>
+            <Button aria-pressed={accountArea === 'management'} onClick={() => { setAccountOpen(false); window.location.hash = '/onechat/management/dashboard'; }}>Management</Button>
           </div>
           <div className="oc-user-panel-actions">
             <Button onClick={() => openAccountAction('Settings')}>Settings</Button>
