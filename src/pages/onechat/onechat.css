@@ -2,7 +2,6 @@
 .onechat {
   --oc-nav: #16213e;
   --oc-accent: #efc07b;
-  --oc-accent-text: #93631f;
   --oc-surface: #fff;
   --oc-background: #f9fafb;
   --oc-text: #161c24;
@@ -106,12 +105,34 @@
 .onechat.oc-is-collapsed .nf-toolbar-trigger.nf-collapsed-trigger { display: none; }
 .oc-welcome { position: absolute; top: 37.3767%; left: 50%; transform: translateX(-50%); width: min(850px, calc(100% - 64px)); margin-left: 3px; }
 .oc-welcome h1 { margin: 0 0 33px; position: relative; left: 12px; text-align: center; font-size: 32px; line-height: 48px; font-weight: 300; color: #000; }
-.oc-welcome h1 > span { font-weight: 600; color: var(--oc-accent-text); }
+.oc-welcome h1 > span { font-weight: 600; color: var(--oc-accent); }
 .oc-composer-area { position: relative; }
 .oc-composer { display: flex; align-items: center; width: 100%; min-height: 52px; padding: 3px 11px 3px 9px; border: 1px solid var(--oc-border); border-radius: 8px; background: var(--oc-surface); }
 .oc-composer:focus-within { border-color: var(--oc-muted); }
 .oc-composer > textarea { flex: 1; min-width: 0; max-height: 140px; height: 28px; resize: none; padding: 3px 6px; border: 0; background: transparent; color: var(--oc-text); line-height: 22px; outline-offset: 0; field-sizing: content; }
 .oc-composer > textarea::placeholder { color: var(--oc-muted); opacity: 1; }
+.oc-composer--rotating { position: relative; }
+.oc-composer--rotating:not(:focus-within) > textarea::placeholder { color: transparent; }
+.oc-rotating-placeholder { position: absolute; top: 15px; left: 60px; right: 100px; height: 22px; overflow: hidden; color: var(--oc-muted); font-size: 14px; line-height: 22px; pointer-events: none; }
+.oc-rotating-placeholder-track { display: block; animation: oc-placeholder-rotate 12s cubic-bezier(0.77, 0, 0.175, 1) infinite; }
+.oc-rotating-placeholder-line { display: flex; align-items: center; gap: 6px; height: 22px; white-space: nowrap; }
+.oc-rotating-placeholder-line > span:last-child { overflow: hidden; text-overflow: ellipsis; }
+.oc-composer--rotating:focus-within .oc-rotating-placeholder { display: none; }
+.oc-phi-icon { position: relative; display: inline-block; flex: 0 0 20px; width: 20px; height: 20px; opacity: .5; }
+.oc-phi-icon img { position: absolute; display: block; max-width: none; }
+.oc-phi-shield { top: -1px; left: 0; }
+.oc-phi-h { top: 5px; left: 6px; }
+.oc-phi-line { top: 9px; left: -5px; transform: rotate(45deg); }
+@keyframes oc-placeholder-rotate {
+  0%, 18% { transform: translateY(0); }
+  25%, 43% { transform: translateY(-25%); }
+  50%, 68% { transform: translateY(-50%); }
+  75%, 99.9% { transform: translateY(-75%); }
+  100% { transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .oc-rotating-placeholder-track { animation: none; }
+}
 .oc-attach { margin-right: 0; }
 .oc-composer-actions { display: flex; align-items: center; gap: 0; margin-left: 4px; }
 .oc-composer-actions .oc-mic { width: 24px; height: 24px; transform: scale(.75); }
@@ -210,6 +231,7 @@
   .oc-welcome h1 { font-size: clamp(24px, 6.4vw, 32px); line-height: 40px; margin-bottom: 24px; }
   .oc-composer { padding: 3px; }
   .oc-composer > textarea { font-size: 16px; min-height: 44px; height: 66px; padding: 11px 4px; }
+  .oc-rotating-placeholder { left: 52px; right: 92px; font-size: 16px; }
   .oc-composer-actions { margin-left: 0; }
   .oc-composer-actions > button { width: 44px; }
   .oc-composer-actions .oc-send { width: 36px; }
