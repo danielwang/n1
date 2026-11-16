@@ -1,0 +1,6 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="33" height="20" viewBox="0 0 33 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="switch">
+<rect width="33" height="20" rx="10" fill="#919EAB" fill-opacity="0.48"/>
+<circle id="thumb" cx="10" cy="10" r="7" fill="white"/>
+</g>
+</svg>

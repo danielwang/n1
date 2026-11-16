@@ -6,6 +6,7 @@ import { useNotifications } from '../../components/notifications/NotificationPro
 import { useAgentNavigation } from '../onechat/AgentNavigationState';
 import { SidebarContent, type Info } from '../onechat/ChatShell';
 import { managementItems } from './data';
+import { InstanceSettingsPage } from './InstanceSettingsPage';
 import './management.css';
 
 const tabs = ['Overview', 'User Insights', 'Conversations Analytics', 'Tokens Consumption'] as const;
@@ -87,7 +88,7 @@ export function ManagementPage() {
             </> : <section className="mg-card mg-empty-panel"><h1>{tab}</h1><p>This analytics view is a placeholder in the local prototype. No live reporting service is connected.</p></section>}
           </div>
         </div>
-      </> : <div className="mg-dashboard"><section className="mg-card mg-empty-panel"><h1>{title}</h1><p>This management section is a placeholder in the local prototype. No changes are made to a live service.</p><Button variant="outline" onClick={() => { window.location.hash = '/onechat/management/dashboard'; }}>Back to dashboard</Button></section></div>}
+      </> : section === 'instance-settings' ? <InstanceSettingsPage /> : <div className="mg-dashboard"><section className="mg-card mg-empty-panel"><h1>{title}</h1><p>This management section is a placeholder in the local prototype. No changes are made to a live service.</p><Button variant="outline" onClick={() => { window.location.hash = '/onechat/management/dashboard'; }}>Back to dashboard</Button></section></div>}
     </main>
     {mobileOpen && <Dialog title="Management navigation" hideHeading className="oc-navigation-dialog mg-navigation-dialog" onClose={() => setMobileOpen(false)}>{close => <div className="oc-sidebar-content"><SidebarContent {...sidebarProps} mobile onClose={close} /></div>}</Dialog>}
     {info && <Dialog title={info.title} onClose={() => setInfo(null)}><p>{info.message}</p></Dialog>}
