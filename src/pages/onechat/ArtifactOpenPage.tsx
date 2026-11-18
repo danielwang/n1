@@ -77,7 +77,7 @@ export function ArtifactOpenPage() {
   const panel = useRef<HTMLElement>(null);
   const workspace = useRef<HTMLElement>(null);
   const resizeStart = useRef<{ x: number; width: number } | null>(null);
-  const maxChatWidth = workspaceWidth ? Math.max(320, Math.min(640, workspaceWidth - 360)) : 640;
+  const maxChatWidth = workspaceWidth ? Math.max(320, Math.min(640, workspaceWidth - 363)) : 640;
   const displayedChatWidth = Math.max(320, Math.min(chatWidth, maxChatWidth));
 
   useEffect(() => {
@@ -116,6 +116,7 @@ export function ArtifactOpenPage() {
     if (!resizeStart.current) return;
     resizeStart.current = null;
     if (event.currentTarget.hasPointerCapture(event.pointerId)) event.currentTarget.releasePointerCapture(event.pointerId);
+    event.currentTarget.classList.remove('ao-divider--dragging');
     document.body.style.cursor = '';
   };
   const resizeWithKeyboard = (event: ReactKeyboardEvent<HTMLDivElement>) => {
@@ -150,7 +151,7 @@ export function ArtifactOpenPage() {
         </div>
         <div className="ao-compose-wrap"><ChatComposer className="ao-composer" value={message} onChange={value => { setMessage(value); setError(''); }} onSubmit={submit} inputRef={input} placeholder="Type a message" error={error} errorId="ao-prompt-error" emptyAction="send" sendIcon={<img src={sendArrow} alt="" />} onAttach={() => setInfo({ title: 'Attachments', message: 'File upload is not connected in this artifact demo.' })} onDictate={() => setInfo({ title: 'Dictation', message: 'Dictation is simulated in this local prototype. No microphone is accessed.' })} /><Feedback id="ao-prompt-error" message={error} tone="error" /><p className="ao-disclaimer">GPT 5.1 can make mistakes. Consider checking important information.</p></div>
       </section>
-      <div className="ao-divider" role="separator" tabIndex={0} aria-orientation="vertical" aria-label="Resize chat and artifact panels" aria-valuemin={320} aria-valuemax={maxChatWidth} aria-valuenow={Math.round(displayedChatWidth)} onPointerDown={event => { event.preventDefault(); resizeStart.current = { x: event.clientX, width: displayedChatWidth }; event.currentTarget.setPointerCapture(event.pointerId); document.body.style.cursor = 'col-resize'; }} onPointerMove={event => { if (!resizeStart.current) return; setChatWidth(Math.max(320, Math.min(maxChatWidth, resizeStart.current.width + event.clientX - resizeStart.current.x))); }} onPointerUp={stopResize} onPointerCancel={stopResize} onKeyDown={resizeWithKeyboard}><span aria-hidden="true" /></div>
+      <div className="ao-divider" role="separator" tabIndex={0} aria-orientation="vertical" aria-label="Resize chat and artifact panels" aria-valuemin={320} aria-valuemax={maxChatWidth} aria-valuenow={Math.round(displayedChatWidth)} onPointerDown={event => { event.preventDefault(); resizeStart.current = { x: event.clientX, width: displayedChatWidth }; event.currentTarget.classList.add('ao-divider--dragging'); event.currentTarget.setPointerCapture(event.pointerId); document.body.style.cursor = 'col-resize'; }} onPointerMove={event => { if (!resizeStart.current) return; setChatWidth(Math.max(320, Math.min(maxChatWidth, resizeStart.current.width + event.clientX - resizeStart.current.x))); }} onPointerUp={stopResize} onPointerCancel={stopResize} onKeyDown={resizeWithKeyboard}><span aria-hidden="true" /></div>
       <section className="ao-panel" aria-label="Interactive Artifact Demo" ref={panel} tabIndex={-1}>
         <header className="ao-panel-header"><div className="ao-title"><h1>Interactive Artifact Demo</h1><div className="ao-popup-anchor"><Button className="ao-version" aria-expanded={versionOpen} aria-label="Version 3" onClick={() => { setVersionOpen(value => !value); setMoreOpen(false); }}>V3 <img src={chevronDown} alt="" /></Button>{versionOpen && <div className="ao-popover" role="menu"><Button role="menuitem" onClick={() => setVersionOpen(false)}>Version 3 · Current</Button></div>}</div></div>
           <div className="ao-view-toggle" role="group" aria-label="Artifact view"><Button size="icon" aria-label="Code view" aria-pressed={view === 'code'} onClick={() => { setView('code'); setVersionOpen(false); setMoreOpen(false); }}><img src={codeView} alt="" /></Button><Button size="icon" aria-label="Preview" aria-pressed={view === 'preview'} onClick={() => { setView('preview'); setVersionOpen(false); setMoreOpen(false); }}><img src={previewView} alt="" /></Button></div>

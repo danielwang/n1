@@ -59,6 +59,8 @@ export function coursePanelControls({ open, widths, viewportBand, compactExplore
 
   const startResize = (left: Panel, right: Panel, event: PointerEvent<HTMLDivElement>) => {
     event.preventDefault();
+    const divider = event.currentTarget;
+    divider.classList.add('psy-divider--dragging');
     const start = event.clientX;
     const leftStart = widths[left];
     const rightStart = widths[right];
@@ -69,7 +71,7 @@ export function coursePanelControls({ open, widths, viewportBand, compactExplore
       const adjusted = Math.max(lower, Math.min(upper, delta));
       setWidths(value => ({ ...value, [left]: leftStart + adjusted, [right]: rightStart - adjusted }));
     };
-    const end = () => { window.removeEventListener('pointermove', move); window.removeEventListener('pointerup', end); window.removeEventListener('pointercancel', end); document.body.style.cursor = ''; };
+    const end = () => { window.removeEventListener('pointermove', move); window.removeEventListener('pointerup', end); window.removeEventListener('pointercancel', end); document.body.style.cursor = ''; divider.classList.remove('psy-divider--dragging'); };
     document.body.style.cursor = 'col-resize';
     window.addEventListener('pointermove', move);
     window.addEventListener('pointerup', end);

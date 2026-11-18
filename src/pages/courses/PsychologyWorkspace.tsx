@@ -305,7 +305,7 @@ export function PsychologyWorkspace() {
       </header>
       <ToggleButtonGroup
         className="psy-mobile-tabs"
-        style={{ '--psy-tab-offset': `${(widths.explorer + 8) / 2}px` } as CSSProperties}
+        style={{ '--psy-tab-offset': `${(widths.explorer + 3) / 2}px` } as CSSProperties}
         ariaLabel="Workspace panel"
         options={(viewportBand === 'medium' ? availableContent : viewportBand === 'small' ? panelOrder.filter(panel => panel !== 'material' || open.material) : panelOrder.filter(panel => panel === 'explorer' || open[panel])).map(panel => ({
           value: panel,

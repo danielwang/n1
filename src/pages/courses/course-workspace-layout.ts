@@ -33,7 +33,7 @@ export function courseWorkspaceLayout({ open, widths, expanded, viewportBand, na
     : panelOrder.filter(panel => panel === 'explorer' || (panel === 'chat' ? chatVisible : open[panel]));
   const notebookRailVisible = !open.artifact && !expanded && (viewportBand === 'wide' || viewportBand === 'compact');
   const canFitCompactExplorer = widths.explorer + layoutPanels.slice(1).reduce((total, panel) => total + minimumWidths[panel], 0)
-    + (notebookRailVisible ? 56 : 0) + (layoutPanels.length - 1 + (notebookRailVisible ? 1 : 0)) * 8
+    + (notebookRailVisible ? 56 : 0) + (layoutPanels.length - 1 + (notebookRailVisible ? 1 : 0)) * 3
     <= viewportWidth - (navCollapsed ? 80 : 280) - (viewportWidth < 1280 ? 48 : 64);
   const compactExplorerRail = viewportBand === 'compact' && (!open.explorer || !canFitCompactExplorer);
   const contentGridColumns = viewportBand === 'medium' && !expanded ? `${widths.explorer}px minmax(0, 1fr)`
