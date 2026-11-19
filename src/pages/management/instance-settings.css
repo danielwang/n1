@@ -4,13 +4,15 @@
 .mis-page-header p { margin: 0; font-size: 14px; line-height: 22px; }
 .mis-card { display: grid; grid-template-columns: 210px minmax(0, 1fr); min-height: 808px; border: 1px solid #dfe2e8; border-radius: 12px; background: #fff; overflow: hidden; }
 .mis-side-nav { display: flex; flex-direction: column; min-width: 0; padding: 24px; border-right: 1px solid #dfe2e8; }
-.mis-side-nav-items { display: flex; flex-direction: column; gap: 4px; }
-.mis-side-nav-item.ui-button { justify-content: flex-start; gap: 8px; width: 100%; min-height: 40px; height: 40px; padding: 0 8px; border-radius: 4px; font-weight: 400; white-space: nowrap; }
+.mis-side-nav-items { display: flex; flex-direction: column; gap: 24px; }
+.mis-side-nav-group, .mis-side-nav-group-items { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.mis-side-nav-heading { display: flex; align-items: center; min-height: 24px; margin: 0; padding: 0 8px; color: #919eab; font-size: 12px; line-height: 18px; font-weight: 700; text-transform: uppercase; }
+.mis-side-nav-item.ui-button { justify-content: flex-start; gap: 8px; width: 100%; min-height: 34px; height: 34px; padding: 6px 8px; border-radius: 8px; font-weight: 400; white-space: nowrap; }
 .mis-side-nav-item.ui-button[aria-current="page"] { background: #ecf0f3; font-weight: 600; }
 .mis-nav-icon, .mis-model-icon { display: grid; place-items: center; flex: 0 0 20px; width: 20px; height: 20px; }
 .mis-nav-icon img { display: block; max-width: none; }
 .mis-side-nav-item > span:last-child { overflow: hidden; text-overflow: ellipsis; }
-.mis-side-nav-brand { position: relative; margin-top: auto; padding-top: 8px; }
+.mis-side-nav-brand { position: relative; margin-top: 24px; padding-top: 16px; }
 .mis-side-nav-brand::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: url('../../assets/management/instance-settings/divider.svg') repeat-x; }
 .mis-nebula-icon { position: relative; display: block; flex: 0 0 20px; width: 20px; height: 20px; overflow: visible; }
 .mis-nebula-icon img:first-child { position: absolute; left: 0; top: 0; }
@@ -82,8 +84,9 @@
   .mis-page-header { min-height: 0; }
   .mis-card { display: flex; flex-direction: column; min-height: 0; }
   .mis-side-nav { padding: 8px 16px; border-right: 0; border-bottom: 1px solid #dfe2e8; }
-  .mis-side-nav-items { flex-direction: row; overflow-x: auto; gap: 4px; }
-  .mis-side-nav-item.ui-button { flex: 0 0 auto; width: auto; }
+  .mis-side-nav-items { gap: 16px; }
+  .mis-side-nav-group-items { flex-direction: row; overflow-x: auto; gap: 4px; }
+  .mis-side-nav-item.ui-button { flex: 0 0 auto; width: auto; min-height: 44px; height: 44px; }
   .mis-side-nav-brand { display: none; }
   .mis-content { min-height: 620px; padding: 16px; }
   .mis-tabs { gap: 24px; }

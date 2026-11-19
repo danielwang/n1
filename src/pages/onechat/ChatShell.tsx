@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { X } from '../../components/ui/solar-icons';
 import { Button } from '../../components/ui/button';
 import { assets } from './assets';
+import { useBranding } from '../../branding';
 import accountPanelTail from '../../assets/onechat/account-panel/bottom-left.svg';
 import accountPanelRed from '../../assets/onechat/account-panel/red-blur.svg';
 import accountPanelCyan from '../../assets/onechat/account-panel/cyan-blur.svg';
@@ -60,6 +61,7 @@ interface SidebarProps {
 }
 
 export function SidebarContent({ onNewChat, onSelect, onInfo, onClose, selectedId, mobile, collapsed, onNotifications, unreadCount, notificationsOpen, onSelectAgent, defaultMode = 'chats', management = false }: SidebarProps) {
+  const branding = useBranding();
   const [mode, setMode] = useState<SidebarMode>(defaultMode);
   const [archived, setArchived] = useState(false);
   const [currentPath, setCurrentPath] = useState(() => window.location.hash);
@@ -106,7 +108,7 @@ export function SidebarContent({ onNewChat, onSelect, onInfo, onClose, selectedI
       <span className="oc-collapse-disc"><Asset src={assets.collapse} /></span>
     </Button>
     <div className="oc-nav-intro">
-    <div className="oc-logo"><img src={assets.logo} alt="Aqua University" width="205.248" height="78.815" /></div>
+    <div className="oc-logo"><img className={branding.sidebarLogo ? 'oc-custom-logo' : undefined} src={branding.sidebarLogo?.dataUrl || assets.logo} alt="Aqua University" width="205.248" height="78.815" /></div>
     {management ? <nav className="mg-nav" aria-label="Management navigation">
       {(['agents', 'admin'] as const).map(group => <div key={group} className="mg-nav-group">
         <h2>{group === 'agents' ? 'Managing Agents' : 'Admin'}</h2>

@@ -1,6 +1,6 @@
 /* ONEchat adapts ONEdesign with the reference's Aqua University theme. */
 .onechat {
-  --oc-nav: #16213e;
+  --oc-nav: var(--brand-sidebar-color, #16213e);
   --oc-accent: #efc07b;
   --oc-surface: #fff;
   --oc-background: #f9fafb;
@@ -49,6 +49,8 @@
 .onechat.oc-is-collapsed .oc-account > .ui-button--size-icon { margin: 0; }
 .oc-logo { flex-shrink: 0; height: 98px; position: relative; margin-bottom: 16px; }
 .oc-logo > img { display: block; position: absolute; left: 21px; top: 10px; }
+.oc-logo > img.oc-custom-logo { width: 205px; height: 79px; object-fit: contain; object-position: left center; }
+.onechat.oc-is-collapsed .oc-logo > img.oc-custom-logo { width: 56px; height: 54px; left: 0; top: 0; transform: none; filter: none; object-fit: contain; object-position: center; }
 .oc-collapse { position: absolute; z-index: 3; top: 20px; right: -22px; border-radius: 50%; }
 .oc-collapse:hover { background: transparent; }
 .oc-collapse-disc { display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; color: #fff; background: var(--oc-nav, #16213e); border: 1.5px solid #ddd; border-radius: 50%; box-shadow: 0 24px 48px #919eab29; }
@@ -85,7 +87,7 @@
 .oc-history-tabs > button:hover { background-color: transparent; text-decoration: underline; }
 .oc-account { display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; height: 40px; }
 .oc-account-button { gap: 11px; padding: 0; font-size: 16px; font-weight: 400; }
-.oc-avatar { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 8px; color: #000; background: var(--oc-accent, #efc07b); font-size: 16px; font-weight: 600; }
+.oc-avatar { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 8px; color: #000; background: var(--brand-avatar-color, #efc07b); font-size: 16px; font-weight: 600; }
 .oc-account > .ui-button--size-icon { margin-right: -8px; }
 .oc-notification-count { position: absolute; top: 10px; right: 8px; display: grid; place-items: center; border-radius: 50%; width: 12px; height: 12px; background: #fff; color: #161c24; font-size: 10px; line-height: 10px; }
 .oc-main { position: relative; min-width: 0; grid-column: 2; outline: none; overflow: clip; }
@@ -164,7 +166,7 @@
 .oc-dialog-footer > a { color: #4759a7; text-underline-offset: 3px; }
 .oc-model-option { width: 100%; justify-content: flex-start; background: #f9fafb; margin-top: 12px; }
 .oc-model-option > svg { margin-left: auto; }
-.oc-navigation-dialog { --oc-nav: #16213e; --oc-accent: #efc07b; --oc-nav-muted: #b4bec9; --oc-selection: rgb(255 255 255 / 12%); position: fixed; inset: 0 auto 0 0; width: min(280px, calc(100vw - 48px)); height: 100dvh; max-height: 100dvh; max-width: none; margin: 0; padding: 0; border: 0; border-radius: 0; overflow: visible; background: #16213e; }
+.oc-navigation-dialog { --oc-nav: var(--brand-sidebar-color, #16213e); --oc-accent: #efc07b; --oc-nav-muted: #b4bec9; --oc-selection: rgb(255 255 255 / 12%); position: fixed; inset: 0 auto 0 0; width: min(280px, calc(100vw - 48px)); height: 100dvh; max-height: 100dvh; max-width: none; margin: 0; padding: 0; border: 0; border-radius: 0; overflow: visible; background: var(--oc-nav); }
 .oc-navigation-dialog > .oc-dialog-heading { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
 .oc-navigation-dialog .oc-sidebar-content { height: 100%; }
 .oc-navigation-dialog .oc-collapse { right: -22px; }

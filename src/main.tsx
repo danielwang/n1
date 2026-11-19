@@ -17,6 +17,7 @@ const ConnectingPage = lazy(() => import('./pages/login/ConnectingPage').then(mo
 const AccountPage = lazy(() => import('./pages/account/AccountPage').then(module => ({ default: module.AccountPage })));
 const ManagementPage = lazy(() => import('./pages/management/ManagementPage').then(module => ({ default: module.ManagementPage })));
 import { AgentNavigationProvider } from './pages/onechat/AgentNavigationState';
+import './branding';
 // Keep the existing stylesheet cascade stable while page JavaScript loads by route.
 import './components/notifications/notifications.css';
 import './pages/onechat/onechat.css';

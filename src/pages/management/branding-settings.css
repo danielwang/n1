@@ -1,0 +1,83 @@
+.mis-branding { width: 100%; min-width: 0; }
+.mis-branding-heading > span { display: block; margin-bottom: 4px; color: #637381; font-size: 12px; line-height: 18px; font-weight: 600; }
+.mis-branding-heading h2 { margin: 0 0 4px; font-size: 20px; line-height: 30px; }
+.mis-branding-heading p { margin: 0 0 24px; color: #637381; font-size: 14px; line-height: 22px; }
+.mis-branding-layout { display: grid; grid-template-columns: minmax(250px, 310px) minmax(0, 1fr); gap: 24px; align-items: start; }
+.mis-branding-form { min-width: 0; }
+.mis-branding-group { padding: 0 0 24px; margin-bottom: 24px; border-bottom: 1px solid #dfe2e8; }
+.mis-branding-group h3 { margin: 0 0 16px; font-size: 16px; line-height: 24px; }
+.mis-brand-field + .mis-brand-field { margin-top: 20px; }
+.mis-brand-field label { display: block; font-size: 14px; line-height: 22px; font-weight: 600; }
+.mis-brand-field > p:first-of-type { margin: 8px 0 0; color: #637381; font-size: 12px; line-height: 18px; }
+.mis-brand-field-heading { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 8px; }
+.mis-brand-field-heading .ui-button { min-height: 28px; height: 28px; padding: 0 4px; color: #454f5b; font-size: 12px; }
+.mis-brand-asset-tiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.mis-brand-current-tile, .mis-brand-add-tile { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; min-width: 0; height: 112px; overflow: hidden; border: 1px solid #c4cdd5; border-radius: 8px; background: #fff; }
+.mis-brand-current-tile { border-color: #637381; }
+.mis-brand-current-tile > img { display: block; width: 100%; height: 82px; padding: 8px; object-fit: contain; }
+.mis-brand-current-tile--loginBackground > img { padding: 0; object-fit: cover; }
+.mis-brand-current-tile--sidebarLogo { background: #16213e; }
+.mis-brand-current-tile--sidebarLogo > span:not(.mis-brand-selected-mark) { color: #fff; }
+.mis-brand-current-tile > span:not(.mis-brand-selected-mark) { display: block; width: 100%; height: 29px; padding: 4px 24px; overflow: hidden; border-top: 1px solid #dfe2e8; color: #454f5b; font-size: 12px; line-height: 20px; text-align: center; text-overflow: ellipsis; white-space: nowrap; }
+.mis-brand-current-tile .mis-brand-empty-icon { height: 82px !important; padding-top: 24px !important; border-top: 0 !important; font-size: 28px !important; }
+.mis-brand-selected-mark { position: absolute; right: 6px; bottom: 5px; display: grid; place-items: center; width: 18px; height: 18px; border-radius: 50%; background: #212b36; color: #fff; }
+.mis-brand-add-tile { gap: 4px; border-style: dashed; border-color: #c4cdd5; color: #454f5b; }
+.mis-brand-add-tile strong { font-size: 12px; line-height: 18px; font-weight: 600; }
+.mis-brand-add-tile:hover, .mis-brand-add-tile:focus-within { border-color: #637381; background: #f9fafb; }
+.mis-brand-add-tile:focus-within { outline: 2px solid #37c5f0; outline-offset: 2px; }
+.mis-brand-add-tile input[type=file] { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
+.mis-brand-file-name { display: block; margin-top: 6px; overflow-wrap: anywhere; color: #637381; font-size: 12px; line-height: 18px; }
+.mis-brand-error { margin: 6px 0 0 !important; color: #b4232e !important; font-size: 12px; line-height: 18px; }
+.mis-brand-field:has(input[aria-invalid=true]) .mis-brand-add-tile { border-color: #d82934; }
+.mis-brand-color-control { display: flex; align-items: center; gap: 8px; margin-top: 8px; }
+.mis-brand-color-control input[type=color] { width: 44px; height: 44px; flex: none; padding: 3px; border: 1px solid #c4cdd5; border-radius: 8px; background: #fff; cursor: pointer; }
+.mis-brand-color-control input[type=text], .mis-brand-field select { height: 44px; padding: 0 12px; border: 1px solid #c4cdd5; border-radius: 8px; background: #fff; color: #161c24; font: inherit; }
+.mis-brand-color-control input[type=text] { width: 120px; text-transform: uppercase; }
+.mis-brand-field select { width: 100%; margin-top: 8px; }
+.mis-brand-color-control input[aria-invalid=true] { border-color: #d82934; }
+.mis-brand-color-control input:focus-visible, .mis-brand-field select:focus-visible, .mis-brand-field input[type=range]:focus-visible { outline: 2px solid #37c5f0; outline-offset: 2px; }
+.mis-brand-range-heading { display: flex; justify-content: space-between; align-items: center; }
+.mis-brand-range-heading output { color: #454f5b; font-size: 12px; }
+.mis-brand-field input[type=range] { width: 100%; height: 28px; margin: 8px 0 0; accent-color: #212b36; cursor: pointer; }
+.mis-branding-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.mis-branding-actions .ui-button { min-height: 40px; padding-inline: 12px; }
+.mis-branding-status { margin: 10px 0 0; color: #454f5b; font-size: 12px; line-height: 18px; }
+.mis-branding-status[data-error=true] { color: #b4232e; }
+.mis-branding-status:empty { display: none; }
+.mis-branding-previews { position: sticky; top: 16px; display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+.mis-branding-preview-heading { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.mis-branding-preview-heading h3 { margin: 0; font-size: 16px; line-height: 24px; }
+.mis-branding-preview-heading span { color: #637381; font-size: 12px; line-height: 18px; }
+.mis-branding-preview-tabs { display: flex; gap: 4px; padding: 3px; border: 1px solid #dfe2e8; border-radius: 8px; background: #f9fafb; }
+.mis-branding-preview-tabs .ui-button { flex: 1 1 0; min-width: 0; min-height: 34px; height: 34px; padding: 0 5px; border-radius: 6px; color: #637381; font-size: 12px; }
+.mis-branding-preview-tabs .ui-button[aria-pressed=true] { background: #fff; color: #161c24; box-shadow: 0 1px 3px rgb(22 28 36 / 12%); }
+.mis-branding-preview-stage { min-width: 0; overflow: hidden; border: 1px solid #dfe2e8; border-radius: 12px; background: #f9fafb; }
+.mis-branding-browser-bar { display: flex; align-items: center; gap: 14px; height: 36px; padding: 0 10px; border-bottom: 1px solid #dfe2e8; background: #fff; }
+.mis-branding-browser-dots { display: flex; gap: 4px; }
+.mis-branding-browser-dots i { width: 7px; height: 7px; border-radius: 50%; background: #f38a7d; }
+.mis-branding-browser-dots i:nth-child(2) { background: #f8c46d; }
+.mis-branding-browser-dots i:nth-child(3) { background: #66de77; }
+.mis-branding-browser-tab { display: flex; align-items: center; gap: 6px; align-self: flex-end; min-width: 0; max-width: 180px; height: 27px; padding: 4px 10px; border: 1px solid #dfe2e8; border-bottom: 0; border-radius: 6px 6px 0 0; background: #f9fafb; color: #454f5b; font-size: 10px; }
+.mis-branding-browser-tab > img, .mis-branding-browser-tab > span:first-child { flex: none; width: 14px; height: 14px; object-fit: contain; }
+.mis-branding-browser-tab > span:last-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mis-branding-login-preview { display: flex; align-items: center; justify-content: flex-end; min-height: 390px; padding: 24px; background-color: #16213e; background-size: cover; }
+.mis-branding-login-preview > div { display: flex; flex-direction: column; align-items: center; gap: 18px; width: min(220px, 52%); padding: 30px 18px; border-radius: 10px; background: rgb(255 255 255 / 78%); text-align: center; backdrop-filter: blur(8px); }
+.mis-branding-login-preview img { display: block; width: 160px; max-width: 100%; height: 64px; object-fit: contain; }
+.mis-branding-login-preview span { color: #161c24; font-size: 12px; line-height: 18px; }
+.mis-branding-login-preview b { padding: 8px 10px; border-radius: 6px; background: #212b36; color: #fff; font-size: 10px; line-height: 16px; white-space: nowrap; }
+.mis-branding-navigation-stage { display: grid; grid-template-columns: minmax(150px, 45%) minmax(0, 1fr); min-height: 390px; }
+.mis-branding-sidebar-preview { display: flex; flex-direction: column; gap: 14px; min-width: 0; padding: 22px 16px; color: #fff; }
+.mis-branding-sidebar-preview > img { display: block; width: 160px; max-width: 100%; height: 64px; margin-bottom: 8px; object-fit: contain; object-position: left center; }
+.mis-branding-sidebar-preview > span { font-size: 12px; line-height: 18px; }
+.mis-branding-sidebar-preview > div { display: flex; align-items: center; gap: 8px; margin-top: auto; font-size: 12px; }
+.mis-branding-sidebar-preview > div > span { display: grid; place-items: center; flex: none; width: 30px; height: 30px; border-radius: 6px; color: #161c24; font-size: 11px; font-weight: 600; }
+.mis-branding-navigation-canvas { padding: 28px 18px; background: #f9fafb; }
+.mis-branding-navigation-canvas > span { font-size: 14px; font-weight: 600; }
+.mis-branding-navigation-canvas > div { width: 90%; height: 60px; margin-top: 30px; border: 1px solid #dfe2e8; border-radius: 8px; background: #fff; }
+.mis-branding-favicon-stage { min-height: 390px; padding: 110px 24px 24px; background: #ecf0f3; }
+.mis-branding-tab-preview { display: flex; align-items: center; gap: 8px; width: max-content; max-width: 100%; min-height: 38px; padding: 6px 12px; border: 1px solid #c4cdd5; border-bottom: 0; border-radius: 8px 8px 0 0; background: #fff; font-size: 12px; }
+.mis-branding-tab-preview img, .mis-branding-tab-preview > span:first-child { width: 18px; height: 18px; object-fit: contain; }
+.mis-branding-address-preview { padding: 10px 14px; border: 1px solid #c4cdd5; border-radius: 0 8px 8px 8px; background: #fff; color: #637381; font-size: 11px; }
+.mis-branding-favicon-stage p { margin: 20px 0 0; color: #454f5b; font-size: 12px; line-height: 18px; }
+@media (max-width: 1199px) { .mis-branding-layout { grid-template-columns: minmax(0, 1fr); } .mis-branding-previews { position: static; } }
+@media (max-width: 639px) { .mis-branding-login-preview, .mis-branding-navigation-stage, .mis-branding-favicon-stage { min-height: 300px; } .mis-branding-login-preview { padding: 16px; } .mis-branding-login-preview > div { width: min(200px, 62%); padding: 20px 12px; } .mis-branding-navigation-stage { grid-template-columns: minmax(150px, 55%) minmax(0, 1fr); } .mis-branding-navigation-canvas { padding: 20px 10px; } .mis-branding-favicon-stage { padding-top: 70px; } .mis-branding-actions .ui-button { flex: 1 1 auto; } }

@@ -6,21 +6,26 @@ import branding from '../../assets/management/instance-settings/branding.svg';
 import budget from '../../assets/management/instance-settings/budget.svg';
 import hipaa from '../../assets/management/instance-settings/hipaa.svg';
 import integration from '../../assets/management/instance-settings/integration.svg';
-import homepage from '../../assets/management/instance-settings/homepage.svg';
+import exploreAgents from '../../assets/management/instance-settings/explore-agents.svg';
 import moreSettings from '../../assets/management/instance-settings/more-settings.svg';
 
 export const instanceSettingsNav = [
   { id: 'onechat', label: 'ONEchat', icon: onechat },
   { id: 'agents', label: 'Agents', icon: agents },
   { id: 'models', label: 'Models', icon: null },
-  { id: 'agreements', label: 'Agreements', icon: agreements },
-  { id: 'announcements', label: 'Announcements', icon: announcements },
-  { id: 'branding', label: 'Branding', icon: branding },
-  { id: 'budget', label: 'Budget', icon: budget },
+  { id: 'explore-agents', label: 'Explore Agents', icon: exploreAgents },
   { id: 'hipaa', label: 'HIPAA', icon: hipaa },
   { id: 'integration', label: 'Integration', icon: integration },
-  { id: 'homepage', label: 'Homepage', icon: homepage },
+  { id: 'branding', label: 'Branding', icon: branding },
+  { id: 'agreements', label: 'Agreements', icon: agreements },
+  { id: 'announcements', label: 'Announcements', icon: announcements },
+  { id: 'budget', label: 'Budget', icon: budget },
   { id: 'more-settings', label: 'More Settings', icon: moreSettings },
+] as const;
+
+export const instanceSettingsNavGroups = [
+  { label: 'AI Experience', items: instanceSettingsNav.slice(0, 4) },
+  { label: 'Platform', items: instanceSettingsNav.slice(4) },
 ] as const;
 
 export type InstanceSettings = {

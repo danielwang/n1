@@ -43,7 +43,7 @@
 .nf-item.ui-button { display: flex; align-items: flex-start; justify-content: flex-start; width: 100%; min-height: 76px; gap: 12px; border: 0; border-radius: 12px; padding: 12px; text-align: left; white-space: normal; }
 .nf-item.ui-button:hover { background: var(--nf-subtle); }
 .nf-avatar { display: flex; align-items: center; justify-content: center; position: relative; width: 36px; height: 36px; flex-shrink: 0; border-radius: 8px; background: #ecf0f3; color: #4759a7; }
-.nf-avatar--person { background: #efc07b; color: #000; font-size: 16px; font-weight: 600; }
+.nf-avatar--person { background: var(--brand-avatar-color, #efc07b); color: #000; font-size: 16px; font-weight: 600; }
 .nf-avatar--model-fallback, .nf-avatar--api { background: transparent; }
 .nf-avatar--content-filter { background: #fff2df; color: #a74d08; }
 .nf-avatar--moderation { background: #efeaf8; color: #6b52a2; }

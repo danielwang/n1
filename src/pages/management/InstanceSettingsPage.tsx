@@ -1,6 +1,7 @@
 import { useRef, useState, type FormEvent } from 'react';
 import { Button } from '../../components/ui/button';
-import { instanceSettingsNav, defaultInstanceSettings, instanceSettingsStorageKey, loadInstanceSettings, type InstanceSettings } from './instance-settings-data';
+import { BrandingSettings } from './BrandingSettings';
+import { instanceSettingsNav, instanceSettingsNavGroups, defaultInstanceSettings, instanceSettingsStorageKey, loadInstanceSettings, type InstanceSettings } from './instance-settings-data';
 import nebula from '../../assets/management/instance-settings/nebula.svg';
 import nebulaDot from '../../assets/management/instance-settings/nebula-dot.svg';
 import modelCore from '../../assets/management/instance-settings/model-core.svg';
@@ -87,10 +88,13 @@ export function InstanceSettingsPage() {
     <div className="mis-card">
       <nav className="mis-side-nav" aria-label="Instance settings sections">
         <div className="mis-side-nav-items">
-          {instanceSettingsNav.map(item => <Button key={item.id} className="mis-side-nav-item" aria-current={section === item.id ? 'page' : undefined} onClick={() => { setSection(item.id); setStatus(''); }}>
+          {instanceSettingsNavGroups.map(group => <div className="mis-side-nav-group" key={group.label}>
+            <h2 className="mis-side-nav-heading">{group.label}</h2>
+            <div className="mis-side-nav-group-items">{group.items.map(item => <Button key={item.id} className="mis-side-nav-item" aria-current={section === item.id ? 'page' : undefined} onClick={() => { setSection(item.id); setStatus(''); }}>
             {item.id === 'models' ? <ModelIcon /> : <span className="mis-nav-icon"><img src={item.icon!} alt="" /></span>}
             <span>{item.label}</span>
-          </Button>)}
+            </Button>)}</div>
+          </div>)}
         </div>
         <div className="mis-side-nav-brand">
           <Button className="mis-side-nav-item" aria-current={section === 'nebulaone' ? 'page' : undefined} onClick={() => { setSection('nebulaone'); setStatus(''); }}><span className="mis-nebula-icon"><img src={nebula} alt="" /><img src={nebulaDot} alt="" /></span><span>nebulaONE</span></Button>
@@ -123,7 +127,7 @@ export function InstanceSettingsPage() {
               <div className="mis-form-footer"><Button className="mis-reset" onClick={reset}>Reset</Button><div className="mis-save-group"><p role="status" aria-live="polite">{status}</p><Button variant="default" type="submit">Save</Button></div></div>
             </form> : <div className="mis-placeholder"><h3>{tab}</h3><p>This section is a local prototype placeholder. Model and collaboration settings are not connected to a live service.</p></div>}
           </div>
-        </> : <div className="mis-placeholder"><h2>{selected?.label || 'nebulaONE'}</h2><p>This instance settings section is a local prototype placeholder. No live organisation settings are changed here.</p><Button variant="outline" onClick={() => setSection('onechat')}>Back to ONEchat settings</Button></div>}
+        </> : section === 'branding' ? <BrandingSettings /> : <div className="mis-placeholder"><h2>{selected?.label || 'nebulaONE'}</h2><p>This instance settings section is a local prototype placeholder. No live organisation settings are changed here.</p><Button variant="outline" onClick={() => setSection('onechat')}>Back to ONEchat settings</Button></div>}
       </div>
     </div>
   </div>;

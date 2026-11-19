@@ -1,11 +1,13 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type CSSProperties } from 'react';
 import { Button } from '../../components/ui/button';
+import { useBranding } from '../../branding';
 import logo from '../../assets/login/aqua-university.svg';
 import campus from '../../assets/login/campus.png';
 import campusWebp from '../../assets/login/campus.webp';
 import './login.css';
 
 export function LoginPage() {
+  const branding = useBranding();
   const [signingIn, setSigningIn] = useState(false);
   const timer = useRef<number>();
 
@@ -25,10 +27,10 @@ export function LoginPage() {
     timer.current = window.setTimeout(() => { window.location.hash = '/connecting'; }, 700);
   }
 
-  return <main className="login-page">
-    <picture><source srcSet={campusWebp} type="image/webp" /><img className="login-campus" src={campus} alt="" width="1900" height="650" fetchPriority="high" /></picture>
+  return <main className="login-page" style={{ '--login-overlay-opacity': `${branding.loginOverlayOpacity}%` } as CSSProperties}>
+    {branding.loginBackground ? <img className="login-campus" src={branding.loginBackground.dataUrl} alt="" fetchPriority="high" style={{ objectPosition: branding.loginBackgroundPosition }} /> : <picture><source srcSet={campusWebp} type="image/webp" /><img className="login-campus" src={campus} alt="" width="1900" height="650" fetchPriority="high" style={{ objectPosition: branding.loginBackgroundPosition }} /></picture>}
     <section className="login-panel" aria-labelledby="login-heading">
-      <img className="login-logo" src={logo} alt="Aqua University" width="205" height="79" />
+      <img className="login-logo" src={branding.loginLogo?.dataUrl || logo} alt="Aqua University" width="205" height="79" />
       <h1 id="login-heading">Log in to AI portal</h1>
       <Button className="login-submit" variant="default" onClick={signIn} disabled={signingIn}
         aria-busy={signingIn}>

@@ -25,7 +25,7 @@
 .ao-mobile-menu { display: none; }
 .ao-messages { min-height: 0; overflow: auto; padding: 34px 16px 20px; font-size: 14px; line-height: 22px; }
 .ao-message { display: flex; gap: 8px; align-items: flex-start; }
-.ao-user-avatar { display: grid; place-items: center; flex: 0 0 36px; width: 36px; height: 36px; border-radius: 8px; background: #efc07b; color: #161c24; font-weight: 600; }
+.ao-user-avatar { display: grid; place-items: center; flex: 0 0 36px; width: 36px; height: 36px; border-radius: 8px; background: var(--brand-avatar-color, #efc07b); color: #161c24; font-weight: 600; }
 .ao-user-message p { margin: 0; padding: 12px 16px; border-radius: 8px; background: #ecf0f3; }
 .ao-assistant-message { display: flex; align-items: flex-start; gap: 8px; margin-top: 6px; }
 .ao-agent-avatar { display: grid; place-items: center; width: 36px; height: 36px; flex: 0 0 36px; border-radius: 8px; background: #ecf0f3; overflow: hidden; }

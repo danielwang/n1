@@ -23,11 +23,16 @@ const sections = [
   { id: 'profile', label: 'Profile', icon: userIcon },
   { id: 'privacy', label: 'Privacy & Security', icon: shieldIcon },
   { id: 'memory', label: 'Memory', icon: memoryIcon },
+  { id: 'general', label: 'General Settings', icon: settingsIcon },
   { id: 'skills', label: 'Skills', icon: skillsIcon },
   { id: 'connectors', label: 'Connectors', icon: connectorsIcon },
   { id: 'api', label: 'API Projects', icon: apiIcon },
   { id: 'tokens', label: 'Access Tokens', icon: keyIcon },
-  { id: 'general', label: 'General Settings', icon: settingsIcon },
+] as const;
+
+const sectionGroups = [
+  { label: 'Personal', items: sections.slice(0, 4) },
+  { label: 'AI Capabilities', items: sections.slice(4) },
 ] as const;
 
 type SectionId = (typeof sections)[number]['id'];
@@ -102,7 +107,10 @@ export function AccountPage() {
       </div>
       <div className="ua-card">
         <nav className="ua-sections" aria-label="Account sections">
-          {sections.map(item => <Button key={item.id} className="ua-section-button" aria-current={section === item.id ? 'page' : undefined} onClick={() => { setSection(item.id); setStatus(''); }}><img src={item.icon} alt="" width="20" height="20" /><span>{item.label}</span></Button>)}
+          {sectionGroups.map(group => <div className="ua-section-group" key={group.label}>
+            <h2 className="ua-section-heading">{group.label}</h2>
+            <div className="ua-section-items">{group.items.map(item => <Button key={item.id} className="ua-section-button" aria-current={section === item.id ? 'page' : undefined} onClick={() => { setSection(item.id); setStatus(''); }}><img src={item.icon} alt="" width="20" height="20" /><span>{item.label}</span></Button>)}</div>
+          </div>)}
         </nav>
         <section className="ua-content" aria-labelledby="ua-heading">
           <header className="ua-heading">
