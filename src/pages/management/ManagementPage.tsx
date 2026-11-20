@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Bell, Menu, X } from '../../components/ui/solar-icons';
-import { Button } from '../../components/ui/button';
+import { Button, buttonVariants } from '../../components/ui/button';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../components/ui/tabs';
 import { Dialog } from '../../components/ui/dialog';
 import { useNotifications } from '../../components/notifications/NotificationProvider';
 import { useAgentNavigation } from '../onechat/AgentNavigationState';
@@ -62,17 +63,12 @@ export function ManagementPage() {
       </div>
       {section === 'dashboard' || !item ? <>
         <div className="mg-dashboard">
-          <div className="mg-tabs" role="tablist" aria-label="Dashboard analytics">
-            {tabs.map(name => <Button key={name} role="tab" id={`mg-tab-${tabs.indexOf(name)}`} aria-controls="mg-tab-panel" aria-selected={tab === name} tabIndex={tab === name ? 0 : -1} onClick={() => setTab(name)} onKeyDown={event => {
-              if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
-              event.preventDefault();
-              const index = event.key === 'Home' ? 0 : event.key === 'End' ? tabs.length - 1 : (tabs.indexOf(name) + (event.key === 'ArrowRight' ? 1 : -1) + tabs.length) % tabs.length;
-              setTab(tabs[index]);
-              document.getElementById(`mg-tab-${index}`)?.focus();
-            }}>{name}</Button>)}
-          </div>
-          <div id="mg-tab-panel" role="tabpanel" aria-labelledby={`mg-tab-${tabs.indexOf(tab)}`}>
-            {tab === 'Overview' ? <>
+          <Tabs value={tab} onValueChange={value => setTab(value as Tab)}>
+          <TabsList className="mg-tabs" aria-label="Dashboard analytics">
+            {tabs.map(name => <TabsTrigger key={name} value={name} className={buttonVariants()}>{name}</TabsTrigger>)}
+          </TabsList>
+          {tabs.map(panel => <TabsContent key={panel} value={panel} tabIndex={-1}>
+            {panel === tab && (tab === 'Overview' ? <>
               {insightVisible && <section className="mg-card mg-insight" aria-labelledby="mg-insight-title">
                 <div className="mg-card-heading"><h1 id="mg-insight-title">Weekly Insight &amp; Recommendations</h1><Button size="icon" aria-label="Dismiss weekly insight" onClick={() => setInsightVisible(false)}><X size={20} /></Button></div>
                 <p className="mg-subtitle">Example insights · sample data</p><div className="mg-insight-columns">
@@ -85,8 +81,9 @@ export function ManagementPage() {
                 <div className="mg-metrics">{metrics.map(metric => <article className="mg-metric" key={metric.label}><h3>{metric.label}</h3><span className={metric.change.startsWith('−') ? 'mg-trend-down' : 'mg-trend-up'}>{metric.change.startsWith('−') ? '↘' : '↗'} &nbsp;{metric.change}</span><strong>{metric.value}</strong></article>)}</div>
               </section>
               {['User Activity', 'Consumption', 'Model Usage'].map(name => <section className="mg-card mg-chart" key={name}><h2>{name}</h2><p className="mg-subtitle">Analytics preview · sample data</p><div className="mg-chart-placeholder" aria-label={`${name} chart placeholder`}>Chart preview</div></section>)}
-            </> : <section className="mg-card mg-empty-panel"><h1>{tab}</h1><p>This analytics view is a placeholder in the local prototype. No live reporting service is connected.</p></section>}
-          </div>
+            </> : <section className="mg-card mg-empty-panel"><h1>{tab}</h1><p>This analytics view is a placeholder in the local prototype. No live reporting service is connected.</p></section>)}
+          </TabsContent>)}
+          </Tabs>
         </div>
       </> : section === 'instance-settings' ? <InstanceSettingsPage /> : <div className="mg-dashboard"><section className="mg-card mg-empty-panel"><h1>{title}</h1><p>This management section is a placeholder in the local prototype. No changes are made to a live service.</p><Button variant="outline" onClick={() => { window.location.hash = '/onechat/management/dashboard'; }}>Back to dashboard</Button></section></div>}
     </main>

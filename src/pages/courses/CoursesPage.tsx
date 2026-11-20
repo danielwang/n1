@@ -1,6 +1,9 @@
+import { Input } from '../../components/ui/input';
+import { Textarea } from '../../components/ui/textarea';
 import { useEffect, useId, useRef, useState, type FormEvent } from 'react';
 import { Bell, FolderPlus, Menu, Trash2 } from '../../components/ui/solar-icons';
-import { Button } from '../../components/ui/button';
+import { Button, buttonVariants } from '../../components/ui/button';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../components/ui/tabs';
 import { Dialog } from '../../components/ui/dialog';
 import { Feedback } from '../../components/ui/feedback';
 import { useNotifications } from '../../components/notifications/NotificationProvider';
@@ -27,7 +30,7 @@ function CourseCard({ course, onOpen, onEdit, onArchive, onDelete }: {
     </div>
     <p className="pj-card-description">{course.description || 'A space for lessons, notes, and assignments.'}</p>
     <footer><time dateTime={course.updatedAt} title={`Updated ${new Date(course.updatedAt).toLocaleString()}`}>{projectDate(course.updatedAt)}</time></footer>
-    <ProjectActions itemLabel="course" name={course.name} onRename={onEdit} onArchive={onArchive} onDelete={onDelete} archived={course.archived} />
+    <ProjectActions itemLabel="course" name={course.name} onRename={onEdit} onArchive={onArchive} onDelete={onDelete} archived={course.archived} menuSide="top" />
   </article>;
 }
 
@@ -45,10 +48,10 @@ function CourseEditor({ course, onSave, onClose }: { course?: Course; onSave: (n
   return <Dialog title={course ? 'Rename course' : 'Create course'} className="pj-dialog" onClose={onClose}>{close => <form className="pj-form" onSubmit={submit} noValidate>
     <p>Keep lessons, notes, and assignments in one place.</p>
     <label htmlFor={`${id}-name`}>Course name <span>Required</span></label>
-    <input autoFocus ref={input} id={`${id}-name`} value={name} maxLength={80} required aria-invalid={Boolean(error)} aria-describedby={error ? `${id}-error` : undefined} placeholder="e.g. Introduction to Biology" onChange={event => { setName(event.target.value); setError(''); }} />
+    <Input unstyled autoFocus ref={input} id={`${id}-name`} value={name} maxLength={80} required aria-invalid={Boolean(error)} aria-describedby={error ? `${id}-error` : undefined} placeholder="e.g. Introduction to Biology" onChange={event => { setName(event.target.value); setError(''); }} />
     <Feedback id={`${id}-error`} message={error} tone="error" />
     <label htmlFor={`${id}-description`}>Description <span>Optional</span></label>
-    <textarea id={`${id}-description`} value={description} maxLength={240} rows={3} placeholder="What will you study?" onChange={event => setDescription(event.target.value)} />
+    <Textarea unstyled id={`${id}-description`} value={description} maxLength={240} rows={3} placeholder="What will you study?" onChange={event => setDescription(event.target.value)} />
     <p className="pj-form-note">Saved in this browser. No learning platform is connected.</p>
     <div className="pj-dialog-actions"><Button variant="outline" onClick={close}>Cancel</Button><Button variant="default" type="submit">{course ? 'Save changes' : 'Create course'}</Button></div>
   </form>}</Dialog>;
@@ -99,24 +102,21 @@ export function CoursesPage() {
           <p>Keep lessons, notes, and assignments together so you can pick up where you left off.</p>
         </header>
         {data.warning && <div className="pj-storage-warning"><Feedback message={data.warning} tone="error" /></div>}
-        <div className="pj-tabs" ref={tabs} role="tablist" aria-label="Course collections" onKeyDown={event => {
-          if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
-          event.preventDefault();
-          const next = event.key === 'Home' ? 'mine' : event.key === 'End' ? 'archived' : collection === 'mine' ? 'archived' : 'mine';
-          setCollection(next); tabs.current?.querySelector<HTMLButtonElement>(`[data-tab="${next}"]`)?.focus();
-        }}>
-          <Button id="cs-tab-mine" data-tab="mine" role="tab" aria-selected={collection === 'mine'} aria-controls="cs-course-panel" tabIndex={collection === 'mine' ? 0 : -1} onClick={() => setCollection('mine')}>My Courses</Button>
-          <Button id="cs-tab-archived" data-tab="archived" role="tab" aria-selected={collection === 'archived'} aria-controls="cs-course-panel" tabIndex={collection === 'archived' ? 0 : -1} onClick={() => setCollection('archived')}>Archived ({archivedCount})</Button>
-        </div>
-        <div id="cs-course-panel" role="tabpanel" aria-labelledby={`cs-tab-${collection}`}>
-          {visible.length ? <div className="pj-project-grid">{visible.map(course => <CourseCard key={course.id} course={course}
+        <Tabs value={collection} onValueChange={value => setCollection(value as typeof collection)}>
+        <TabsList className="pj-tabs" ref={tabs} aria-label="Course collections">
+          <TabsTrigger value="mine" className={buttonVariants()}>My Courses</TabsTrigger>
+          <TabsTrigger value="archived" className={buttonVariants()}>Archived ({archivedCount})</TabsTrigger>
+        </TabsList>
+        {(['mine', 'archived'] as const).map(panel => <TabsContent key={panel} value={panel} tabIndex={-1}>
+          {panel === collection && (visible.length ? <div className="pj-project-grid">{visible.map(course => <CourseCard key={course.id} course={course}
             onOpen={() => ['bio101', 'psy201', 'mat203'].includes(course.id) ? window.location.hash = `/onechat/courses/${encodeURIComponent(course.id)}` : setDialog({ type: 'overview', courseId: course.id })}
             onEdit={() => setDialog({ type: 'edit', courseId: course.id })}
             onArchive={() => { update(course.id, item => ({ ...item, archived: !item.archived })); setStatus(course.archived ? 'Course restored to My Courses.' : 'Course moved to Archived.'); tabs.current?.querySelector<HTMLButtonElement>('[aria-selected="true"]')?.focus(); }}
             onDelete={() => setDialog({ type: 'delete', courseId: course.id })} />)}</div>
-            : <section className="pj-empty"><span className="pj-empty-symbol"><FolderPlus size={32} /></span><h2>{collection === 'archived' ? 'No archived courses' : 'Your next course starts here'}</h2><p>{collection === 'archived' ? 'Courses you archive appear here. Restore them whenever you are ready.' : 'Create a course to organise lessons, notes, and assignments in one focused space.'}</p><Button variant={collection === 'archived' ? 'outline' : 'default'} onClick={() => collection === 'archived' ? setCollection('mine') : setDialog({ type: 'create' })}>{collection === 'archived' ? 'View My Courses' : 'Create your first course'}</Button></section>}
-        </div>
+            : <section className="pj-empty"><span className="pj-empty-symbol"><FolderPlus size={32} /></span><h2>{collection === 'archived' ? 'No archived courses' : 'Your next course starts here'}</h2><p>{collection === 'archived' ? 'Courses you archive appear here. Restore them whenever you are ready.' : 'Create a course to organise lessons, notes, and assignments in one focused space.'}</p><Button variant={collection === 'archived' ? 'outline' : 'default'} onClick={() => collection === 'archived' ? setCollection('mine') : setDialog({ type: 'create' })}>{collection === 'archived' ? 'View My Courses' : 'Create your first course'}</Button></section>)}
+        </TabsContent>)}
         <span role="status" className="oc-sr-only">{visible.length} courses shown.</span>
+        </Tabs>
       </div>
     </main>
     {mobileOpen && <Dialog title="Navigation" hideHeading className="oc-navigation-dialog" onClose={() => setMobileOpen(false)}>{close => <div className="oc-sidebar-content"><SidebarContent {...sidebarProps} mobile onClose={close} /></div>}</Dialog>}

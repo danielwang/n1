@@ -1,3 +1,4 @@
+import { Input } from '../../components/ui/input';
 import { useEffect, useRef, useState } from 'react';
 import { X } from '../../components/ui/solar-icons';
 import { Button } from '../../components/ui/button';
@@ -130,7 +131,7 @@ export function SidebarContent({ onNewChat, onSelect, onInfo, onClose, selectedI
       <div className="oc-history-body">
         {mode === 'chats' ? <>
           <div className="oc-history-search">
-            {searchOpen ? <input ref={searchRef} aria-label="Search conversations" placeholder="Search conversations" value={query} onChange={event => setQuery(event.target.value)} /> : <span className="oc-section-label">{archived ? 'Archived' : 'Today'}</span>}
+            {searchOpen ? <Input unstyled ref={searchRef} aria-label="Search conversations" placeholder="Search conversations" value={query} onChange={event => setQuery(event.target.value)} /> : <span className="oc-section-label">{archived ? 'Archived' : 'Today'}</span>}
             <Button size="icon" aria-label={searchOpen ? 'Close conversation search' : 'Search conversations'} onClick={() => { setSearchOpen(!searchOpen); setQuery(''); }}>
               {searchOpen ? <X size={18} /> : <Asset src={assets.search} />}
             </Button>

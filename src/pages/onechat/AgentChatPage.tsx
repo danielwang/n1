@@ -1,3 +1,4 @@
+import { Textarea } from '../../components/ui/textarea';
 import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { Bell, Check, LoaderCircle, Menu, Pin, X } from '../../components/ui/solar-icons';
 import { Button } from '../../components/ui/button';
@@ -80,7 +81,7 @@ export function AgentChatPage() {
         <div className="ac-composer-area"><form className={`oc-composer ${error ? 'oc-composer-error' : ''}`} aria-label="Agent chat prompt" aria-busy={busy} onSubmit={submit}>
           <input type="file" ref={file} hidden onChange={event => { const picked = event.target.files?.[0]; event.target.value = ''; if (!picked) return; if (picked.size > 10 * 1024 * 1024) { setError('Choose an attachment smaller than 10 MB.'); setStatus(''); return; } setAttachment(picked); setError(''); setStatus('Attachment selected locally. It will not be uploaded.'); }} />
           <Button size="icon" aria-label="Attach a file" onClick={() => file.current?.click()}><Asset src={assets.plus} /></Button>
-          <textarea ref={input} aria-label="Message" placeholder="Type a message" rows={1} value={prompt} maxLength={4000} aria-invalid={Boolean(error)} aria-describedby={error ? 'ac-error' : undefined} onChange={event => { setPrompt(event.target.value); setError(''); }} onKeyDown={event => { if (event.key === 'Enter' && !event.shiftKey && !event.nativeEvent.isComposing) { event.preventDefault(); event.currentTarget.form?.requestSubmit(); } }} />
+          <Textarea unstyled ref={input} aria-label="Message" placeholder="Type a message" rows={1} value={prompt} maxLength={4000} aria-invalid={Boolean(error)} aria-describedby={error ? 'ac-error' : undefined} onChange={event => { setPrompt(event.target.value); setError(''); }} onKeyDown={event => { if (event.key === 'Enter' && !event.shiftKey && !event.nativeEvent.isComposing) { event.preventDefault(); event.currentTarget.form?.requestSubmit(); } }} />
           <div className="oc-composer-actions"><Button size="icon" aria-label="Dictate a message" onClick={() => setInfo({ title: 'Dictation', message: 'Dictation is not connected in this local demo. Your microphone has not been accessed.' })}><span className="oc-mic"><Asset src={assets.microphone} /></span></Button><Button className="oc-voice ac-send" size="icon" type="submit" aria-label={busy ? 'Preparing message' : 'Send message'} disabled={busy}>{busy ? <LoaderCircle className="oc-loading" size={20} /> : <><Asset src={assets.voiceBackground} /><Asset src={agentAssets.send} /></>}</Button></div>
         </form>
         {attachment && <div className="oc-attachment"><span>{attachment.name}</span><Button size="icon" aria-label="Remove attachment" onClick={() => setAttachment(null)}><X size={16} /></Button></div>}

@@ -1,4 +1,4 @@
-import { addIcon, Icon, type IconProps, type IconifyIcon } from '@iconify/react';
+import { Icon, type IconProps, type IconifyIcon } from '@iconify/react/dist/offline';
 import alertCircleData from '@iconify-icons/solar/danger-circle-linear';
 import archiveData from '@iconify-icons/solar/archive-linear';
 import archiveRestoreData from '@iconify-icons/solar/archive-up-linear';
@@ -47,9 +47,8 @@ import xData from '@iconify-icons/solar/close-linear';
 type SolarProps = Omit<IconProps, 'icon' | 'width' | 'height'> & { size?: number; width?: number | string; height?: number | string };
 
 function solarIcon(name: `solar:${string}-linear`, data: IconifyIcon) {
-  addIcon(name, data);
   return function SolarIcon({ size = 24, width, height, ...props }: SolarProps) {
-    return <Icon icon={name} width={width ?? size} height={height ?? size} aria-hidden="true" {...props} />;
+    return <Icon icon={data} data-icon={name} width={width ?? size} height={height ?? size} aria-hidden="true" {...props} />;
   };
 }
 

@@ -1,6 +1,8 @@
+import { Input } from '../../components/ui/input';
 import { useEffect, useRef, useState } from 'react';
 import { Bell, Menu } from '../../components/ui/solar-icons';
-import { Button } from '../../components/ui/button';
+import { Button, buttonVariants } from '../../components/ui/button';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../components/ui/tabs';
 import { Dialog } from '../../components/ui/dialog';
 import { Feedback } from '../../components/ui/feedback';
 import { ToggleButtonGroup } from '../../components/ui/toggle-button-group';
@@ -105,17 +107,12 @@ export function UiLibraryPage() {
             <div className="ul-button-matrix-row"><span className="ul-component-label">Icon · 44px</span><Button variant="default" size="icon" aria-label="Add item"><SolarIcons.Plus size={20} /></Button><Button variant="outline" size="icon" aria-label="Search"><SolarIcons.Search size={20} /></Button><Button variant="ghost" size="icon" aria-label="More options"><SolarIcons.MoreHorizontal size={20} /></Button></div>
             <div className="ul-button-matrix-row"><span className="ul-component-label">Disabled</span><Button variant="default" disabled>Primary</Button><Button variant="outline" disabled>Outline</Button><Button variant="ghost" disabled>Ghost</Button></div>
           </div><p className="ul-component-note">Compact sizes retain an expanded 44px touch target.</p></div></div>
-          <div className="ul-subsection"><h3>Tabs</h3><div className="ul-subsection-content"><div className="ul-example-tabs" role="tablist" aria-label="Example content" onKeyDown={event => {
-            if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
-            event.preventDefault();
-            const options = ['Overview', 'Activity', 'Settings'] as const;
-            const index = options.indexOf(sampleTab);
-            const next = event.key === 'Home' ? options[0] : event.key === 'End' ? options[2] : options[(index + (event.key === 'ArrowRight' ? 1 : options.length - 1)) % options.length];
-            setSampleTab(next);
-            event.currentTarget.querySelector<HTMLButtonElement>(`[data-example-tab="${next}"]`)?.focus();
-          }}>{(['Overview', 'Activity', 'Settings'] as const).map(tab => <Button key={tab} data-example-tab={tab} role="tab" id={`ul-example-tab-${tab}`} aria-controls="ul-example-panel" aria-selected={sampleTab === tab} tabIndex={sampleTab === tab ? 0 : -1} onClick={() => setSampleTab(tab)}>{tab}</Button>)}</div><div className="ul-example-tab-panel" id="ul-example-panel" role="tabpanel" aria-labelledby={`ul-example-tab-${sampleTab}`} tabIndex={0}><p>{sampleTab} panel content</p></div><p className="ul-component-note">Tabs · selected state, panel association, and arrow-key navigation</p></div></div>
+          <div className="ul-subsection"><h3>Tabs</h3><div className="ul-subsection-content"><Tabs className="ul-example-tabs-root" value={sampleTab} onValueChange={value => setSampleTab(value as typeof sampleTab)}>
+            <TabsList className="ul-example-tabs" aria-label="Example content">{(['Overview', 'Activity', 'Settings'] as const).map(tab => <TabsTrigger key={tab} value={tab} className={buttonVariants()}>{tab}</TabsTrigger>)}</TabsList>
+            {(['Overview', 'Activity', 'Settings'] as const).map(tab => <TabsContent key={tab} value={tab} className="ul-example-tab-panel"><p>{tab} panel content</p></TabsContent>)}
+          </Tabs><p className="ul-component-note">Tabs · selected state, panel association, and arrow-key navigation</p></div></div>
           <div className="ul-subsection"><h3>Toggle button group</h3><div className="ul-subsection-content"><ToggleButtonGroup ariaLabel="Preview display mode" options={[{ value: 'Preview', label: 'Preview' }, { value: 'Code', label: 'Code' }, { value: 'Details', label: 'Details' }, { value: 'Unavailable', label: 'Unavailable', disabled: true }]} value={view} onValueChange={setView} /><p className="ul-component-note">Selected: {view} · final option shows disabled state</p></div></div>
-          <div className="ul-subsection"><h3>Text input</h3><div className="ul-form-samples"><label htmlFor="ul-sample-input">Text field</label><input id="ul-sample-input" value={sampleText} onChange={event => setSampleText(event.target.value)} placeholder="Type to preview the field" /></div></div>
+          <div className="ul-subsection"><h3>Text input</h3><div className="ul-form-samples"><label htmlFor="ul-sample-input">Text field</label><Input unstyled id="ul-sample-input" value={sampleText} onChange={event => setSampleText(event.target.value)} placeholder="Type to preview the field" /></div></div>
           <div className="ul-subsection"><h3>Checkboxes</h3><fieldset className="ul-choice-group"><legend>Select any that apply</legend><label className="ul-choice"><input type="checkbox" checked={checked} onChange={event => setChecked(event.target.checked)} /><span>Email updates</span></label><label className="ul-choice"><input type="checkbox" checked={secondChecked} onChange={event => setSecondChecked(event.target.checked)} /><span>Product announcements</span></label></fieldset></div>
           <div className="ul-subsection"><h3>Radio buttons</h3><fieldset className="ul-choice-group"><legend>Density preference</legend><label className="ul-choice"><input type="radio" name="ul-density" value="standard" checked={radioChoice === 'standard'} onChange={() => setRadioChoice('standard')} /><span>Standard</span></label><label className="ul-choice"><input type="radio" name="ul-density" value="compact" checked={radioChoice === 'compact'} onChange={() => setRadioChoice('compact')} /><span>Compact</span></label></fieldset></div>
           <div className="ul-subsection"><h3>Switch</h3><div className="ul-subsection-content"><div className="ul-switch-example"><span id="ul-switch-label">Enable notifications</span><Button className="ul-switch" role="switch" aria-labelledby="ul-switch-label" aria-checked={switchOn} onClick={() => setSwitchOn(value => !value)}><span className="ul-switch-track"><span className="ul-switch-thumb" /></span></Button></div><p className="ul-component-note">Switch · {switchOn ? 'on' : 'off'}</p></div></div>

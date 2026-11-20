@@ -1,3 +1,5 @@
+import { Input } from '../../components/ui/input';
+import { Textarea } from '../../components/ui/textarea';
 import { useEffect, useId, useRef, useState, type FormEvent } from 'react';
 import { Bell, Menu, X } from '../../components/ui/solar-icons';
 import { Button } from '../../components/ui/button';
@@ -53,10 +55,10 @@ function AgentEditor({ agent, onSave, onClose }: { agent?: DirectoryAgent; onSav
     {close => <form className="ep-form" onSubmit={submit} noValidate>
       <p>Customise an agent for a specific purpose. This demo saves changes in this browser; no AI service is connected.</p>
       <label htmlFor={`${id}-name`}>Agent name <span>Required</span></label>
-      <input ref={nameRef} autoFocus id={`${id}-name`} value={name} maxLength={60} required aria-invalid={Boolean(errors.name)} aria-describedby={errors.name ? `${id}-name-error` : undefined} onChange={event => { setName(event.target.value); setErrors(value => ({ ...value, name: '' })); }} />
+      <Input unstyled ref={nameRef} autoFocus id={`${id}-name`} value={name} maxLength={60} required aria-invalid={Boolean(errors.name)} aria-describedby={errors.name ? `${id}-name-error` : undefined} onChange={event => { setName(event.target.value); setErrors(value => ({ ...value, name: '' })); }} />
       <Feedback id={`${id}-name-error`} message={errors.name} tone="error" />
       <label htmlFor={`${id}-description`}>Description <span>Required</span></label>
-      <textarea ref={descriptionRef} id={`${id}-description`} value={description} maxLength={300} rows={3} required aria-invalid={Boolean(errors.description)} aria-describedby={errors.description ? `${id}-description-error` : undefined} onChange={event => { setDescription(event.target.value); setErrors(value => ({ ...value, description: '' })); }} />
+      <Textarea unstyled ref={descriptionRef} id={`${id}-description`} value={description} maxLength={300} rows={3} required aria-invalid={Boolean(errors.description)} aria-describedby={errors.description ? `${id}-description-error` : undefined} onChange={event => { setDescription(event.target.value); setErrors(value => ({ ...value, description: '' })); }} />
       <Feedback id={`${id}-description-error`} message={errors.description} tone="error" />
       <div className="ep-dialog-actions"><Button variant="outline" onClick={close}>Cancel</Button><Button variant="default" type="submit">{agent ? 'Save changes' : 'Create agent'}</Button></div>
     </form>}
@@ -77,7 +79,7 @@ function ShareAgent({ agent, onClose }: { agent: DirectoryAgent; onClose: () => 
     }}>
       <p>Preview sharing this agent with a colleague. Sharing is simulated and sends no email or invitation.</p>
       <label htmlFor={id}>Email address</label>
-      <input autoFocus ref={input} id={id} type="email" required value={email} aria-invalid={Boolean(error)} aria-describedby={error ? `${id}-error` : undefined} onChange={event => { setEmail(event.target.value); setError(''); setPreview(''); }} />
+      <Input unstyled autoFocus ref={input} id={id} type="email" required value={email} aria-invalid={Boolean(error)} aria-describedby={error ? `${id}-error` : undefined} onChange={event => { setEmail(event.target.value); setError(''); setPreview(''); }} />
       <Feedback id={`${id}-error`} message={error} tone="error" />
       <Feedback message={preview} tone="success" />
       <div className="ep-dialog-actions"><Button variant="default" type="submit">Preview invitation</Button></div>
@@ -144,7 +146,7 @@ export function AgentDirectoryPage() {
       </div>
       <div className="ep-content">
         <header className="ep-hero"><h1>Discover Intelligent Agents Designed by Our Team</h1>
-          <div className="ep-search"><Asset src={directoryArt.search} /><input ref={search} aria-label="Search agents" placeholder="Search for Agent like “Campus map”" value={query} onChange={event => setQuery(event.target.value)} />{query && <Button size="icon" aria-label="Clear agent search" onClick={() => { setQuery(''); search.current?.focus(); }}><X size={18} /></Button>}</div>
+          <div className="ep-search"><Asset src={directoryArt.search} /><Input unstyled ref={search} aria-label="Search agents" placeholder="Search for Agent like “Campus map”" value={query} onChange={event => setQuery(event.target.value)} />{query && <Button size="icon" aria-label="Clear agent search" onClick={() => { setQuery(''); search.current?.focus(); }}><X size={18} /></Button>}</div>
         </header>
         <section className="ep-official-section" aria-labelledby="ep-official-title" ref={officialSection} tabIndex={-1}>
           <div className="ep-section-heading"><h2 id="ep-official-title">Official Agents</h2><p>Engineered with permissions and safeguards for secure and controlled access</p>

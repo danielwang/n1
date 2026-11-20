@@ -1,3 +1,4 @@
+import { Input } from '../../components/ui/input';
 import { useEffect, useId, useRef, useState } from 'react';
 import { Bell, Menu, Search, X } from '../../components/ui/solar-icons';
 import { Button } from '../../components/ui/button';
@@ -38,7 +39,7 @@ function ShareArtifact({ artifact, onClose }: { artifact: Artifact; onClose: () 
     }}>
       <p>Preview sharing this artifact with a colleague. Sharing is simulated; no email is sent and no access permissions change.</p>
       <label htmlFor={id}>Email address</label>
-      <input autoFocus ref={input} id={id} type="email" required value={email} aria-invalid={Boolean(error)} aria-describedby={error ? `${id}-error` : undefined} onChange={event => { setEmail(event.target.value); setError(''); setPreview(''); }} />
+      <Input unstyled autoFocus ref={input} id={id} type="email" required value={email} aria-invalid={Boolean(error)} aria-describedby={error ? `${id}-error` : undefined} onChange={event => { setEmail(event.target.value); setError(''); setPreview(''); }} />
       <Feedback id={`${id}-error`} message={error} tone="error" />
       <Feedback message={preview} tone="success" />
       <div className="af-dialog-actions"><Button variant="default" type="submit">Preview invitation</Button></div>
@@ -94,7 +95,7 @@ export function ArtifactsPage() {
         <div id="af-panel" role="tabpanel" aria-labelledby={`af-tab-${tab}`}>
           <div className="af-controls">
             <div className="af-filters" role="group" aria-label="Artifact type">{artifactFilters.map(item => <Button key={item} aria-pressed={filter === item} onClick={() => setFilter(item)}>{item}</Button>)}</div>
-            <div className="af-search"><Search size={20} aria-hidden="true" /><input ref={search} aria-label="Search artifacts" placeholder="Search..." value={query} onChange={event => setQuery(event.target.value)} />{query && <Button size="icon" aria-label="Clear artifact search" onClick={() => { setQuery(''); search.current?.focus(); }}><X size={18} /></Button>}</div>
+            <div className="af-search"><Search size={20} aria-hidden="true" /><Input unstyled ref={search} aria-label="Search artifacts" placeholder="Search..." value={query} onChange={event => setQuery(event.target.value)} />{query && <Button size="icon" aria-label="Clear artifact search" onClick={() => { setQuery(''); search.current?.focus(); }}><X size={18} /></Button>}</div>
           </div>
           {visible.length ? <div className="af-grid">{visible.map(artifact => <ArtifactCard key={artifact.id} artifact={artifact} onOpen={() => artifact.id === 'interactive-demo' ? window.location.hash = '/onechat/artifacts/interactive-demo' : setSelected(artifact)} onShare={tab === 'mine' ? () => setSharing(artifact) : undefined} />)}</div> : <div className="af-empty"><h2>No artifacts found</h2><p>{filter === 'Images' && !query ? 'There are no image artifacts in this sample collection.' : 'Try another search or artifact type.'}</p><Button variant="outline" onClick={reset}>Reset filters</Button></div>}
         </div>

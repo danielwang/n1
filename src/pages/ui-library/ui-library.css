@@ -34,11 +34,12 @@
 .ul-subsection-content { display: grid; justify-items: start; gap: 8px; min-width: 0; }
 .ul-component-label { margin-top: 8px; color: var(--oc-text); font-size: 14px; line-height: 22px; font-weight: 600; }
 .ul-component-note { margin: 0; color: var(--oc-muted); font-size: 12px; line-height: 18px; }
+.ul-example-tabs-root { width: min(520px, 100%); }
 .ul-example-tabs { display: flex; gap: 24px; width: min(520px, 100%); height: 48px; border-bottom: 1px solid var(--oc-border); }
 .ul-example-tabs > .ui-button { min-height: 48px; padding: 0; border: 0; border-bottom: 2px solid transparent; border-radius: 0; color: var(--oc-muted); }
 .ul-example-tabs > .ui-button[aria-selected="true"] { border-bottom-color: var(--oc-text); color: var(--oc-text); }
 .ul-example-tabs > .ui-button:hover { background: transparent; color: var(--oc-text); }
-.ul-example-tab-panel { width: min(520px, 100%); min-height: 64px; padding: 16px 0; }
+.ul-example-tab-panel { width: min(520px, 100%); min-height: 64px; margin-top: 8px; padding: 16px 0; }
 .ul-example-tab-panel p { margin: 0; }
 .ul-form-samples { display: grid; gap: 8px; width: min(420px, 100%); }
 .ul-form-samples > label:first-child { color: var(--oc-text); font-size: 14px; line-height: 22px; font-weight: 600; }

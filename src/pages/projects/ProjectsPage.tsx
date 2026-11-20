@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Bell, Folder, FolderPlus, Menu } from '../../components/ui/solar-icons';
-import { Button } from '../../components/ui/button';
+import { Button, buttonVariants } from '../../components/ui/button';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../components/ui/tabs';
 import { Dialog } from '../../components/ui/dialog';
 import { Feedback } from '../../components/ui/feedback';
 import { useNotifications } from '../../components/notifications/NotificationProvider';
@@ -32,7 +33,7 @@ function ProjectCard({ project, onRename, onDelete, onArchive }: { project: Proj
     </div>
     <p className="pj-card-description">{project.description || 'A new space for related conversations and reference material.'}</p>
     <footer><time dateTime={project.updatedAt} title={`Updated ${new Date(project.updatedAt).toLocaleString()}`}>{projectDate(project.updatedAt)}</time></footer>
-    <ProjectActions name={project.name} onRename={onRename} onDelete={onDelete} onArchive={onArchive} archived={project.archived} />
+    <ProjectActions name={project.name} onRename={onRename} onDelete={onDelete} onArchive={onArchive} archived={project.archived} menuSide="top" />
   </article>;
 }
 
@@ -104,20 +105,18 @@ export function ProjectsPage({ projectId }: { projectId?: string }) {
               onAddFiles={async files => { await store.addFiles(project.id, files); setStatus(`${files.length} local file ${files.length === 1 ? 'reference' : 'references'} added. File contents were not uploaded.`); }}
               onRemoveFile={file => setDialog({ type: 'remove-file', projectId: project.id, file })}
             /> : <>
-              <div className="pj-tabs" ref={tabs} role="tablist" aria-label="Project collections" onKeyDown={event => {
-                if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
-                event.preventDefault();
-                const next = event.key === 'Home' ? 'mine' : event.key === 'End' ? 'archived' : collection === 'mine' ? 'archived' : 'mine';
-                setCollection(next); tabs.current?.querySelector<HTMLButtonElement>(`[data-tab="${next}"]`)?.focus();
-              }}>
-                <Button id="pj-tab-mine" data-tab="mine" role="tab" aria-selected={collection === 'mine'} aria-controls="pj-project-panel" tabIndex={collection === 'mine' ? 0 : -1} onClick={() => setCollection('mine')}>My Projects</Button>
-                <Button id="pj-tab-archived" data-tab="archived" role="tab" aria-selected={collection === 'archived'} aria-controls="pj-project-panel" tabIndex={collection === 'archived' ? 0 : -1} onClick={() => setCollection('archived')}>Archived ({archivedCount})</Button>
-              </div>
-              <div id="pj-project-panel" role="tabpanel" aria-labelledby={`pj-tab-${collection}`}>
-                {visible.length ? <div className="pj-project-grid">{visible.map(item => <ProjectCard key={item.id} project={item} onRename={() => setDialog({ type: 'rename', projectId: item.id })} onDelete={() => setDialog({ type: 'delete', projectId: item.id })} onArchive={() => { void archive(item); }} />)}</div>
-                  : <section className="pj-empty"><span className="pj-empty-symbol"><FolderPlus size={32} /></span><h2>{collection === 'archived' ? 'No archived projects' : 'Your next idea starts here'}</h2><p>{collection === 'archived' ? 'Projects you archive appear here. Restore them whenever you want to continue.' : 'Create a project to bring conversations, instructions, and file references into one focused space.'}</p><Button variant={collection === 'archived' ? 'outline' : 'default'} onClick={() => collection === 'archived' ? setCollection('mine') : setDialog({ type: 'create' })}>{collection === 'archived' ? 'View My Projects' : 'Create your first project'}</Button></section>}
-              </div>
+              <Tabs value={collection} onValueChange={value => setCollection(value as typeof collection)}>
+              <TabsList className="pj-tabs" ref={tabs} aria-label="Project collections">
+                <TabsTrigger value="mine" className={buttonVariants()}>My Projects</TabsTrigger>
+                <TabsTrigger value="archived" className={buttonVariants()}>Archived ({archivedCount})</TabsTrigger>
+              </TabsList>
+              {(['mine', 'archived'] as const).map(panel => <TabsContent key={panel} value={panel} tabIndex={-1}>
+                {panel === collection && (visible.length ? <div className="pj-project-grid">{visible.map(item => <ProjectCard key={item.id} project={item} onRename={() => setDialog({ type: 'rename', projectId: item.id })} onDelete={() => setDialog({ type: 'delete', projectId: item.id })} onArchive={() => { void archive(item); }} />)}</div>
+                  : <section className="pj-empty"><span className="pj-empty-symbol"><FolderPlus size={32} /></span><h2>{collection === 'archived' ? 'No archived projects' : 'Your next idea starts here'}</h2><p>{collection === 'archived' ? 'Projects you archive appear here. Restore them whenever you want to continue.' : 'Create a project to bring conversations, instructions, and file references into one focused space.'}</p><Button variant={collection === 'archived' ? 'outline' : 'default'} onClick={() => collection === 'archived' ? setCollection('mine') : setDialog({ type: 'create' })}>{collection === 'archived' ? 'View My Projects' : 'Create your first project'}</Button></section>
+                )}
+              </TabsContent>)}
               <span role="status" className="oc-sr-only">{visible.length} projects shown.</span>
+              </Tabs>
             </>}
           </>}
       </div>

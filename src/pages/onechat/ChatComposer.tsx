@@ -1,3 +1,4 @@
+import { Textarea } from '../../components/ui/textarea';
 import type { FormEvent, ReactNode, RefObject } from 'react';
 import { ArrowUp, LoaderCircle } from '../../components/ui/solar-icons';
 import { Button } from '../../components/ui/button';
@@ -43,7 +44,7 @@ export function ChatComposer({ value, onChange, onSubmit, onAttach, onDictate, o
   const rotatePlaceholder = !value && hasRotatingHints;
   return <form className={`oc-composer ${error ? 'oc-composer-error' : ''} ${rotatePlaceholder ? 'oc-composer--rotating' : ''} ${className}`} onSubmit={onSubmit} aria-label="Chat prompt" aria-busy={busy}>
     <Button size="icon" className="oc-attach" aria-label="Attach a file" title="Attach a file" onClick={onAttach}><img className="oc-asset" src={assets.plus} alt="" /></Button>
-    <textarea ref={inputRef} aria-label="Message" aria-description={hasRotatingHints ? 'Need specialist help? Type @ to add an agent. Do not use PHI data in this prompt field.' : undefined} placeholder={placeholder} rows={1} maxLength={4000} value={value} aria-invalid={Boolean(error)} aria-describedby={error ? errorId : undefined}
+    <Textarea unstyled ref={inputRef} aria-label="Message" aria-description={hasRotatingHints ? 'Need specialist help? Type @ to add an agent. Do not use PHI data in this prompt field.' : undefined} placeholder={placeholder} rows={1} maxLength={4000} value={value} aria-invalid={Boolean(error)} aria-describedby={error ? errorId : undefined}
       onChange={event => onChange(event.target.value)}
       onKeyDown={event => { if (event.key === 'Enter' && !event.shiftKey && !event.nativeEvent.isComposing) { event.preventDefault(); event.currentTarget.form?.requestSubmit(); } }} />
     {rotatePlaceholder && <span className="oc-rotating-placeholder" aria-hidden="true">

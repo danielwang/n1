@@ -1,3 +1,4 @@
+import { Input } from '../../components/ui/input';
 import { useRef, useState, type FormEvent } from 'react';
 import { Button } from '../../components/ui/button';
 import { BrandingSettings } from './BrandingSettings';
@@ -119,7 +120,7 @@ export function InstanceSettingsPage() {
                 <div className="mis-name-group">
                   <div className="mis-name-heading"><label htmlFor="mis-custom-name">Customize ONEchat Name</label><Button size="icon" aria-label="About custom name" aria-expanded={nameHelp} onClick={() => setNameHelp(value => !value)}><img src={infoIcon} alt="" /></Button></div>
                   {nameHelp && <p className="mis-name-help">This name is shown as the ONEchat label in this local demo.</p>}
-                  <div className="mis-name-input"><span>Custom Name</span><input ref={nameRef} id="mis-custom-name" value={draft.customName} maxLength={40} aria-invalid={Boolean(error)} aria-describedby={error ? 'mis-name-error' : undefined} onChange={event => update('customName', event.target.value)} /></div>
+                  <div className="mis-name-input"><span>Custom Name</span><Input unstyled ref={nameRef} id="mis-custom-name" value={draft.customName} maxLength={40} aria-invalid={Boolean(error)} aria-describedby={error ? 'mis-name-error' : undefined} onChange={event => update('customName', event.target.value)} /></div>
                   {error && <p id="mis-name-error" className="mis-error">{error}</p>}
                 </div>
                 {features.map(feature => <div className="mis-feature" key={feature.key}><div><h3 id={`mis-feature-${feature.key}`}>{feature.title}</h3><p>{feature.description}</p></div><FeatureSwitch id={`mis-feature-${feature.key}`} checked={draft[feature.key]} onChange={() => update(feature.key, !draft[feature.key])} /></div>)}

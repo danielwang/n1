@@ -1,3 +1,5 @@
+import { Input } from '../../components/ui/input';
+import { Textarea } from '../../components/ui/textarea';
 import { useEffect, useId, useRef, useState, type FormEvent } from 'react';
 import { ArrowUp, FileText, MessageSquare, Pencil, Trash2 } from '../../components/ui/solar-icons';
 import { Button } from '../../components/ui/button';
@@ -27,10 +29,10 @@ export function ProjectEditor({ project, onSave, onClose }: {
     {close => <form className="pj-form" onSubmit={submit} noValidate>
       <p>Keep related conversations, instructions, and file references together.</p>
       <label htmlFor={`${id}-name`}>Project name <span>Required</span></label>
-      <input autoFocus ref={input} id={`${id}-name`} value={name} maxLength={80} required aria-invalid={Boolean(error)} aria-describedby={error ? `${id}-error` : undefined} placeholder="e.g. Student onboarding" onChange={event => { setName(event.target.value); setError(''); }} />
+      <Input unstyled autoFocus ref={input} id={`${id}-name`} value={name} maxLength={80} required aria-invalid={Boolean(error)} aria-describedby={error ? `${id}-error` : undefined} placeholder="e.g. Student onboarding" onChange={event => { setName(event.target.value); setError(''); }} />
       <Feedback id={`${id}-error`} message={error} tone="error" />
       <label htmlFor={`${id}-description`}>Description <span>Optional</span></label>
-      <textarea id={`${id}-description`} value={description} maxLength={240} rows={3} placeholder="What are you working towards?" onChange={event => setDescription(event.target.value)} />
+      <Textarea unstyled id={`${id}-description`} value={description} maxLength={240} rows={3} placeholder="What are you working towards?" onChange={event => setDescription(event.target.value)} />
       <p className="pj-form-note">Saved in this browser. No shared workspace or AI service is connected.</p>
       <div className="pj-dialog-actions"><Button variant="outline" onClick={close}>Cancel</Button><Button variant="default" type="submit" disabled={saving}>{saving ? 'Saving…' : project ? 'Save changes' : 'Create project'}</Button></div>
     </form>}
@@ -95,7 +97,7 @@ export function ProjectConversationDialog({ project, conversation, onMessage, on
     </div>
     <form className="pj-form pj-message-form" onSubmit={submit} noValidate>
       <label htmlFor={id}>Message</label>
-      <textarea autoFocus ref={input} id={id} rows={3} maxLength={10000} value={text} aria-invalid={Boolean(error)} aria-describedby={error ? `${id}-error` : undefined} placeholder="What would you like to work on?" onChange={event => { setText(event.target.value); setError(''); }} />
+      <Textarea unstyled autoFocus ref={input} id={id} rows={3} maxLength={10000} value={text} aria-invalid={Boolean(error)} aria-describedby={error ? `${id}-error` : undefined} placeholder="What would you like to work on?" onChange={event => { setText(event.target.value); setError(''); }} />
       <Feedback id={`${id}-error`} message={error} tone="error" />
       <div className="pj-dialog-actions"><span className="pj-form-note">Local draft · no AI service</span><Button type="submit" variant="default" disabled={saving}><ArrowUp size={16} />{saving ? 'Saving…' : conversation ? 'Save message' : 'Start conversation'}</Button></div>
     </form>
@@ -114,7 +116,7 @@ export function ShareProjectDialog({ project, onClose }: { project: Project; onC
     setError(''); setPreview('Demo invitation preview: ' + project.name + ' would be shared with ' + email.trim() + '. No invitation has been sent and no permissions have changed.');
   }}>
     <p>Preview sharing this project with a colleague. Sharing is simulated; no email is sent.</p>
-    <label htmlFor={id}>Email address</label><input autoFocus ref={input} id={id} type="email" required value={email} aria-invalid={Boolean(error)} aria-describedby={error ? id + '-error' : undefined} onChange={event => { setEmail(event.target.value); setError(''); setPreview(''); }} />
+    <label htmlFor={id}>Email address</label><Input unstyled autoFocus ref={input} id={id} type="email" required value={email} aria-invalid={Boolean(error)} aria-describedby={error ? id + '-error' : undefined} onChange={event => { setEmail(event.target.value); setError(''); setPreview(''); }} />
     <Feedback id={id + '-error'} message={error} tone="error" /><Feedback message={preview} tone="success" />
     <div className="pj-dialog-actions"><Button variant="default" type="submit">Preview invitation</Button></div>
   </form></Dialog>;

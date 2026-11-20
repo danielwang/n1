@@ -1,3 +1,5 @@
+import { NativeSelect } from '../../components/ui/native-select';
+import { Input } from '../../components/ui/input';
 import { useRef, useState, type ChangeEvent, type FormEvent } from 'react';
 import { Button } from '../../components/ui/button';
 import { Check, Plus } from '../../components/ui/solar-icons';
@@ -91,7 +93,7 @@ function ColorField({ id, label, hint, value, fallback, error, onChange, inputRe
     <p id={`mis-brand-${id}-hint`}>{hint}</p>
     <div className="mis-brand-color-control">
       <input type="color" aria-label={`Choose ${label.toLowerCase()}`} value={hexColor.test(value) ? value : fallback} onChange={event => onChange(event.target.value)} />
-      <input ref={inputRef} id={`mis-brand-${id}`} type="text" value={value} maxLength={7} spellCheck={false} onChange={event => onChange(event.target.value)} aria-invalid={Boolean(error)} aria-describedby={`mis-brand-${id}-hint${error ? ` mis-brand-${id}-error` : ''}`} />
+      <Input unstyled ref={inputRef} id={`mis-brand-${id}`} type="text" value={value} maxLength={7} spellCheck={false} onChange={event => onChange(event.target.value)} aria-invalid={Boolean(error)} aria-describedby={`mis-brand-${id}-hint${error ? ` mis-brand-${id}-error` : ''}`} />
     </div>
     {error && <p className="mis-brand-error" id={`mis-brand-${id}-error`} role="alert">{error}</p>}
   </div>;
@@ -156,7 +158,7 @@ export function BrandingSettings() {
         <div className="mis-branding-group"><h3>Login page</h3>
           {uploads.filter(item => item.key === 'loginBackground' || item.key === 'loginLogo').map(config => <UploadField key={config.key} config={config} image={draft[config.key]} error={errors[config.key]} busy={busy === config.key} onUpload={event => upload(config.key, config.maxBytes, event)} onRemove={() => update(config.key, null)} />)}
           <div className="mis-brand-field"><div className="mis-brand-range-heading"><label htmlFor="mis-brand-opacity">Background shade</label><output htmlFor="mis-brand-opacity">{draft.loginOverlayOpacity}%</output></div><p id="mis-brand-opacity-hint">Darkens the image behind the login card.</p><input id="mis-brand-opacity" type="range" min="0" max="80" step="5" value={draft.loginOverlayOpacity} aria-describedby="mis-brand-opacity-hint" onChange={event => update('loginOverlayOpacity', Number(event.target.value))} /></div>
-          <div className="mis-brand-field"><label htmlFor="mis-brand-position">Background position</label><p id="mis-brand-position-hint">Choose which part of the image stays in view.</p><select id="mis-brand-position" value={draft.loginBackgroundPosition} aria-describedby="mis-brand-position-hint" onChange={event => update('loginBackgroundPosition', event.target.value as BrandingSettings['loginBackgroundPosition'])}><option value="58% center">Aqua default</option><option value="center center">Center</option><option value="left center">Left</option><option value="right center">Right</option></select></div>
+          <div className="mis-brand-field"><label htmlFor="mis-brand-position">Background position</label><p id="mis-brand-position-hint">Choose which part of the image stays in view.</p><NativeSelect unstyled id="mis-brand-position" value={draft.loginBackgroundPosition} aria-describedby="mis-brand-position-hint" onChange={event => update('loginBackgroundPosition', event.target.value as BrandingSettings['loginBackgroundPosition'])}><option value="58% center">Aqua default</option><option value="center center">Center</option><option value="left center">Left</option><option value="right center">Right</option></NativeSelect></div>
         </div>
         <div className="mis-branding-group"><h3>Navigation</h3>
           <ColorField id="sidebarColor" label="Sidebar background color" hint="Used behind navigation and the sidebar logo." value={draft.sidebarColor} fallback={saved.sidebarColor} error={errors.sidebarColor} onChange={value => update('sidebarColor', value)} inputRef={sidebarColorRef} />

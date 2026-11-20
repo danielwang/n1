@@ -1,3 +1,4 @@
+import { Textarea } from '../../components/ui/textarea';
 import { useEffect, useRef, useState, type FormEvent, type ReactNode } from 'react';
 import { Check } from '../../components/ui/solar-icons';
 import { Button } from '../../components/ui/button';
@@ -67,7 +68,7 @@ export function ProjectDetail({ project, actions, navigationControls, notificati
       </div>
       <form className="pd-composer-form" onSubmit={submit} noValidate>
         <div className="oc-composer pd-composer"><Button size="icon" className="oc-attach" aria-label="Add project files" onClick={() => fileChooser.current?.click()}><Asset src={assets.plus} /></Button>
-          <textarea ref={input} rows={1} maxLength={10000} value={text} aria-label="Project message" aria-invalid={Boolean(messageError)} aria-describedby={messageError ? 'pd-message-error' : undefined} placeholder="Type a message" onChange={event => { setText(event.target.value); setMessageError(''); }} onKeyDown={event => { if (event.key === 'Enter' && !event.shiftKey && !event.nativeEvent.isComposing) { event.preventDefault(); event.currentTarget.form?.requestSubmit(); } }} />
+          <Textarea unstyled ref={input} rows={1} maxLength={10000} value={text} aria-label="Project message" aria-invalid={Boolean(messageError)} aria-describedby={messageError ? 'pd-message-error' : undefined} placeholder="Type a message" onChange={event => { setText(event.target.value); setMessageError(''); }} onKeyDown={event => { if (event.key === 'Enter' && !event.shiftKey && !event.nativeEvent.isComposing) { event.preventDefault(); event.currentTarget.form?.requestSubmit(); } }} />
           <Button size="icon" className="pd-mic" aria-label="Voice input information" onClick={() => onInfo({ title: 'Voice input', message: 'Voice input is not connected in this local prototype. Type a message to save a project conversation; no AI response will be generated.' })}><img src={detailArt.mic} alt="" /></Button>
           <Button size="icon" className="pd-send" type="submit" aria-label={sending ? 'Saving project conversation' : 'Start project conversation'} disabled={sending}><img src={detailArt.send} alt="" /></Button>
         </div><Feedback id="pd-message-error" message={messageError} tone="error" />
@@ -94,7 +95,7 @@ export function ProjectDetail({ project, actions, navigationControls, notificati
           catch { setInstructionError('Instructions could not be saved. Your text is still here; please try again.'); }
           finally { setSaving(false); }
         }}>
-          <div className="pd-instruction-wrap"><label className="oc-sr-only" htmlFor="pd-instructions">Project instructions</label><textarea id="pd-instructions" value={instructions} maxLength={instructionLimit} placeholder="Tell AI how you'd like it to help, respond, and work with you." aria-describedby="pd-instruction-count" onChange={event => { setInstructions(event.target.value); setInstructionStatus(''); }} /><span id="pd-instruction-count">{instructions.length}/{instructionLimit}</span></div>
+          <div className="pd-instruction-wrap"><label className="oc-sr-only" htmlFor="pd-instructions">Project instructions</label><Textarea unstyled id="pd-instructions" value={instructions} maxLength={instructionLimit} placeholder="Tell AI how you'd like it to help, respond, and work with you." aria-describedby="pd-instruction-count" onChange={event => { setInstructions(event.target.value); setInstructionStatus(''); }} /><span id="pd-instruction-count">{instructions.length}/{instructionLimit}</span></div>
           <div className="pd-instruction-actions"><Button variant="default" type="submit" disabled={saving}>{saving ? 'Saving…' : 'Save'}</Button></div><Feedback message={instructionError} tone="error" /><Feedback message={instructionStatus} tone="success" />
         </form>
       </section>

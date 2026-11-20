@@ -54,12 +54,10 @@
 .pj-project-card > .pj-actions { position: absolute; right: 4px; bottom: 5px; }
 .pj-project-card > .pj-actions > button { opacity: 0; pointer-events: none; }
 .pj-project-card:hover > .pj-actions > button, .pj-project-card:focus-within > .pj-actions > button { opacity: 1; pointer-events: auto; }
-.pj-project-card .pj-action-menu { top: auto; bottom: calc(100% + 4px); }
 .pj-actions { position: relative; z-index: 3; flex-shrink: 0; }
-.pj-action-menu { position: absolute; z-index: 5; top: calc(100% + 4px); right: 0; width: 192px; padding: 6px; border: 1px solid var(--oc-border); border-radius: 8px; background: #fff; color: var(--oc-text); box-shadow: 0 8px 16px #919eab29; }
-.pj-action-menu[hidden] { display: none; }
+.pj-action-menu { z-index: 200; width: 192px; padding: 6px; border: 1px solid var(--oc-border, #dfe2e8); border-radius: 8px; background: #fff; color: var(--oc-text, #161c24); box-shadow: 0 8px 16px #919eab29; }
 .pj-action-menu > button { justify-content: flex-start; width: 100%; padding: 0 12px; font-weight: 400; }
-.pj-action-menu .pj-delete-action { color: var(--pj-danger); }
+.pj-action-menu .pj-delete-action { color: var(--pj-danger, #d82934); }
 .pj-empty { display: flex; flex-direction: column; align-items: center; gap: 16px; padding: 64px 24px; border: 1px dashed #c4cdd5; border-radius: 12px; background: var(--oc-surface); text-align: center; }
 .pj-empty-symbol { display: flex; align-items: center; justify-content: center; width: 64px; height: 64px; border-radius: 12px; color: var(--pj-primary); background: var(--pj-tint); }
 .pj-empty h2, .pj-empty h1 { margin: 0; font-size: 24px; line-height: 36px; }
