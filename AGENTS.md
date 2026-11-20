@@ -22,6 +22,8 @@ The assumed product journey is: capture an idea, review its audience and validat
 
 - Use Vite, React, and TypeScript.
 - Use shadcn/ui as the primary component system when adding or extending UI. Customize components to follow `design.md`.
+- Use `@iconify/react` with Solar `-linear` icons for UI controls. Existing offline Solar data imports are equivalent to `solar:*` names and keep icons available without a network request. Size icons explicitly and mark decorative icons `aria-hidden`; give icon-only controls an accessible name.
+- The shadcn CLI does not support Solar as a generated icon library and may still emit `lucide-react` imports when `components.json` says `solar`. Replace those imports and usages with Solar equivalents immediately after adding a component, then run `npm run check:icons`. Never add Lucide as a dependency.
 - Use Tailwind CSS where appropriate.
 - Keep dependencies minimal; do not add a library when an existing primitive or small reusable component is sufficient.
 - Prefer reusable, typed, maintainable components and realistic interface copy.

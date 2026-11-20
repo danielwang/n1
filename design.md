@@ -1,5 +1,6 @@
 ---
-version: "1.0.0"
+version: "1.1.1"
+last date: Nov 19 2026
 name: "ONEdesign"
 description: "AI design system for nebulaONE."
 colors:
@@ -22,12 +23,14 @@ colors:
     success-light: "#66DE77"
     success-main: "#0F913B"
     success-dark: "#07683B"
+    success-subtle: "#0F913B29"
     warning-light: "#F8C46D"
     warning-main: "#E88310"
     warning-dark: "#A74D08"
     error-light: "#F38A7D"
     error-main: "#D82934"
     error-dark: "#9B1435"
+    error-subtle: "#FDE0D4"
     info-light: "#91E7EF"
     info-main: "#44ADDA"
     info-dark: "#1B76AC"
@@ -68,10 +71,14 @@ colors:
     text-on-primary: "{colors.primitive.white}"
     border: "{colors.primitive.grey-300}"
     border-strong: "{colors.primitive.grey-400}"
-    action-primary: "{colors.primitive.grey-800}"
-    action-hover: "{colors.primitive.grey-900}"
-    action-pressed: "#000000"
+    action-hover: "{colors.primitive.blue-dark}"
     action-disabled: "{colors.primitive.grey-400}"
+    button-primary: "{colors.primitive.grey-800}"
+    button-neutral: "{colors.primitive.grey-300}"
+    button-outline: "{colors.primitive.grey-600}"
+    button-destructive-surface: "{colors.primitive.error-subtle}"
+    button-success-surface: "{colors.primitive.success-subtle}"
+    button-success-text: "{colors.primitive.success-dark}"
     success: "{colors.primitive.success-main}"
     warning: "{colors.primitive.warning-main}"
     error: "{colors.primitive.error-main}"
@@ -167,7 +174,14 @@ components:
     focus-width: "2px"
     control-height: "40px"
     touch-target: "44px"
-  button: {radius: "{rounded.control}", height: "{components.primitive.control-height}", text: "{typography.control}", focus: "{colors.focus}"}
+  button:
+    radius: "{rounded.control}"
+    icon-gap: "{spacing.xs}"
+    large: {height: "48px", padding-inline: "{spacing.lg}", text-size: "15px", text-line-height: "26px"}
+    medium: {height: "36px", padding-inline: "{spacing.md}", text-size: "14px", text-line-height: "24px"}
+    small: {height: "30px", padding-inline: "{spacing.sm}", text-size: "12px", text-line-height: "22px"}
+    text-weight: 700
+    focus: "{colors.focus}"
   input: {radius: "{rounded.control}", height: "{components.primitive.control-height}", text: "{typography.body-small}", border: "{colors.border}"}
   card: {radius: "{rounded.card}", border: "{colors.border}", elevation: "{elevation.low}", padding: "{spacing.lg}"}
   focus-ring: {color: "{colors.focus}", width: "{components.primitive.focus-width}", offset: "2px"}
@@ -199,10 +213,8 @@ Use primitive tokens as the source palette and semantic tokens as the role-based
 | `{colors.text-subtle}` | `#919EAB` | Non-essential metadata only |
 | `{colors.border}` | `#DFE2E8` | Default separators and outlines |
 | `{colors.border-strong}` | `#C4CDD5` | Emphasized boundaries |
-| `{colors.primary}` | `#4759A7` | Brand emphasis, links, and selected states |
-| `{colors.action-primary}` | `#212B36` | Primary CTA fill, with white text |
-| `{colors.action-hover}` | `#161C24` | Primary CTA hover fill |
-| `{colors.action-pressed}` | `#000000` | Primary CTA pressed fill |
+| `{colors.primary}` | `#4759A7` | Primary actions and selected states |
+| `{colors.action-hover}` | `#000041` | Hover and pressed emphasis |
 | `{colors.focus}` | `#37C5F0` | Keyboard focus indicator |
 | `{colors.success}` | `#0F913B` | Successful or complete state |
 | `{colors.warning}` | `#E88310` | Caution requiring attention |
@@ -214,7 +226,7 @@ Use color roles consistently for surfaces, text, borders, actions, feedback, foc
 
 ## Data-visualization color palette
 
-When generating data visualizations, use the `colors.primitive.viz-*` colors defined in this file and listed in the ordered palette below. This palette is the default for categorical series, charts, maps, and dashboards; do not substitute unrelated colors or the general-purpose `{colors.data-1}`–`{colors.data-5}` palette. Start at the first color and add colors only as needed. For sequential data, use a documented light-to-dark ramp derived from one hue in this palette rather than treating categorical colors as a scale.
+Use the color palette below for categorical series, charts, maps, and dashboards. Start at the first color and add colors only as needed. For sequential data, use a documented light-to-dark ramp derived from one hue rather than treating categorical colors as a scale.
 
 | Token | Name | Resolved value | Intended use |
 |---|---|---|---|
@@ -292,14 +304,37 @@ On mobile, use `{breakpoints.gutter-mobile}` gutters and a single-column flow. A
 
 Interactive controls must provide at least `{components.primitive.touch-target}` square touch area, including when the visible icon is smaller. Avoid density that forces precision tapping, horizontal scrolling for ordinary content, or loss of context at narrow widths.
 
-# Border and radius
+# Buttons
+
+## Sizes
+
+Use the large, medium, and small button sizes shown in the ONEdesign guideline. All sizes use `{components.button.radius}`, have a minimum visible width of 64px and centered content, and use `{components.button.icon-gap}` between an icon and its label.
+
+| Size | Visible height | Horizontal padding | Label |
+|---|---:|---:|---|
+| Large | 48px | `{spacing.lg}` | Segoe UI Bold, 15px / 26px |
+| Medium | 36px | `{spacing.md}` | Segoe UI Bold, 14px / 24px |
+| Small | 30px | `{spacing.sm}` | Segoe UI Bold, 12px / 22px |
+
+These are visible dimensions. Preserve the minimum `{components.primitive.touch-target}` interactive area when a button is smaller than 44px.
+
+## Priority and hierarchy
+
+Choose the button treatment by the importance of the action:
+
+| Priority | Treatment | Guideline examples |
+|---|---|---|
+| High | Solid `{colors.button-primary}` fill with `{colors.text-on-primary}` label | Save |
+| Medium | `{colors.button-neutral}` fill with `{colors.text}` label; contextual `{colors.button-destructive-surface}` fill with `{colors.error}` label; or `{colors.button-success-surface}` fill with `{colors.button-success-text}` label | Edit, Add, Delete, Save as draft |
+| Low | `{colors.surface}` fill with 1px `{colors.button-outline}` border and `{colors.text}` label | Archive, Cancel |
+
+Use the high-priority treatment for the main outcome of a view. Keep secondary and less consequential actions visually quieter. Labels should name the action or outcome; use an icon alongside text only when it helps identify the action.
+
+# Elevation and depth
 
 Use `{rounded.primitive.xs}`, `{rounded.primitive.sm}`, `{rounded.primitive.md}`, and `{rounded.primitive.lg}` for progressively larger or more prominent surfaces. Use `{rounded.pill}` only for pills, tags, or fully rounded controls. Default borders use `{components.primitive.border-width}` and `{colors.border}`; use `{colors.border-strong}` for boundaries that must remain visible without shadow.
 
-
-# Shadows
-
-Use `{elevation.low}` for raised surfaces, `{elevation.medium}` for menus and sticky elements, and `{elevation.high}` for dialogs or prominent overlays. Do not combine strong borders and heavy shadows without a clear hierarchy. Layering follows `{elevation.z-base}`, `{elevation.z-sticky}`, `{elevation.z-dropdown}`, `{elevation.z-overlay}`, `{elevation.z-dialog}`, and `{elevation.z-toast}`. Menus should sit above page content; dialogs should sit above overlays; transient notifications should remain above dialogs only when essential.
+Use `{elevation.low}` for cards and restrained raised surfaces, `{elevation.medium}` for menus and sticky elements, and `{elevation.high}` for dialogs or prominent overlays. Do not combine strong borders and heavy shadows without a clear hierarchy. Layering follows `{elevation.z-base}`, `{elevation.z-sticky}`, `{elevation.z-dropdown}`, `{elevation.z-overlay}`, `{elevation.z-dialog}`, and `{elevation.z-toast}`. Menus should sit above page content; dialogs should sit above overlays; transient notifications should remain above dialogs only when essential.
 
 # Motion
 
@@ -331,9 +366,6 @@ Respect reduced-motion preferences by removing non-essential movement, parallax,
 - Do preserve `{components.primitive.touch-target}` targets.
 - Don’t require horizontal scrolling for ordinary reading or forms.
 
-## Shadows
-- Don't add shadows to cards, buttons, or text
-
 ## Components
 
 - Do use `{components.card}` defaults as a starting point and adapt only with a documented reason.
@@ -360,21 +392,26 @@ Respect reduced-motion preferences by removing non-essential movement, parallax,
 - Do honor reduced-motion preferences.
 - Don’t use looping, flashing, parallax, or delayed transitions that interfere with usability.
 
-## CTA button
+## Hard UI rules
 
-Primary CTAs use the application-wide black action style in `src/components/ui/button.css`: `#212B36` with white text, `#161C24` on hover, and `#000000` while pressed. Disabled CTAs use `#C4CDD5` with `#454F5B` text. Use `Button variant="default"` for primary actions. Secondary, navigation, card, and destructive controls retain their own roles. This user-requested action palette supersedes the earlier blue primary-button default without changing brand or data colours.
+Avoid unnecessary secondary labels and descriptions. Let the layout do the explaining.
+No Rounded card with a colored left-border accent
+No emoji as icons or bullets in the UI
+No gradient
+No pill badges or eyebrow tags above headlines.
+No glassmorphism, blur, or glow.
+No decorative shadows; shadow only on floating layers.
+No icon in a colored rounded square, and no decorative icons.
+No centered-everything layouts.
+No three-up feature grids.
+No cards inside cards, and no card where spacing would do.
+No hero filler (blobs, 3D shapes, tilted screenshots).
+No fake content (logos, testimonials, stats, lorem ipsum).
+No decorative motion (scroll fade-ins, parallax, shimmer).
+No hover scale or lift.
+No marketing-adjective copy.
+No placeholder-as-label, and no vague errors.
+One primary button per view, with outcome-named labels.
+No default palette or typeface, and one accent color with one purpose.
+Do not create new components 
 
-## Iconography
-
-Use the [Solar icon library](https://icon-sets.iconify.design/solar/) through Iconify for interface icons. Use Solar's `-linear` outline variant for every library icon, including navigation. Bundle icon data locally so icons render without a runtime API request. Do not use Lucide, Solar duotone or filled variants, Hugeicons, or another icon library.
-
-When implementing a supplied mockup, reuse its exact icon assets where available instead of substituting a library icon. Give icon-only controls an accessible name, and hide decorative icons from assistive technology.
-
-## Illustrations
-
-Use the [unDraw illustration library](https://undraw.co/illustrations). Set the illustration accent color to `{colors.primitive.purple}` (`#6B52A2`).
-
-
-## UI rules
-
-Avoid unnecessary secondary labels abd descriptions. Let the layout do the explaining.

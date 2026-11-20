@@ -15,9 +15,11 @@ const SiblingCourseWorkspace = lazy(() => import('./pages/courses/SiblingCourseW
 const LoginPage = lazy(() => import('./pages/login/LoginPage').then(module => ({ default: module.LoginPage })));
 const ConnectingPage = lazy(() => import('./pages/login/ConnectingPage').then(module => ({ default: module.ConnectingPage })));
 const AccountPage = lazy(() => import('./pages/account/AccountPage').then(module => ({ default: module.AccountPage })));
+const UiLibraryPage = lazy(() => import('./pages/ui-library/UiLibraryPage').then(module => ({ default: module.UiLibraryPage })));
 const ManagementPage = lazy(() => import('./pages/management/ManagementPage').then(module => ({ default: module.ManagementPage })));
 import { AgentNavigationProvider } from './pages/onechat/AgentNavigationState';
 import './branding';
+import './tailwind.css';
 // Keep the existing stylesheet cascade stable while page JavaScript loads by route.
 import './components/notifications/notifications.css';
 import './pages/onechat/onechat.css';
@@ -66,6 +68,7 @@ function Root() {
   if (!hash || hash === '#' || hash === '#/' || hash === '#/login' || hash === '#/login/') return <LoginPage />;
   if (hash === '#/connecting' || hash === '#/connecting/') return <ConnectingPage />;
   if (hash === '#/onechat/account' || hash === '#/onechat/account/') return <AccountPage />;
+  if (hash === '#/onechat/ui-library' || hash === '#/onechat/ui-library/') return <UiLibraryPage />;
   if (hash === '#/onechat/management' || hash.startsWith('#/onechat/management/')) return <ManagementPage />;
   if (hash === '#/onechat/courses' || hash === '#/onechat/courses/') return <CoursesPage />;
   if (hash.startsWith('#/onechat/courses/')) {

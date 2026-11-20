@@ -167,6 +167,7 @@ export function SidebarContent({ onNewChat, onSelect, onInfo, onClose, selectedI
           <div className="oc-user-panel-actions">
             <Button onClick={() => openAccountAction('Settings')}>Settings</Button>
             <Button onClick={() => openAccountAction('Account')}>Account</Button>
+            <Button onClick={() => { setAccountOpen(false); window.location.hash = '/onechat/ui-library'; }}>UI Library</Button>
             <Button aria-label="Logout (return to demo login)" onClick={() => { setAccountOpen(false); window.location.hash = '/login'; }}>Logout</Button>
           </div>
         </div>

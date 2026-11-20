@@ -3,7 +3,7 @@ import { forwardRef, type ButtonHTMLAttributes } from 'react';
 // A dependency-free adaptation of the shadcn Button API, using the app's CSS.
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'default' | 'outline' | 'ghost';
-  size?: 'default' | 'icon';
+  size?: 'default' | 'icon' | 'large' | 'medium' | 'small';
 }
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
