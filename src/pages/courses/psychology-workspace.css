@@ -137,12 +137,16 @@
 .psy-reply-artifact:hover{background:#ecf0f3}
 @media(min-width:900px) and (max-width:1199px){.psy-layout-medium .psy-divider{display:grid}}
 
-/* Figma ToggleButtonGroup for the single-panel workspace modes. */
-.psy-mobile-tabs.ui-toggle-button-group{width:min(360px,calc(100% - 48px));height:44px;min-height:44px;gap:0;margin:0 auto 4px;padding:3px;border:1px solid #c4cdd5;border-radius:8px;background:#fff;overflow:visible}
-.psy-mobile-tabs.ui-toggle-button-group>button{min-width:0;min-height:36px;height:36px;padding:7px 8px;border:0;border-radius:8px;background:transparent;color:#637381;font:600 14px/22px Segoe UI,system-ui,-apple-system,sans-serif}
-.psy-mobile-tabs.ui-toggle-button-group>button[aria-pressed=true]{background:#dfe2e8;color:#161c24}
-.psy-mobile-tabs.ui-toggle-button-group>button:not([aria-pressed=true]):hover{background:#f9fafb;color:#161c24}
-@media(min-width:900px) and (max-width:1199px){.psy-mobile-tabs.ui-toggle-button-group{transform:translateX(var(--psy-tab-offset))}}
-@media(min-width:1200px){.psy-mobile-tabs.ui-toggle-button-group{display:none}}
-@media(max-width:599px){.psy-mobile-tabs.ui-toggle-button-group{width:calc(100% - 16px);margin-bottom:8px}.psy-mobile-tabs.ui-toggle-button-group>button{font-size:12px;padding-right:3px;padding-left:3px}}
-@media(pointer:coarse){.psy-mobile-tabs.ui-toggle-button-group{height:52px;min-height:52px}.psy-mobile-tabs.ui-toggle-button-group>button{height:44px;min-height:44px}}
+/* Workspace panel actions share one button group across tablet and mobile layouts. */
+.psy-workspace-tabs-row{display:none}
+@media(max-width:1199px){
+  .psy-workspace-tabs-row{display:flex;min-width:0;margin:0 24px 4px}
+  .psy-workspace-button-group{display:flex;align-items:center;width:min(360px,100%);min-height:44px;margin:auto;padding:3px;border:1px solid #c4cdd5;border-radius:8px;background:#fff}
+  .psy-workspace-button-group>.ui-button{flex:1 1 0;min-width:0;min-height:36px;height:36px;padding:7px 8px;border:0;border-radius:6px;background:transparent;color:#637381;font:600 14px/22px Segoe UI,system-ui,-apple-system,sans-serif;white-space:nowrap}
+  .psy-workspace-button-group>.ui-button[aria-pressed=true]{background:#dfe2e8;color:#161c24}
+  .psy-workspace-button-group>.ui-button:not([aria-pressed=true]):hover{background:#f9fafb;color:#161c24}
+  .psy-workspace-button-group>.ui-button:focus-visible{position:relative;z-index:1;outline:2px solid #37c5f0;outline-offset:2px}
+}
+@media(min-width:900px) and (max-width:1199px){.psy-workspace-tabs-row:not(.psy-workspace-tabs-row--expanded){padding-left:calc(var(--psy-explorer-width) + 3px)}}
+@media(max-width:599px){.psy-workspace-tabs-row{margin:0 8px 8px}.psy-workspace-button-group>.ui-button{font-size:12px;padding-inline:3px}}
+@media(pointer:coarse) and (max-width:1199px){.psy-workspace-button-group{min-height:52px}.psy-workspace-button-group>.ui-button{height:44px;min-height:44px}}
