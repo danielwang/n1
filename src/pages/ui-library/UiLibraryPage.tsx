@@ -12,6 +12,7 @@ import { SidebarContent } from '../onechat/ChatShell';
 import { useAgentNavigation } from '../onechat/AgentNavigationState';
 import type { ChatAgent } from '../onechat/agent-data';
 import type { Conversation } from '../onechat/data';
+import { appIconGroups, iconAssetUrl, needsDarkPreview, type AppIcon } from './icon-data';
 import './ui-library.css';
 
 const colors = [
@@ -27,6 +28,31 @@ const colors = [
 ] as const;
 const categories = ['foundations', 'components', 'icons'] as const;
 type Category = (typeof categories)[number];
+
+function iconPreview(icon: AppIcon) {
+  switch (icon.composite) {
+    case 'chats':
+      return <span className="oc-chats-icon"><img className="oc-asset oc-chat-back" src={iconAssetUrl('onechat/1-vector.svg')} alt="" /><img className="oc-asset oc-chat-front" src={iconAssetUrl('onechat/1-vector1.svg')} alt="" /><img className="oc-asset oc-chat-dots" src={iconAssetUrl('onechat/1-vector2.svg')} alt="" /></span>;
+    case 'phi':
+      return <span className="oc-phi-icon"><img src={iconAssetUrl('onechat/phi-shield.svg')} alt="" className="oc-phi-shield" /><img src={iconAssetUrl('onechat/phi-h.svg')} alt="" className="oc-phi-h" /><img src={iconAssetUrl('onechat/phi-line.svg')} alt="" className="oc-phi-line" /></span>;
+    case 'model':
+      return <span className="ul-composite-model"><img className="ul-model-border" src={iconAssetUrl('management/instance-settings/model-border.svg')} alt="" /><img className="ul-model-core" src={iconAssetUrl('management/instance-settings/model-core.svg')} alt="" />{[0, 1, 2, 3].map(index => <span className={`ul-model-pin ul-model-pin--${index}`} key={index}><img src={iconAssetUrl('management/instance-settings/model-line-h.svg')} alt="" /><img src={iconAssetUrl('management/instance-settings/model-line-h.svg')} alt="" /><img src={iconAssetUrl('management/instance-settings/model-line-v1.svg')} alt="" /><img src={iconAssetUrl('management/instance-settings/model-line-v2.svg')} alt="" /></span>)}</span>;
+    case 'research-file':
+      return <span className="ul-composite-file ul-composite-research"><img src={iconAssetUrl('courses/psy201/figma/card-research-base.svg')} alt="" /><img src={iconAssetUrl('courses/psy201/figma/card-research-mark.svg')} alt="" /></span>;
+    case 'markdown-file':
+      return <span className="ul-composite-file ul-composite-markdown"><img src={iconAssetUrl('courses/psy201/figma/card-md-base.svg')} alt="" /><img src={iconAssetUrl('courses/psy201/figma/card-md-mark.svg')} alt="" /></span>;
+    case 'slides-file':
+      return <span className="ul-composite-file ul-composite-slides"><img src={iconAssetUrl('courses/psy201/figma/card-slides-base.svg')} alt="" /><img src={iconAssetUrl('courses/psy201/figma/card-slides-mark.svg')} alt="" /></span>;
+    case 'microsoft':
+      return <svg width="21" height="21" viewBox="0 0 21 21" aria-hidden="true"><path fill="#f25022" d="M0 0h10v10H0z" /><path fill="#7fba00" d="M11 0h10v10H11z" /><path fill="#00a4ef" d="M0 11h10v10H0z" /><path fill="#ffb900" d="M11 11h10v10H11z" /></svg>;
+    case 'voice':
+      return <span className="ul-composite-voice"><img src={iconAssetUrl('onechat/0-chat-cta.svg')} alt="" /><img src={iconAssetUrl('onechat/0-icons-generic-soundwave.svg')} alt="" /></span>;
+    case 'course-voice':
+      return <span className="ul-composite-voice"><img src={iconAssetUrl('onechat/course-chat-cta.svg')} alt="" /><img src={iconAssetUrl('onechat/course-soundwave.svg')} alt="" /></span>;
+    default:
+      return <img src={icon.src} alt="" />;
+  }
+}
 const messageTones = ['info', 'success', 'warning', 'error'] as const;
 const messageCopy = {
   info: 'A new course space is ready to review.',
@@ -143,8 +169,15 @@ export function UiLibraryPage() {
         </section>}
         {category === 'icons' && <section className="ul-section" id="ul-icons" aria-labelledby="ul-icons-heading">
           <h2 id="ul-icons-heading">Icons</h2>
-          <p className="ul-icon-description">Solar line icons available in the application.</p>
-          <div className="ul-icon-grid">{Object.entries(SolarIcons).map(([name, Icon]) => <div className="ul-icon-example" key={name}><Icon size={20} /><span>{name}</span></div>)}</div>
+          <p className="ul-icon-description">Icons used across the prototype. Original artwork is shown unchanged.</p>
+          <h3 className="ul-icon-group-heading">Solar UI icons</h3>
+          <div className="ul-icon-grid">{Object.entries(SolarIcons).map(([name, Icon]) => <div className="ul-icon-example" key={name}><Icon size={24} /><span>{name}</span></div>)}</div>
+          {appIconGroups.map((group, index) => <section className="ul-icon-section" aria-labelledby={`ul-icon-group-${index}`} key={group.title}>
+            <h3 id={`ul-icon-group-${index}`}>{group.title} <span>{group.icons.length}</span></h3>
+            <div className="ul-app-icon-grid">{group.icons.map(icon => <div className="ul-app-icon-example" key={icon.source} title={icon.source}>
+              <span className={`ul-app-icon-preview ${needsDarkPreview(icon.source) ? 'ul-app-icon-preview--dark' : ''}`} aria-hidden="true">{iconPreview(icon)}</span><span>{icon.label}</span>
+            </div>)}</div>
+          </section>)}
         </section>}
         </div>
         <p className="ul-note">Examples use local interface styles. Actions on this page are previews and do not change account data.</p>

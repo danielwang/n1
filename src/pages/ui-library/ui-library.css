@@ -89,9 +89,40 @@
 .ui-message--banner .ui-message-action { padding: 0; }
 .ul-icon-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); width: 100%; border-top: 1px solid var(--oc-border); }
 .ul-icon-description { margin: -8px 0 16px; color: var(--oc-muted); font-size: 14px; line-height: 22px; }
+.ul-icon-group-heading, .ul-icon-section h3 { margin: 32px 0 12px; color: var(--oc-text); font-size: 14px; line-height: 21px; }
+.ul-icon-group-heading { margin-top: 24px; }
+.ul-icon-section h3 span { margin-left: 4px; color: var(--oc-muted); font-weight: 400; }
 .ul-icon-example { display: flex; align-items: center; gap: 8px; min-width: 0; min-height: 44px; padding: 8px 4px; border-bottom: 1px solid var(--oc-border); color: var(--oc-text); font-size: 13px; line-height: 18px; }
-.ul-icon-example svg { flex: 0 0 auto; color: var(--oc-muted); }
+.ul-icon-example svg { flex: 0 0 24px; color: var(--oc-text); }
 .ul-icon-example span { min-width: 0; overflow-wrap: anywhere; }
+.ul-app-icon-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); width: 100%; border-top: 1px solid var(--oc-border); }
+.ul-app-icon-example { display: flex; align-items: center; gap: 8px; min-width: 0; min-height: 60px; padding: 8px 4px; border-bottom: 1px solid var(--oc-border); color: var(--oc-text); font-size: 13px; line-height: 18px; }
+.ul-app-icon-example > span:last-child { min-width: 0; overflow-wrap: anywhere; }
+.ul-app-icon-preview { display: flex; align-items: center; justify-content: center; flex: 0 0 44px; width: 44px; height: 44px; }
+.ul-app-icon-preview--dark { border-radius: 8px; background: #212b36; }
+.ul-app-icon-preview > img { display: block; max-width: 44px; max-height: 44px; width: auto; height: auto; object-fit: contain; }
+.ul-composite-file { position: relative; display: block; width: 32px; height: 32px; }
+.ul-composite-voice { position: relative; display: block; width: 36px; height: 36px; }
+.ul-composite-voice > img { position: absolute; display: block; left: 0; top: 0; max-width: none; max-height: none; }
+.ul-composite-voice > img:last-child { left: 6px; top: 6px; }
+.ul-composite-file > img { position: absolute; left: 0; top: 0; display: block; max-width: none; max-height: none; }
+.ul-composite-research > img:first-child { left: 2.4px; }
+.ul-composite-research > img:last-child { left: 8.8px; top: 16px; }
+.ul-composite-markdown > img:last-child { left: 7.2px; top: 14.4px; }
+.ul-composite-slides > img:last-child { left: 8px; top: 12.8px; }
+.ul-composite-model { position: relative; display: block; width: 20px; height: 20px; }
+.ul-composite-model img { position: absolute; display: block; max-width: none; max-height: none; }
+.ul-model-border { left: 1.875px; top: 1.875px; }
+.ul-model-core { left: 5.208px; top: 5.208px; }
+.ul-model-pin { position: absolute; inset: 0; }
+.ul-model-pin--0 { transform: rotate(0deg); }
+.ul-model-pin--1 { transform: rotate(90deg); }
+.ul-model-pin--2 { transform: rotate(180deg); }
+.ul-model-pin--3 { transform: rotate(270deg); }
+.ul-model-pin img:nth-child(1) { left: 0; top: 5px; }
+.ul-model-pin img:nth-child(2) { right: 0; top: 5px; }
+.ul-model-pin img:nth-child(3) { left: 0; top: 10px; }
+.ul-model-pin img:nth-child(4) { right: 0; top: 10px; }
 .ul-dialog-actions { display: flex; justify-content: flex-end; margin-top: 24px; }
 .ui-library-page > .toast { position: fixed; right: 24px; bottom: 24px; z-index: 500; display: flex; align-items: center; gap: 8px; padding: 12px 16px; border-radius: 8px; background: #161c24; color: #fff; box-shadow: 0 8px 16px #919eab29; }
 .ui-library-page > .toast > svg { flex: 0 0 auto; }
@@ -101,6 +132,7 @@
   .ul-toolbar { display: flex; align-items: center; justify-content: space-between; height: 64px; padding: 8px 24px; }
   .ul-content { padding: 8px 24px 32px; }
   .ul-snackbar-grid { grid-template-columns: 1fr; gap: 16px; }
+  .ul-app-icon-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 @media (max-width: 767px) {
   .ul-toolbar { padding-inline: 16px; }
@@ -114,6 +146,7 @@
   .ul-button-matrix-row > .ui-button { justify-self: stretch; min-width: 64px; padding-inline: 8px; }
   .ul-example-tabs { gap: 20px; overflow-x: auto; }
   .ul-icon-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ul-app-icon-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .ul-snackbar-grid { grid-template-columns: 1fr; gap: 16px; }
   .ui-message { gap: 8px; }
   .ui-message--snackbar { flex-wrap: wrap; }
