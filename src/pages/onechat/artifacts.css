@@ -52,7 +52,7 @@
 .af-preview-note { padding: 16px; border-radius: 8px; background: #f9fafb; color: #637381; }
 .af-share-form > p { margin: 16px 0 24px; color: #637381; }
 .af-share-form label { display: block; margin: 16px 0 8px; font-weight: 600; }
-.af-share-form input { width: 100%; min-height: 44px; padding: 10px 12px; border: 1px solid #637381; border-radius: 8px; font-size: 16px; }
+
 .af-dialog-actions { display: flex; justify-content: flex-end; margin-top: 24px; }
 @media (max-width: 1599px) { .af-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } .af-filters { width: auto; flex: 1; } .af-filters > button { padding: 0 12px; } }
 @media (max-width: 1199px) { .af-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .af-controls { flex-wrap: wrap; gap: 16px; } .af-filters { flex: 0 1 662px; } .af-search { width: 100%; } }

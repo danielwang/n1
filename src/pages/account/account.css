@@ -30,7 +30,7 @@
 .ua-editor p { color: #637381; }
 .ua-editor label { display: block; margin-top: 16px; font-weight: 600; }
 .ua-editor label span { color: #637381; font-weight: 400; }
-.ua-editor input, .ua-editor textarea { display: block; width: 100%; margin-top: 6px; padding: 10px 12px; border: 1px solid #c4cdd5; border-radius: 8px; color: #161c24; background: #fff; }
+.ua-editor input, .ua-editor textarea { display: block; margin-top: 6px; }
 .ua-editor textarea { resize: vertical; }
 .ua-editor-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 24px; }
 @media (max-width: 1439px) { .ua-empty { transform: none; } }

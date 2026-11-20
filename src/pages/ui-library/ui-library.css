@@ -43,19 +43,12 @@
 .ul-example-tab-panel p { margin: 0; }
 .ul-form-samples { display: grid; gap: 8px; width: min(420px, 100%); }
 .ul-form-samples > label:first-child { color: var(--oc-text); font-size: 14px; line-height: 22px; font-weight: 600; }
-.ul-form-samples > input { min-height: 44px; padding: 10px 12px; border: 1px solid #c4cdd5; border-radius: 8px; color: var(--oc-text); background: #fff; font-family: inherit; font-size: 14px; line-height: 22px; }
-.ul-form-samples > input:focus-visible { outline: 2px solid #37c5f0; outline-offset: 2px; }
 .ul-choice-group { display: grid; gap: 4px; min-width: 220px; margin: 0; padding: 0; border: 0; }
 .ul-choice-group legend { margin-bottom: 4px; color: var(--oc-text); font-size: 14px; line-height: 22px; font-weight: 600; }
-.ul-choice { display: flex; align-items: center; gap: 10px; min-height: 44px; color: var(--oc-text); font-size: 14px; line-height: 22px; cursor: pointer; }
-.ul-choice input { width: 18px; height: 18px; margin: 0; accent-color: #4759a7; }
+.ul-choice { display: flex; align-items: center; min-height: 44px; color: var(--oc-text); font-size: 14px; line-height: 22px; }
+.ul-choice label { display: flex; align-items: center; min-height: 44px; cursor: pointer; }
+.ul-switch-example label { cursor: pointer; }
 .ul-switch-example { display: flex; align-items: center; justify-content: space-between; gap: 16px; width: min(320px, 100%); min-height: 52px; color: var(--oc-text); font-size: 14px; line-height: 22px; }
-.ul-switch.ui-button { flex: 0 0 44px; width: 44px; min-height: 44px; height: 44px; padding: 0; }
-.ul-switch.ui-button:hover { background: transparent; }
-.ul-switch-track { position: relative; display: block; width: 36px; height: 22px; border-radius: 9999px; background: #c4cdd5; transition: background-color 120ms ease; }
-.ul-switch[aria-checked="true"] .ul-switch-track { background: #212b36; }
-.ul-switch-thumb { position: absolute; top: 3px; left: 3px; width: 16px; height: 16px; border-radius: 50%; background: #fff; transition: transform 120ms ease; }
-.ul-switch[aria-checked="true"] .ul-switch-thumb { transform: translateX(14px); }
 .ul-feedback-controls { display: flex; flex-wrap: wrap; gap: 8px; }
 .ul-feedback-example { min-height: 52px; width: min(560px, 100%); }
 .ul-feedback-examples { display: grid; width: min(560px, 100%); }

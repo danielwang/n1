@@ -12,9 +12,9 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
       ref={ref}
       data-slot="textarea"
       className={unstyled ? className : cn(
-        'min-h-16 w-full min-w-0 rounded-[var(--radius-control)] border border-[var(--color-border)] bg-white px-3 py-2 text-sm text-[var(--color-text)]',
-        'placeholder:text-[var(--color-text-muted)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-accent)]',
-        'disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-[var(--color-error)]',
+        'min-h-[98px] w-full min-w-0 rounded-lg border border-input bg-background px-[14px] py-4 text-sm leading-[22px] text-foreground outline-none',
+        'placeholder:text-[#919eab] hover:border-foreground focus:border-2 focus:border-[var(--field-focus)]',
+        'disabled:cursor-not-allowed disabled:bg-muted disabled:text-[#919eab] disabled:hover:border-input aria-invalid:border-2 aria-invalid:border-destructive',
         className,
       )}
       {...props}

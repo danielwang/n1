@@ -48,10 +48,10 @@ function CourseEditor({ course, onSave, onClose }: { course?: Course; onSave: (n
   return <Dialog title={course ? 'Rename course' : 'Create course'} className="pj-dialog" onClose={onClose}>{close => <form className="pj-form" onSubmit={submit} noValidate>
     <p>Keep lessons, notes, and assignments in one place.</p>
     <label htmlFor={`${id}-name`}>Course name <span>Required</span></label>
-    <Input unstyled autoFocus ref={input} id={`${id}-name`} value={name} maxLength={80} required aria-invalid={Boolean(error)} aria-describedby={error ? `${id}-error` : undefined} placeholder="e.g. Introduction to Biology" onChange={event => { setName(event.target.value); setError(''); }} />
+    <Input autoFocus ref={input} id={`${id}-name`} value={name} maxLength={80} required aria-invalid={Boolean(error)} aria-describedby={error ? `${id}-error` : undefined} placeholder="e.g. Introduction to Biology" onChange={event => { setName(event.target.value); setError(''); }} />
     <Feedback id={`${id}-error`} message={error} tone="error" />
     <label htmlFor={`${id}-description`}>Description <span>Optional</span></label>
-    <Textarea unstyled id={`${id}-description`} value={description} maxLength={240} rows={3} placeholder="What will you study?" onChange={event => setDescription(event.target.value)} />
+    <Textarea id={`${id}-description`} value={description} maxLength={240} rows={3} placeholder="What will you study?" onChange={event => setDescription(event.target.value)} />
     <p className="pj-form-note">Saved in this browser. No learning platform is connected.</p>
     <div className="pj-dialog-actions"><Button variant="outline" onClick={close}>Cancel</Button><Button variant="default" type="submit">{course ? 'Save changes' : 'Create course'}</Button></div>
   </form>}</Dialog>;

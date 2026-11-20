@@ -55,10 +55,10 @@ function AgentEditor({ agent, onSave, onClose }: { agent?: DirectoryAgent; onSav
     {close => <form className="ep-form" onSubmit={submit} noValidate>
       <p>Customise an agent for a specific purpose. This demo saves changes in this browser; no AI service is connected.</p>
       <label htmlFor={`${id}-name`}>Agent name <span>Required</span></label>
-      <Input unstyled ref={nameRef} autoFocus id={`${id}-name`} value={name} maxLength={60} required aria-invalid={Boolean(errors.name)} aria-describedby={errors.name ? `${id}-name-error` : undefined} onChange={event => { setName(event.target.value); setErrors(value => ({ ...value, name: '' })); }} />
+      <Input ref={nameRef} autoFocus id={`${id}-name`} value={name} maxLength={60} required aria-invalid={Boolean(errors.name)} aria-describedby={errors.name ? `${id}-name-error` : undefined} onChange={event => { setName(event.target.value); setErrors(value => ({ ...value, name: '' })); }} />
       <Feedback id={`${id}-name-error`} message={errors.name} tone="error" />
       <label htmlFor={`${id}-description`}>Description <span>Required</span></label>
-      <Textarea unstyled ref={descriptionRef} id={`${id}-description`} value={description} maxLength={300} rows={3} required aria-invalid={Boolean(errors.description)} aria-describedby={errors.description ? `${id}-description-error` : undefined} onChange={event => { setDescription(event.target.value); setErrors(value => ({ ...value, description: '' })); }} />
+      <Textarea ref={descriptionRef} id={`${id}-description`} value={description} maxLength={300} rows={3} required aria-invalid={Boolean(errors.description)} aria-describedby={errors.description ? `${id}-description-error` : undefined} onChange={event => { setDescription(event.target.value); setErrors(value => ({ ...value, description: '' })); }} />
       <Feedback id={`${id}-description-error`} message={errors.description} tone="error" />
       <div className="ep-dialog-actions"><Button variant="outline" onClick={close}>Cancel</Button><Button variant="default" type="submit">{agent ? 'Save changes' : 'Create agent'}</Button></div>
     </form>}
@@ -79,7 +79,7 @@ function ShareAgent({ agent, onClose }: { agent: DirectoryAgent; onClose: () => 
     }}>
       <p>Preview sharing this agent with a colleague. Sharing is simulated and sends no email or invitation.</p>
       <label htmlFor={id}>Email address</label>
-      <Input unstyled autoFocus ref={input} id={id} type="email" required value={email} aria-invalid={Boolean(error)} aria-describedby={error ? `${id}-error` : undefined} onChange={event => { setEmail(event.target.value); setError(''); setPreview(''); }} />
+      <Input autoFocus ref={input} id={id} type="email" required value={email} aria-invalid={Boolean(error)} aria-describedby={error ? `${id}-error` : undefined} onChange={event => { setEmail(event.target.value); setError(''); setPreview(''); }} />
       <Feedback id={`${id}-error`} message={error} tone="error" />
       <Feedback message={preview} tone="success" />
       <div className="ep-dialog-actions"><Button variant="default" type="submit">Preview invitation</Button></div>

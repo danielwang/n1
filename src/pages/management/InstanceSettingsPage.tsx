@@ -1,6 +1,7 @@
 import { Input } from '../../components/ui/input';
 import { useRef, useState, type FormEvent } from 'react';
 import { Button } from '../../components/ui/button';
+import { Switch } from '../../components/ui/switch';
 import { BrandingSettings } from './BrandingSettings';
 import { instanceSettingsNav, instanceSettingsNavGroups, defaultInstanceSettings, instanceSettingsStorageKey, loadInstanceSettings, type InstanceSettings } from './instance-settings-data';
 import nebula from '../../assets/management/instance-settings/nebula.svg';
@@ -11,9 +12,6 @@ import modelLineH from '../../assets/management/instance-settings/model-line-h.s
 import modelLineV1 from '../../assets/management/instance-settings/model-line-v1.svg';
 import modelLineV2 from '../../assets/management/instance-settings/model-line-v2.svg';
 import infoIcon from '../../assets/management/instance-settings/info.svg';
-import switchOff from '../../assets/management/instance-settings/switch-off.svg';
-import switchThumb from '../../assets/management/instance-settings/switch-thumb.svg';
-import switchTick from '../../assets/management/instance-settings/switch-tick.svg';
 import './instance-settings.css';
 
 const tabs = ['General Setting', 'Model Availability', 'Agentic Collaboration (2)'] as const;
@@ -39,9 +37,7 @@ function ModelIcon() {
 }
 
 function FeatureSwitch({ id, checked, onChange }: { id: string; checked: boolean; onChange: () => void }) {
-  return <Button className="mis-switch-button" role="switch" aria-checked={checked} aria-labelledby={id} onClick={onChange}>
-    {checked ? <span className="mis-switch-on"><img src={switchThumb} alt="" /><img src={switchTick} alt="" /></span> : <img className="mis-switch-off" src={switchOff} alt="" />}
-  </Button>;
+  return <Switch className="mis-switch-button" tone="dark" checked={checked} aria-labelledby={id} onCheckedChange={onChange} />;
 }
 
 export function InstanceSettingsPage() {
@@ -120,7 +116,7 @@ export function InstanceSettingsPage() {
                 <div className="mis-name-group">
                   <div className="mis-name-heading"><label htmlFor="mis-custom-name">Customize ONEchat Name</label><Button size="icon" aria-label="About custom name" aria-expanded={nameHelp} onClick={() => setNameHelp(value => !value)}><img src={infoIcon} alt="" /></Button></div>
                   {nameHelp && <p className="mis-name-help">This name is shown as the ONEchat label in this local demo.</p>}
-                  <div className="mis-name-input"><span>Custom Name</span><Input unstyled ref={nameRef} id="mis-custom-name" value={draft.customName} maxLength={40} aria-invalid={Boolean(error)} aria-describedby={error ? 'mis-name-error' : undefined} onChange={event => update('customName', event.target.value)} /></div>
+                  <div className="mis-name-input"><span>Custom Name</span><Input ref={nameRef} id="mis-custom-name" value={draft.customName} maxLength={40} aria-invalid={Boolean(error)} aria-describedby={error ? 'mis-name-error' : undefined} onChange={event => update('customName', event.target.value)} /></div>
                   {error && <p id="mis-name-error" className="mis-error">{error}</p>}
                 </div>
                 {features.map(feature => <div className="mis-feature" key={feature.key}><div><h3 id={`mis-feature-${feature.key}`}>{feature.title}</h3><p>{feature.description}</p></div><FeatureSwitch id={`mis-feature-${feature.key}`} checked={draft[feature.key]} onChange={() => update(feature.key, !draft[feature.key])} /></div>)}

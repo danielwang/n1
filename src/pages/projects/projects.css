@@ -114,10 +114,10 @@
 .pj-form > p { margin: 16px 0 24px; color: #637381; }
 .pj-form label { display: block; margin: 16px 0 8px; font-weight: 600; }
 .pj-form label > span { margin-left: 8px; color: #637381; font-size: 12px; font-weight: 400; }
-.pj-form :is(input, textarea) { width: 100%; min-height: 44px; padding: 10px 12px; border: 1px solid #637381; border-radius: 8px; color: #161c24; background: #fff; font-size: 16px; line-height: 24px; }
+
 .pj-form textarea { resize: vertical; }
-.pj-form :is(input, textarea)[aria-invalid="true"] { border-color: #9b1435; }
-.pj-form :is(input, textarea)::placeholder, .pj-conversation-search input::placeholder { color: #637381; opacity: 1; }
+
+.pj-conversation-search input::placeholder { color: #637381; opacity: 1; }
 .pj-form .pj-form-note, .pj-form-note { color: #637381; font-size: 12px; line-height: 18px; }
 .pj-form .pj-form-note { margin: 12px 0 0; }
 .pj-dialog-actions { display: flex; justify-content: flex-end; align-items: center; gap: 12px; margin-top: 24px; }

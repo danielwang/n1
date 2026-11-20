@@ -39,7 +39,7 @@ function ShareArtifact({ artifact, onClose }: { artifact: Artifact; onClose: () 
     }}>
       <p>Preview sharing this artifact with a colleague. Sharing is simulated; no email is sent and no access permissions change.</p>
       <label htmlFor={id}>Email address</label>
-      <Input unstyled autoFocus ref={input} id={id} type="email" required value={email} aria-invalid={Boolean(error)} aria-describedby={error ? `${id}-error` : undefined} onChange={event => { setEmail(event.target.value); setError(''); setPreview(''); }} />
+      <Input autoFocus ref={input} id={id} type="email" required value={email} aria-invalid={Boolean(error)} aria-describedby={error ? `${id}-error` : undefined} onChange={event => { setEmail(event.target.value); setError(''); setPreview(''); }} />
       <Feedback id={`${id}-error`} message={error} tone="error" />
       <Feedback message={preview} tone="success" />
       <div className="af-dialog-actions"><Button variant="default" type="submit">Preview invitation</Button></div>

@@ -50,5 +50,13 @@
   --border: #dfe2e8;
   --input: #c4cdd5;
   --ring: #37c5f0;
+  --field-focus: #096adc;
   --radius: 8px;
+}
+
+/* Legacy page focus rules add a second outline to shared Figma fields. */
+[data-slot="input"]:focus-visible,
+[data-slot="textarea"]:focus-visible,
+[data-slot="native-select"]:focus-visible {
+  outline: none !important;
 }

@@ -59,10 +59,10 @@ function SkillEditor({ skill, onSave, onClose }: { skill?: Skill; onSave: (name:
     {close => <form onSubmit={submit} noValidate>
       <p>This local demo keeps skills only until you leave the page. No AI service is connected.</p>
       <label htmlFor={`${id}-name`}>Skill name <span>Required</span></label>
-      <Input unstyled autoFocus ref={nameRef} id={`${id}-name`} value={name} maxLength={60} aria-invalid={Boolean(errors.name)} aria-describedby={errors.name ? `${id}-name-error` : undefined} onChange={event => { setName(event.target.value); setErrors(value => ({ ...value, name: '' })); }} />
+      <Input autoFocus ref={nameRef} id={`${id}-name`} value={name} maxLength={60} aria-invalid={Boolean(errors.name)} aria-describedby={errors.name ? `${id}-name-error` : undefined} onChange={event => { setName(event.target.value); setErrors(value => ({ ...value, name: '' })); }} />
       <Feedback id={`${id}-name-error`} message={errors.name} tone="error" />
       <label htmlFor={`${id}-instructions`}>Instructions <span>Required</span></label>
-      <Textarea unstyled ref={instructionsRef} id={`${id}-instructions`} value={instructions} maxLength={1000} rows={5} aria-invalid={Boolean(errors.instructions)} aria-describedby={errors.instructions ? `${id}-instructions-error` : undefined} onChange={event => { setInstructions(event.target.value); setErrors(value => ({ ...value, instructions: '' })); }} />
+      <Textarea ref={instructionsRef} id={`${id}-instructions`} value={instructions} maxLength={1000} rows={5} aria-invalid={Boolean(errors.instructions)} aria-describedby={errors.instructions ? `${id}-instructions-error` : undefined} onChange={event => { setInstructions(event.target.value); setErrors(value => ({ ...value, instructions: '' })); }} />
       <Feedback id={`${id}-instructions-error`} message={errors.instructions} tone="error" />
       <div className="ua-editor-actions"><Button variant="outline" onClick={close}>Cancel</Button><Button variant="default" type="submit">{skill ? 'Save changes' : 'Create skill'}</Button></div>
     </form>}

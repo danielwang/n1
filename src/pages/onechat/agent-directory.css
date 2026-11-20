@@ -71,9 +71,9 @@
 .ep-form > p { margin: 16px 0 24px; color: #637381; line-height: 24px; }
 .ep-form label { display: block; margin: 16px 0 8px; font-weight: 600; }
 .ep-form label > span { margin-left: 4px; color: #637381; font-size: 12px; font-weight: 400; }
-.ep-form :is(input, textarea) { width: 100%; min-height: 44px; padding: 10px 12px; border: 1px solid #c4cdd5; border-radius: 8px; background: #fff; color: #161c24; font-size: 16px; line-height: 24px; }
+
 .ep-form textarea { resize: vertical; max-height: 200px; }
-.ep-form [aria-invalid="true"] { border-color: #b4232e; }
+
 .ep-form .oc-feedback[data-tone="error"] { color: #b4232e; }
 .ep-dialog-actions { display: flex; justify-content: flex-end; gap: 12px; margin-top: 24px; }
 @media (max-width: 1599px) { .ep-card-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }

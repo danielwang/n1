@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react';
 import { ArrowLeft, Bell, Check, FileText, Gauge, ShieldAlert, ShieldCheck } from '../ui/solar-icons';
 import { Button } from '../ui/button';
+import { Checkbox } from '../ui/checkbox';
 import { Dialog } from '../ui/dialog';
 import { notificationTypes, type NotificationItem, type NotificationScope, type NotificationType } from './data';
 import bell from '../../assets/notifications/bell.svg';
@@ -75,10 +76,10 @@ export function NotificationPanel({ items, readIds, mutedTypes, persistent, onCl
         <Button className="nf-back" onClick={back}><ArrowLeft size={16} />Back to notifications</Button>
         <h2 ref={headingRef} tabIndex={-1}>Notification preferences</h2>
         <p>Choose which types appear in this demo. {persistent ? 'Changes are saved on this device.' : 'Browser storage is unavailable; changes last for this session.'} No email or server settings are changed.</p>
-        <fieldset><legend>Show these notification types</legend>{(Object.entries(notificationTypes) as [NotificationType, string][]).map(([type, label]) => <label key={type}>
-          <input type="checkbox" checked={!mutedTypes.includes(type)} onChange={() => { onToggleType(type); setAnnouncement(persistent ? 'Notification preferences saved on this device.' : 'Notification preferences updated for this session.'); }} />
-          <span>{label}</span>
-        </label>)}</fieldset>
+        <fieldset><legend>Show these notification types</legend>{(Object.entries(notificationTypes) as [NotificationType, string][]).map(([type, label]) => <div className="nf-preference-row" key={type}>
+          <Checkbox id={`nf-type-${type}`} checked={!mutedTypes.includes(type)} onCheckedChange={() => { onToggleType(type); setAnnouncement(persistent ? 'Notification preferences saved on this device.' : 'Notification preferences updated for this session.'); }} />
+          <label htmlFor={`nf-type-${type}`}>{label}</label>
+        </div>)}</fieldset>
       </section> : <>
         <div ref={tabsRef} className="nf-tabs" role="tablist" aria-label="Notification inbox" onKeyDown={event => {
           if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
@@ -88,7 +89,7 @@ export function NotificationPanel({ items, readIds, mutedTypes, persistent, onCl
           tabsRef.current?.querySelector<HTMLButtonElement>(`#nf-tab-${next}`)?.focus();
         }}>{(['me', 'admin'] as const).map(target => <Button key={target} id={`nf-tab-${target}`} role="tab" aria-selected={scope === target} aria-controls="nf-inbox" tabIndex={scope === target ? 0 : -1}
           onClick={() => { setScope(target); setAnnouncement(''); }}>{target === 'me' ? 'Me' : 'Admin'}{unread(target) > 0 && ` (${unread(target)})`}</Button>)}</div>
-        <div className="nf-list-tools"><span>Demo inbox</span><label><input type="checkbox" checked={unreadOnly} onChange={event => { setUnreadOnly(event.target.checked); setAnnouncement(''); }} />Unread only</label></div>
+        <div className="nf-list-tools"><span>Demo inbox</span><div className="nf-unread-filter"><Checkbox id="nf-unread-only" checked={unreadOnly} onCheckedChange={value => { setUnreadOnly(value === true); setAnnouncement(''); }} /><label htmlFor="nf-unread-only">Unread only</label></div></div>
         <section id="nf-inbox" role="tabpanel" aria-labelledby={`nf-tab-${scope}`} className="nf-inbox" tabIndex={0}>
           {visible.length ? <ul className="nf-list">{visible.map(item => {
             const isUnread = !readIds.includes(item.id);

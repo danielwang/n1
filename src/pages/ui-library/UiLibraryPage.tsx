@@ -1,4 +1,6 @@
 import { Input } from '../../components/ui/input';
+import { NativeSelect } from '../../components/ui/native-select';
+import { Textarea } from '../../components/ui/textarea';
 import { useEffect, useRef, useState } from 'react';
 import { Bell, Menu } from '../../components/ui/solar-icons';
 import { Button, buttonVariants } from '../../components/ui/button';
@@ -6,6 +8,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../components/ui/ta
 import { Dialog } from '../../components/ui/dialog';
 import { Feedback } from '../../components/ui/feedback';
 import { ToggleButtonGroup } from '../../components/ui/toggle-button-group';
+import { Checkbox } from '../../components/ui/checkbox';
+import { RadioGroup, RadioGroupItem } from '../../components/ui/radio-group';
+import { Switch } from '../../components/ui/switch';
 import * as SolarIcons from '../../components/ui/solar-icons';
 import { useNotifications } from '../../components/notifications/NotificationProvider';
 import { SidebarContent } from '../onechat/ChatShell';
@@ -67,6 +72,8 @@ export function UiLibraryPage() {
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [sampleText, setSampleText] = useState('');
+  const [sampleSelect, setSampleSelect] = useState('standard');
+  const [sampleDescription, setSampleDescription] = useState('');
   const [checked, setChecked] = useState(true);
   const [secondChecked, setSecondChecked] = useState(false);
   const [radioChoice, setRadioChoice] = useState<'standard' | 'compact'>('standard');
@@ -138,10 +145,12 @@ export function UiLibraryPage() {
             {(['Overview', 'Activity', 'Settings'] as const).map(tab => <TabsContent key={tab} value={tab} className="ul-example-tab-panel"><p>{tab} panel content</p></TabsContent>)}
           </Tabs><p className="ul-component-note">Tabs · selected state, panel association, and arrow-key navigation</p></div></div>
           <div className="ul-subsection"><h3>Toggle button group</h3><div className="ul-subsection-content"><ToggleButtonGroup ariaLabel="Preview display mode" options={[{ value: 'Preview', label: 'Preview' }, { value: 'Code', label: 'Code' }, { value: 'Details', label: 'Details' }, { value: 'Unavailable', label: 'Unavailable', disabled: true }]} value={view} onValueChange={setView} /><p className="ul-component-note">Selected: {view} · final option shows disabled state</p></div></div>
-          <div className="ul-subsection"><h3>Text input</h3><div className="ul-form-samples"><label htmlFor="ul-sample-input">Text field</label><Input unstyled id="ul-sample-input" value={sampleText} onChange={event => setSampleText(event.target.value)} placeholder="Type to preview the field" /></div></div>
-          <div className="ul-subsection"><h3>Checkboxes</h3><fieldset className="ul-choice-group"><legend>Select any that apply</legend><label className="ul-choice"><input type="checkbox" checked={checked} onChange={event => setChecked(event.target.checked)} /><span>Email updates</span></label><label className="ul-choice"><input type="checkbox" checked={secondChecked} onChange={event => setSecondChecked(event.target.checked)} /><span>Product announcements</span></label></fieldset></div>
-          <div className="ul-subsection"><h3>Radio buttons</h3><fieldset className="ul-choice-group"><legend>Density preference</legend><label className="ul-choice"><input type="radio" name="ul-density" value="standard" checked={radioChoice === 'standard'} onChange={() => setRadioChoice('standard')} /><span>Standard</span></label><label className="ul-choice"><input type="radio" name="ul-density" value="compact" checked={radioChoice === 'compact'} onChange={() => setRadioChoice('compact')} /><span>Compact</span></label></fieldset></div>
-          <div className="ul-subsection"><h3>Switch</h3><div className="ul-subsection-content"><div className="ul-switch-example"><span id="ul-switch-label">Enable notifications</span><Button className="ul-switch" role="switch" aria-labelledby="ul-switch-label" aria-checked={switchOn} onClick={() => setSwitchOn(value => !value)}><span className="ul-switch-track"><span className="ul-switch-thumb" /></span></Button></div><p className="ul-component-note">Switch · {switchOn ? 'on' : 'off'}</p></div></div>
+          <div className="ul-subsection"><h3>Text input</h3><div className="ul-form-samples"><label htmlFor="ul-sample-input">Text field</label><Input id="ul-sample-input" value={sampleText} onChange={event => setSampleText(event.target.value)} placeholder="Type to preview the field" /></div></div>
+          <div className="ul-subsection"><h3>Select</h3><div className="ul-form-samples"><label htmlFor="ul-sample-select">Display density</label><NativeSelect id="ul-sample-select" value={sampleSelect} onChange={event => setSampleSelect(event.target.value)}><option value="standard">Standard</option><option value="compact">Compact</option></NativeSelect></div></div>
+          <div className="ul-subsection"><h3>Textarea</h3><div className="ul-form-samples"><label htmlFor="ul-sample-description">Description</label><Textarea id="ul-sample-description" value={sampleDescription} onChange={event => setSampleDescription(event.target.value)} placeholder="Add a short description" /></div></div>
+          <div className="ul-subsection"><h3>Checkboxes</h3><fieldset className="ul-choice-group"><legend>Select any that apply</legend><div className="ul-choice"><Checkbox id="ul-email-updates" checked={checked} onCheckedChange={value => setChecked(value === true)} /><label htmlFor="ul-email-updates">Email updates</label></div><div className="ul-choice"><Checkbox id="ul-product-announcements" checked={secondChecked} onCheckedChange={value => setSecondChecked(value === true)} /><label htmlFor="ul-product-announcements">Product announcements</label></div></fieldset></div>
+          <div className="ul-subsection"><h3>Radio buttons</h3><fieldset className="ul-choice-group"><legend id="ul-density-legend">Density preference</legend><RadioGroup className="gap-1" aria-labelledby="ul-density-legend" value={radioChoice} onValueChange={value => setRadioChoice(value as typeof radioChoice)}><div className="ul-choice"><RadioGroupItem id="ul-density-standard" value="standard" /><label htmlFor="ul-density-standard">Standard</label></div><div className="ul-choice"><RadioGroupItem id="ul-density-compact" value="compact" /><label htmlFor="ul-density-compact">Compact</label></div></RadioGroup></fieldset></div>
+          <div className="ul-subsection"><h3>Switch</h3><div className="ul-subsection-content"><div className="ul-switch-example"><label htmlFor="ul-notifications">Enable notifications</label><Switch id="ul-notifications" checked={switchOn} onCheckedChange={setSwitchOn} /></div><p className="ul-component-note">Switch · {switchOn ? 'on' : 'off'}</p></div></div>
           <div className="ul-subsection"><h3>Feedback</h3><div className="ul-subsection-content"><div className="ul-feedback-examples">{[
             { tone: 'info', message: 'This is an informational message.' },
             { tone: 'success', message: 'Your changes have been saved.' },
