@@ -57,7 +57,7 @@ function applyBranding(settings: BrandingSettings) {
   document.documentElement.style.setProperty('--brand-sidebar-color', settings.sidebarColor);
   document.documentElement.style.setProperty('--brand-avatar-color', settings.avatarColor);
   const icon = document.querySelector<HTMLLinkElement>('link[rel="icon"]');
-  if (icon) icon.href = settings.favicon?.dataUrl || 'data:,';
+  if (icon) icon.href = settings.favicon?.dataUrl || new URL('./favicon.ico', document.baseURI).href;
 }
 
 applyBranding(current);

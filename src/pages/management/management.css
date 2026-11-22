@@ -16,9 +16,76 @@
 .management-page.oc-is-collapsed .mg-nav-item { width: 48px; justify-content: center; margin-inline: auto; padding: 0; }
 .mg-main { grid-column: 2; min-width: 0; overflow-y: auto; outline: 0; background: #f9fafb; }
 .mg-dashboard { width: min(1054px, calc(100% - 64px)); margin: 34px auto 56px; }
-.mg-tabs { display: flex; gap: 2px; width: fit-content; max-width: 100%; margin: 0 auto 24px; padding: 4px; border: 1px solid #c4cdd5; border-radius: 8px; background: #fff; overflow-x: auto; }
-.mg-tabs .ui-button { min-height: 34px; height: 34px; padding: 0 12px; color: #454f5b; white-space: nowrap; font-size: 12px; font-weight: 400; }
+.mg-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 24px; margin-bottom: 24px; }
+.mg-tabs { display: flex; align-items: center; justify-content: space-between; gap: 2px; width: 678px; max-width: 100%; min-height: 43px; margin: 0; padding: 3px 4px; border: 1px solid #c4cdd5; border-radius: 8px; background: #fff; overflow-x: auto; }
+.mg-tabs .ui-button { min-height: 36px; height: 36px; padding: 0 8px; gap: 8px; color: #637381; white-space: nowrap; font-size: 14px; line-height: 22px; font-weight: 600; }
+.mg-tabs .ui-button img { display: block; flex: none; }
 .mg-tabs [aria-selected="true"] { background: #dfe2e8; color: #161c24; font-weight: 600; }
+.mg-toolbar-actions { display: flex; align-items: center; gap: 8px; flex: none; }
+.mg-download.ui-button { width: 36px; min-width: 36px; height: 44px; padding: 0; }
+.mg-ask-trigger.ui-button { min-height: 36px; height: 36px; padding: 0 13px; border: 3px solid transparent; background: linear-gradient(#fff, #fff) padding-box, conic-gradient(from 115deg, #71a9d5, #d4a500, #f55f66, #d4a500, #71a9d5) border-box; color: #161c24; font-size: 14px; font-weight: 700; }
+.mg-ask-trigger.ui-button:hover { background: linear-gradient(#f9fafb, #f9fafb) padding-box, conic-gradient(from 115deg, #71a9d5, #d4a500, #f55f66, #d4a500, #71a9d5) border-box; }
+.management-page.mg-ask-open { grid-template-columns: 280px minmax(0, 1fr) var(--mg-ask-width); }
+.management-page.oc-is-collapsed.mg-ask-open { grid-template-columns: 80px minmax(0, 1fr) var(--mg-ask-width); }
+.mg-ask-column { grid-column: 3; min-width: 0; min-height: 0; }
+.mg-ask-column[hidden] { display: none; }
+.mg-ask-pane { position: relative; display: flex; flex-direction: column; height: 100%; min-width: 0; background: #f9fafb; border-left: 1px solid #c4cdd5; }
+.mg-ask-resize { position: absolute; z-index: 2; top: 0; bottom: 0; left: -7.5px; width: 12px; display: grid; place-items: center; cursor: col-resize; touch-action: none; }
+.mg-ask-resize::before { content: ''; position: absolute; top: 12px; bottom: 12px; left: 50%; width: 1px; transform: translateX(-50%); background: #637381; opacity: 0; transition: opacity 120ms cubic-bezier(.2, 0, 0, 1); }
+.mg-ask-resize:focus-visible { outline: 2px solid #37c5f0; outline-offset: 2px; }
+.mg-ask-grip { position: relative; width: 5px; height: 3px; border-radius: 1px; background: #637381; opacity: 0; transition: opacity 120ms cubic-bezier(.2, 0, 0, 1); }
+.mg-ask-grip::before, .mg-ask-grip::after { content: ''; position: absolute; left: 0; width: 5px; height: 3px; border-radius: 1px; background: #637381; }
+.mg-ask-grip::before { top: -4px; }
+.mg-ask-grip::after { top: 4px; }
+.mg-ask-resize:hover::before, .mg-ask-resize:hover .mg-ask-grip, .mg-ask-resize:focus-visible::before, .mg-ask-resize:focus-visible .mg-ask-grip, .mg-ask-resize--dragging::before, .mg-ask-resize--dragging .mg-ask-grip { opacity: 1; }
+.mg-ask-header { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 56px; padding: 12px 10px 12px 16px; }
+.mg-ask-title { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.mg-ask-title img { flex: none; }
+.mg-ask-title h2 { margin: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 18px; line-height: 24px; font-weight: 700; color: #000; }
+.mg-ask-header-actions { display: flex; align-items: center; gap: 0; flex: none; }
+.mg-ask-header-actions .ui-button { width: 32px; min-width: 32px; height: 36px; min-height: 36px; padding: 0; }
+.mg-ask-header-icon { display: block; flex: none; width: 20px; height: 20px; overflow: hidden; }
+.mg-ask-header-icon img { display: block; width: 24px; height: 24px; max-width: none; transform: scale(.833333); transform-origin: top left; }
+.mg-ask-body { position: relative; display: flex; flex-direction: column; flex: 1; min-height: 0; overflow-y: auto; }
+.mg-ask-empty { width: min(100% - 32px, 320px); margin: auto; padding-bottom: 20px; text-align: center; }
+.mg-ask-illustration { display: block; margin: 0 auto 24px; }
+.mg-ask-empty p { max-width: 284px; margin: 0 auto 28px; color: #292828; font-size: 14px; line-height: 22px; }
+.mg-ask-starters { display: grid; gap: 12px; width: 298px; max-width: 100%; margin: 0 auto; }
+.mg-ask-starter.ui-button { justify-content: flex-start; width: 100%; height: 46px; min-height: 46px; padding: 0 16px; overflow: hidden; border: 1px solid #c4cdd5; border-radius: 8px; background: #fff; color: #637381; text-align: left; font-weight: 400; }
+.mg-ask-starter > span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mg-ask-starter.ui-button:hover { background: #f9fafb; }
+.mg-ask-composer { display: flex; align-items: center; gap: 8px; min-height: 52px; margin: 0 28px 28px; padding: 7px 8px 7px 16px; border: 1px solid #dfe2e8; border-radius: 8px; background: #fff; }
+.mg-ask-composer:focus-within { outline: 2px solid #37c5f0; outline-offset: 2px; }
+.mg-ask-composer input { width: 100%; min-width: 0; height: 36px; border: 0; outline: 0; background: transparent; color: #161c24; font: inherit; }
+.mg-ask-composer input::placeholder { color: #919eab; }
+.mg-ask-send.ui-button { position: relative; width: 36px; min-width: 36px; height: 36px; min-height: 36px; padding: 0; }
+.mg-ask-send.ui-button:disabled { opacity: 1; cursor: default; }
+.mg-ask-send-icon { position: absolute; top: 9px; left: 9px; }
+.mg-ask-thread { display: flex; flex-direction: column; flex: 1; min-height: 0; }
+.mg-ask-thread > .mg-ask-history-back { margin-left: 16px; }
+.mg-ask-messages { display: flex; flex-direction: column; flex: 1; min-height: 0; gap: 24px; overflow-y: auto; padding: 27px 16px 24px; }
+.mg-ask-message { max-width: 88%; color: #161c24; font-size: 14px; line-height: 22px; }
+.mg-ask-message--user { align-self: flex-end; max-width: 80%; padding: 12px 16px; border-radius: 8px; background: #ecf0f3; }
+.mg-ask-message--assistant { align-self: flex-start; }
+.mg-ask-message p { margin: 0; overflow-wrap: anywhere; white-space: pre-wrap; }
+.mg-ask-info { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; padding: 28px; }
+.mg-ask-info h3, .mg-ask-info p { margin: 0; }
+.mg-ask-info h3 { font-size: 16px; }
+.mg-ask-history { display: flex; flex-direction: column; flex: 1; min-height: 0; padding: 0 16px 16px; }
+.mg-ask-history-back.ui-button { position: relative; display: inline-flex; align-self: flex-start; justify-content: flex-start; gap: 8px; height: 20px; min-height: 20px; padding: 0; color: #161c24; font-size: 12px; line-height: 18px; font-weight: 400; }
+.mg-ask-history-back.ui-button::after { content: ''; position: absolute; inset: -12px -4px; }
+.mg-ask-history-back.ui-button img { display: block; flex: none; }
+.mg-ask-history-back.ui-button:hover { background: transparent; text-decoration: underline; }
+.mg-ask-history-list { display: flex; flex-direction: column; min-height: 0; margin-top: 11px; overflow-y: auto; }
+.mg-ask-history-row.ui-button { display: flex; align-items: center; justify-content: space-between; gap: 12px; width: 100%; min-height: 46px; padding: 4px 2px; border: 0; border-bottom: 1px solid #f9fafb; border-radius: 0; background: transparent; color: #161c24; text-align: left; font-size: 14px; line-height: 22px; font-weight: 400; }
+.mg-ask-history-row.ui-button:hover, .mg-ask-history-row.ui-button:focus-visible { background: #ecf0f3; }
+.mg-ask-history-row > span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mg-ask-history-row small { flex: none; color: #637381; font-size: 12px; line-height: 18px; font-weight: 400; white-space: nowrap; }
+.mg-sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+@media (max-width: 1800px) {
+  .management-page.mg-ask-open .mg-toolbar { flex-wrap: wrap; }
+  .management-page.mg-ask-open .mg-tabs { flex: 1 1 678px; }
+}
 .mg-card { margin-bottom: 24px; padding: 24px; border: 1px solid #c4cdd5; border-radius: 12px; background: #fff; }
 .mg-card h1, .mg-card h2, .mg-card h3 { margin: 0; color: #212b36; }
 .mg-card h1, .mg-card h2 { font-size: 20px; line-height: 30px; font-weight: 700; }
@@ -40,7 +107,14 @@
 .mg-empty-panel { min-height: 280px; }
 .mg-empty-panel p { max-width: 560px; color: #637381; }
 .mg-mobile-toolbar { display: none; }
+@media (max-width: 1299px) {
+  .management-page.mg-ask-open { grid-template-columns: 280px minmax(0, 1fr); }
+  .management-page.oc-is-collapsed.mg-ask-open { grid-template-columns: 80px minmax(0, 1fr); }
+  .mg-ask-column { position: fixed; z-index: 110; top: 0; right: 0; bottom: 0; width: min(var(--mg-ask-width), 100vw); box-shadow: -12px 0 32px #161c2426; }
+  .mg-ask-resize { display: none; }
+}
 @media (max-width: 1023px) {
+  .management-page.mg-ask-open, .management-page.oc-is-collapsed.mg-ask-open { grid-template-columns: 0 minmax(0, 1fr); }
   .mg-mobile-toolbar { display: flex; align-items: center; justify-content: space-between; padding: 12px 24px; background: #fff; border-bottom: 1px solid #dfe2e8; }
   .mg-navigation-dialog .oc-nav-intro { max-height: none; flex: 1; margin-bottom: 0; }
   .mg-navigation-dialog .mg-nav { overflow-y: auto; }
@@ -48,7 +122,12 @@
 @media (max-width: 767px) {
   .mg-mobile-toolbar { padding: 8px 16px; }
   .mg-dashboard { width: calc(100% - 32px); margin-top: 24px; }
-  .mg-tabs { width: 100%; justify-content: flex-start; }
+  .mg-toolbar { align-items: flex-start; gap: 8px; }
+  .mg-tabs { flex: 1; min-width: 0; justify-content: flex-start; }
+  .mg-tabs .ui-button { font-size: 12px; }
+  .mg-toolbar-actions { gap: 0; }
+  .mg-ask-column { width: 100vw; }
+  .mg-ask-composer { margin: 0 16px 16px; }
   .mg-card { padding: 16px; }
   .mg-insight-columns { grid-template-columns: 1fr; gap: 16px; }
   .mg-metrics { grid-template-columns: 1fr; gap: 12px; }
