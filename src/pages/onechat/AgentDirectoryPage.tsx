@@ -1,9 +1,10 @@
 import { Input } from '../../components/ui/input';
 import { Textarea } from '../../components/ui/textarea';
 import { useEffect, useId, useRef, useState, type FormEvent } from 'react';
-import { Bell, Menu, X } from '../../components/ui/solar-icons';
+import { Bell, Menu, Pencil, Share, X } from '../../components/ui/solar-icons';
 import { Button } from '../../components/ui/button';
 import { Dialog } from '../../components/ui/dialog';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuTrigger } from '../../components/ui/dropdown-menu';
 import { Feedback } from '../../components/ui/feedback';
 import { useNotifications } from '../../components/notifications/NotificationProvider';
 import { Asset, SidebarContent } from './ChatShell';
@@ -11,6 +12,7 @@ import { assets } from './assets';
 import { useAgentNavigation } from './AgentNavigationState';
 import type { ChatAgent } from './agent-data';
 import type { Conversation } from './data';
+import moreActionsIcon from '../../assets/onechat/more-actions.svg';
 import { directoryArt, directoryStorageKey, loadPersonalAgents, officialAgents, sharedAgents, type DirectoryAgent } from './directory-data';
 import './agent-directory.css';
 
@@ -24,14 +26,37 @@ function DirectoryAvatar({ agent }: { agent: DirectoryAgent }) {
 function AgentCard({ agent, onOpen, onEdit, onShare }: {
   agent: DirectoryAgent; onOpen: () => void; onEdit?: () => void; onShare?: () => void;
 }) {
+  const actions = useRef<HTMLButtonElement>(null);
+  const actionOnClose = useRef<(() => void) | undefined>();
+  const actionsLabel = `Actions for ${agent.name}`;
+
   return <article className={`ep-card ${agent.scope === 'mine' ? 'ep-card--personal' : ''}`} aria-label={agent.name}>
     <div className="ep-card-heading"><DirectoryAvatar agent={agent} />
       <h3><Button className="ep-card-open" onClick={onOpen} aria-label={`Chat with ${agent.name}`} aria-description={agent.scope === 'official' ? 'Official agent. Opens a local demo conversation.' : 'Opens a local demo conversation.'}>{agent.name}</Button></h3>
     </div>
     <p className="ep-card-description">{agent.description}</p>
     {agent.scope === 'mine' && <div className="ep-card-actions">
-      <Button size="icon" aria-label={`Share ${agent.name}`} onClick={onShare}><Asset src={directoryArt.share} /><span className="ep-tooltip" aria-hidden="true">Share</span></Button>
-      <Button size="icon" aria-label={`Edit ${agent.name}`} onClick={onEdit}><Asset src={directoryArt.edit} /><span className="ep-tooltip" aria-hidden="true">Edit</span></Button>
+      <DropdownMenu modal={false}>
+        <DropdownMenuTrigger asChild>
+          <Button ref={actions} className="oc-card-action-trigger" size="icon" aria-label={actionsLabel}>
+            <img src={moreActionsIcon} width={16} height={16} alt="" aria-hidden="true" />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent className="oc-card-actions-menu" aria-label={actionsLabel} align="end" sideOffset={4}
+          onCloseAutoFocus={event => {
+            const openDialog = actionOnClose.current;
+            if (!openDialog) return;
+            actionOnClose.current = undefined;
+            event.preventDefault();
+            actions.current?.focus();
+            openDialog();
+          }}>
+          <DropdownMenuGroup>
+            <DropdownMenuItem className="ui-button" onSelect={() => { actionOnClose.current = onShare; }}><Share size={16} />Share</DropdownMenuItem>
+            <DropdownMenuItem className="ui-button" onSelect={() => { actionOnClose.current = onEdit; }}><Pencil size={16} />Edit</DropdownMenuItem>
+          </DropdownMenuGroup>
+        </DropdownMenuContent>
+      </DropdownMenu>
     </div>}
   </article>;
 }

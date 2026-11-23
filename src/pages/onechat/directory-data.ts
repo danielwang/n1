@@ -5,8 +5,6 @@ import study from '../../assets/onechat/agent/centaurus.png';
 import official from '../../assets/onechat/directory/official.svg';
 import code from '../../assets/onechat/directory/code.svg';
 import search from '../../assets/onechat/directory/search.svg';
-import edit from '../../assets/onechat/directory/edit.svg';
-import share from '../../assets/onechat/directory/share.svg';
 import plus from '../../assets/onechat/directory/plus-circle.svg';
 import plusSmall from '../../assets/onechat/directory/plus-small.svg';
 import chevron from '../../assets/onechat/directory/chevron.svg';
@@ -19,7 +17,7 @@ export interface DirectoryAgent {
   glyph: AgentGlyph;
   scope: 'official' | 'mine' | 'shared';
 }
-export const directoryArt = { data, aero, knowledge, study, official, code, search, edit, share, plus, plusSmall, chevron };
+export const directoryArt = { data, aero, knowledge, study, official, code, search, plus, plusSmall, chevron };
 
 const officialRow: Omit<DirectoryAgent, 'id'>[] = [
   { name: 'DataAnalyzer', description: 'An AI tool that processes large datasets to uncover trends and insights, aiding decision-making.', glyph: 'data', scope: 'official' },

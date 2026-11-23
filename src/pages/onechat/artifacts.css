@@ -1,29 +1,30 @@
 /* Figma 20427:47955: white library surface using inherited ONEdesign roles. */
 .artifacts-page { min-height: 640px; background: var(--oc-background); }
 .artifacts-page, .artifacts-page *, .af-dialog, .af-dialog * { box-sizing: border-box; }
-.artifacts-page :is(button, input), .af-dialog :is(button, input) { font-family: inherit; }
+.artifacts-page :is(button, input, select), .af-dialog :is(button, input) { font-family: inherit; }
 .af-main :is(button, input, a):focus-visible, .af-dialog :is(button, input, a):focus-visible { outline-color: #4759a7; }
 .artifacts-page .af-main { overflow: auto; background: var(--oc-background); }
 .af-content { max-width: 1264px; width: 100%; margin: 0 auto; padding: 31px 32px 32px; }
 .af-heading h1 { margin: 0; font-size: 24px; line-height: 36px; font-weight: 700; }
 .af-heading p { margin: 8px 0 0; font-size: 14px; line-height: 22px; }
-.af-tabs { display: flex; gap: 40px; height: 48px; margin-top: 12px; border-bottom: 1px solid #c4cdd5; }
-.af-tabs > button { min-height: 48px; padding: 0; border: 0; border-bottom: 2px solid transparent; border-radius: 0; color: var(--oc-muted); }
+.af-tabs { display: flex; gap: 32px; margin-top: 12px; border-bottom: 1px solid var(--oc-border); }
+.af-tabs > button { flex-shrink: 1; min-height: 48px; padding: 0; border: 0; border-bottom: 2px solid transparent; border-radius: 0; color: var(--oc-muted); text-align: left; }
 .af-tabs > button[aria-selected="true"] { color: var(--oc-text); border-bottom-color: var(--oc-text); }
 .af-tabs > button:hover { background: transparent; color: var(--oc-text); }
-.af-controls { display: flex; justify-content: space-between; align-items: center; gap: 24px; margin-top: 24px; }
-.af-filters { display: flex; width: 662px; max-width: 100%; min-height: 44px; padding: 3px; border: 1px solid #c4cdd5; border-radius: 8px; background: var(--oc-surface); }
-.af-filters > button { position: relative; flex: 1; min-width: 44px; min-height: 36px; padding: 0 16px; white-space: nowrap; }
-.af-filters > button::after { content: ''; position: absolute; inset: -4px 0; }
-.af-filters > button[aria-pressed="true"] { background: var(--oc-border); }
-.af-search { display: flex; align-items: center; gap: 8px; flex-shrink: 0; width: 247px; height: 40px; padding: 0 12px; border: 1px solid #c4cdd5; border-radius: 8px; background: var(--oc-surface); }
+.af-controls { display: grid; grid-template-columns: minmax(0, 1fr) repeat(2, minmax(0, 176px)); gap: 16px; margin-top: 24px; }
+.af-search-field, .af-select-field { display: grid; gap: 6px; min-width: 0; font-weight: 600; }
+.af-search-field { width: 100%; max-width: 400px; }
+.af-search { display: flex; align-items: center; gap: 8px; height: 44px; padding: 0 12px; border: 1px solid var(--oc-muted); border-radius: 8px; background: var(--oc-surface); }
 .af-search > svg { flex-shrink: 0; }
-.af-search input { width: 100%; min-width: 0; height: 44px; border: 0; padding: 0; background: transparent; color: var(--oc-text); font-size: 14px; }
-.af-search input::placeholder { color: var(--oc-muted); opacity: 1; }
+.af-search input { width: 100%; min-width: 0; height: 42px; border: 0; padding: 0; background: transparent; color: var(--oc-text); font-size: 14px; font-weight: 400; }
 .af-search:focus-within { outline: 2px solid #4759a7; outline-offset: 2px; }
 .af-search input:focus-visible { outline: none; }
 .af-search > button { margin-right: -12px; }
-.af-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; margin-top: 24px; }
+.af-select-field select { height: 44px; border-color: var(--oc-muted); font-weight: 400; }
+.af-select-field select:focus { border-width: 1px; }
+.af-select-field select:focus-visible { outline: 2px solid #4759a7; outline-offset: 2px; }
+.af-count { margin: 16px 0 12px; color: var(--oc-muted); }
+.af-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; }
 .af-card { position: relative; display: flex; flex-direction: column; min-width: 0; min-height: 252px; padding: 15px; border: 1px solid var(--oc-border); border-radius: 12px; background: var(--oc-surface); }
 .af-card:hover, .af-card:focus-within { border-color: var(--oc-muted); }
 .af-card:has(.af-card-open:focus-visible) { outline: 2px solid #4759a7; outline-offset: 3px; }
@@ -37,12 +38,11 @@
 .af-card-open:focus-visible { outline: none !important; }
 .af-card-heading p { margin: 0; color: var(--oc-muted); font-size: 14px; line-height: 22px; }
 .af-description { margin: 8px 0 16px; color: var(--oc-muted); font-size: 14px; line-height: 22px; }
-.af-card-footer { display: flex; align-items: center; min-height: 22px; margin-top: auto; padding-left: 5px; color: var(--oc-text); }
-.af-share { position: absolute; z-index: 1; right: 1px; bottom: 4px; opacity: 0; pointer-events: none; }
-.af-card:hover .af-share, .af-card:focus-within .af-share { opacity: 1; pointer-events: auto; }
-.af-empty { margin-top: 24px; padding: 48px 24px; border: 1px solid var(--oc-border); border-radius: 12px; text-align: center; }
-.af-empty h2 { font-size: 20px; line-height: 30px; }
-.af-empty p { color: var(--oc-muted); }
+.af-card-footer { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; min-height: 44px; margin-top: auto; color: var(--oc-muted); font-size: 12px; line-height: 18px; }
+.af-card-actions { margin-inline-start: auto; color: var(--oc-text); }
+.af-empty { padding: 24px 0; border-top: 1px solid var(--oc-border); }
+.af-empty h2 { margin: 0; font-size: 20px; line-height: 30px; }
+.af-empty p { margin: 8px 0 16px; color: var(--oc-muted); }
 .af-responsive-toolbar { display: none; }
 .artifacts-page.oc-is-collapsed .af-responsive-toolbar { display: none; }
 .af-dialog { width: min(560px, calc(100vw - 32px)); font: 14px/22px "Segoe UI", system-ui, -apple-system, sans-serif; }
@@ -54,25 +54,24 @@
 .af-share-form label { display: block; margin: 16px 0 8px; font-weight: 600; }
 
 .af-dialog-actions { display: flex; justify-content: flex-end; margin-top: 24px; }
-@media (max-width: 1599px) { .af-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } .af-filters { width: auto; flex: 1; } .af-filters > button { padding: 0 12px; } }
-@media (max-width: 1199px) { .af-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .af-controls { flex-wrap: wrap; gap: 16px; } .af-filters { flex: 0 1 662px; } .af-search { width: 100%; } }
+@media (max-width: 1599px) { .af-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 1199px) { .af-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 1023px) {
   .artifacts-page { min-height: 0; }
   .af-responsive-toolbar, .artifacts-page.oc-is-collapsed .af-responsive-toolbar { position: static; display: flex; align-items: center; justify-content: space-between; height: 64px; padding: 8px 24px; }
   .af-content { padding: 8px 24px 32px; }
-  .af-controls { flex-wrap: wrap; }
-  .af-search input { font-size: 16px; }
+  .af-search input, .af-select-field select { font-size: 16px; }
 }
 @media (max-width: 639px) {
   .af-content { padding: 8px 16px 32px; }
   .af-responsive-toolbar { padding: 8px 16px; }
-  .af-tabs { gap: 24px; }
-  .af-filters { flex-wrap: wrap; width: 100%; gap: 4px; padding: 4px; }
-  .af-filters > button { flex: 1 1 auto; min-height: 44px; }
-  .af-filters > button::after { inset: 0; }
+  .af-tabs { gap: 16px; }
+  .af-controls { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .af-search-field { grid-column: 1 / -1; max-width: none; }
   .af-grid { grid-template-columns: minmax(0, 1fr); gap: 16px; }
   .af-card { min-height: 220px; }
-  .af-share { opacity: 1; pointer-events: auto; }
   .af-dialog { padding: 20px; }
 }
-@media (hover: none) { .af-share { opacity: 1; pointer-events: auto; } }
+@media (max-width: 379px) {
+  .af-controls { grid-template-columns: minmax(0, 1fr); }
+}
