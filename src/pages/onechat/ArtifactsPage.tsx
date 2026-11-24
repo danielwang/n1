@@ -47,7 +47,7 @@ function ArtifactCard({ artifact, onOpen, onShare, onArchive, onRestore }: {
       <time dateTime={artifact.updatedAt}>{formatArtifactDate(artifact.updatedAt)}</time>
       {(onShare || onArchive || onRestore) && <DropdownMenu modal={false}>
         <DropdownMenuTrigger asChild>
-          <Button ref={actions} className="af-card-actions oc-card-action-trigger" size="icon" aria-label={actionsLabel}>
+          <Button ref={actions} className="af-card-actions" size="icon" aria-label={actionsLabel}>
             <img src={moreActionsIcon} width={16} height={16} alt="" aria-hidden="true" />
           </Button>
         </DropdownMenuTrigger>

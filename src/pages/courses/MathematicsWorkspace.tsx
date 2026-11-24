@@ -254,7 +254,7 @@ export function MathematicsWorkspace() {
       <aside className="psy-panel psy-explorer" aria-label="Course explorer">
         <div className="psy-explorer-header">
           <h2>Sources</h2>
-          <button className="psy-icon" aria-label="Collapse course explorer" onClick={() => closePanel('explorer')}><img src={sidebarLeftCloseIcon} alt="" width="20" height="20" /></button>
+          <button className="psy-icon ui-icon-action" aria-label="Collapse course explorer" onClick={() => closePanel('explorer')}><img src={sidebarLeftCloseIcon} alt="" width="20" height="20" /></button>
         </div>
         <div className="psy-explorer-content">
           <>
@@ -269,18 +269,18 @@ export function MathematicsWorkspace() {
     material: (
       <section className="psy-panel psy-content-panel" aria-label="Course material">
         <div className="psy-panel-heading"><span>{material?.title || 'Material'}</span><div className="psy-panel-actions">
-          <button className="psy-icon" aria-label={expanded === 'material' ? 'Restore material panel' : 'Expand material panel'} onClick={() => toggleExpanded('material')}><img src={expanded === 'material' ? quitFullScreenIcon : fullScreenIcon} alt="" width="20" height="20" /></button>
-          <button className="psy-icon" aria-label="Close material panel" onClick={() => closePanel('material')}><img src={closeIcon} alt="" width="20" height="20" /></button>
+          <button className="psy-icon ui-icon-action" aria-label={expanded === 'material' ? 'Restore material panel' : 'Expand material panel'} onClick={() => toggleExpanded('material')}><img src={expanded === 'material' ? quitFullScreenIcon : fullScreenIcon} alt="" width="20" height="20" /></button>
+          <button className="psy-icon ui-icon-action" aria-label="Close material panel" onClick={() => closePanel('material')}><img src={closeIcon} alt="" width="20" height="20" /></button>
         </div></div>
-        <div className="psy-file-tabs" role="tablist" aria-label="Open course files">{openFiles.map((id, index) => { const file = courseMaterials.find(item => item.id === id); return <div key={id} className="psy-file-tab" role="tab" aria-selected={id === selectedMaterial} tabIndex={id === selectedMaterial ? 0 : -1} onClick={() => setSelectedMaterial(id)} onKeyDown={event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); setSelectedMaterial(id); } else if (['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) { event.preventDefault(); const nextIndex = event.key === 'Home' ? 0 : event.key === 'End' ? openFiles.length - 1 : (index + (event.key === 'ArrowRight' ? 1 : -1) + openFiles.length) % openFiles.length; setSelectedMaterial(openFiles[nextIndex]); (event.currentTarget.parentElement?.children[nextIndex] as HTMLElement | undefined)?.focus(); } }}><img src={documentIcon} alt="" width="16" height="16" /><span>{file?.title}</span><button aria-label={`Close ${file?.title}`} onClick={event => { event.stopPropagation(); closeMaterialTab(id); }}><img src={closeIcon} alt="" width="16" height="16" /></button></div>; })}</div>
+        <div className="psy-file-tabs" role="tablist" aria-label="Open course files">{openFiles.map((id, index) => { const file = courseMaterials.find(item => item.id === id); return <div key={id} className="psy-file-tab" role="tab" aria-selected={id === selectedMaterial} tabIndex={id === selectedMaterial ? 0 : -1} onClick={() => setSelectedMaterial(id)} onKeyDown={event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); setSelectedMaterial(id); } else if (['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) { event.preventDefault(); const nextIndex = event.key === 'Home' ? 0 : event.key === 'End' ? openFiles.length - 1 : (index + (event.key === 'ArrowRight' ? 1 : -1) + openFiles.length) % openFiles.length; setSelectedMaterial(openFiles[nextIndex]); (event.currentTarget.parentElement?.children[nextIndex] as HTMLElement | undefined)?.focus(); } }}><img src={documentIcon} alt="" width="16" height="16" /><span>{file?.title}</span><button className="ui-icon-action" aria-label={`Close ${file?.title}`} onClick={event => { event.stopPropagation(); closeMaterialTab(id); }}><img src={closeIcon} alt="" width="16" height="16" /></button></div>; })}</div>
         {material && <div className="psy-document"><span>{material.kind} · MAT203</span><h2>{material.title}</h2><p>{material.summary}</p>{material.sections.map(item => <section key={item.heading}><h3>{item.heading}</h3><p>{item.body}</p></section>)}<small>Sample course material · Local prototype</small></div>}
       </section>
     ),
     artifact: (
       <section className="psy-panel psy-content-panel psy-artifact" aria-label="Study artifact">
-        <div className="psy-panel-heading"><span>{noteOpen ? 'My applied statistics notes' : 'Artifact'}</span><div className="psy-panel-actions">
-          <button className="psy-icon" aria-label={expanded === 'artifact' ? 'Restore artifact panel' : 'Expand artifact panel'} onClick={() => toggleExpanded('artifact')}><img src={expanded === 'artifact' ? quitFullScreenLightIcon : fullScreenLightIcon} alt="" width="20" height="20" /></button>
-          <button className="psy-icon" aria-label="Close artifact panel" onClick={() => closePanel('artifact')}><img src={closeLightIcon} alt="" width="20" height="20" /></button>
+        <div className="psy-panel-heading ui-icon-actions-inverse"><span>{noteOpen ? 'My applied statistics notes' : 'Artifact'}</span><div className="psy-panel-actions">
+          <button className="psy-icon ui-icon-action" aria-label={expanded === 'artifact' ? 'Restore artifact panel' : 'Expand artifact panel'} onClick={() => toggleExpanded('artifact')}><img src={expanded === 'artifact' ? quitFullScreenLightIcon : fullScreenLightIcon} alt="" width="20" height="20" /></button>
+          <button className="psy-icon ui-icon-action" aria-label="Close artifact panel" onClick={() => closePanel('artifact')}><img src={closeLightIcon} alt="" width="20" height="20" /></button>
         </div></div>
         {noteOpen && <div className="psy-note"><label htmlFor="psy-note-text">Study note</label><Textarea unstyled id="psy-note-text" value={noteText} onChange={event => setNoteText(event.target.value)} /><p>Changes are kept for this session. This is sample content.</p></div>}
       </section>
@@ -290,23 +290,23 @@ export function MathematicsWorkspace() {
         <div className="psy-chat-heading">
           <div className="psy-chat-heading-start">
             <Button variant="outline" className="psy-chat-model" aria-label="Chat model: GPT 5.1" aria-haspopup="dialog" aria-expanded={modelOpen} onClick={() => setModelOpen(true)}><img src={chatModelIcon} alt="" width="18" height="18" /><span>GPT 5.1</span><img src={chatChevronIcon} alt="" width="18" height="18" /></Button>
-            <button className="psy-icon" aria-label="New course chat" onClick={newCourseChat}><img src={chatNewIcon} alt="" width="20" height="20" /></button>
-            <button className="psy-icon" aria-label="Export course chat" onClick={exportChat}><img src={chatExportIcon} alt="" width="20" height="20" /></button>
+            <button className="psy-icon ui-icon-action" aria-label="New course chat" onClick={newCourseChat}><img src={chatNewIcon} alt="" width="20" height="20" /></button>
+            <button className="psy-icon ui-icon-action" aria-label="Export course chat" onClick={exportChat}><img src={chatExportIcon} alt="" width="20" height="20" /></button>
           </div>
           <div className="psy-chat-heading-end">
-            <button className="psy-icon" aria-label={expanded === 'chat' ? 'Restore chat panel' : 'Expand chat panel'} onClick={() => toggleExpanded('chat')}><img src={expanded === 'chat' ? quitFullScreenIcon : fullScreenIcon} alt="" width="20" height="20" /></button>
-            {(open.material || open.artifact) && <button className="psy-icon" aria-label="Close chat panel" onClick={() => closePanel('chat')}><img src={closeIcon} alt="" width="20" height="20" /></button>}
+            <button className="psy-icon ui-icon-action" aria-label={expanded === 'chat' ? 'Restore chat panel' : 'Expand chat panel'} onClick={() => toggleExpanded('chat')}><img src={expanded === 'chat' ? quitFullScreenIcon : fullScreenIcon} alt="" width="20" height="20" /></button>
+            {(open.material || open.artifact) && <button className="psy-icon ui-icon-action" aria-label="Close chat panel" onClick={() => closePanel('chat')}><img src={closeIcon} alt="" width="20" height="20" /></button>}
             <div className="psy-chat-budget" role="meter" aria-label="Budget indicator" aria-valuemin={0} aria-valuemax={100} aria-valuenow={68} title="Budget indicator: 68% (demo)"><img src={chatBudgetIcon} alt="" width="24" height="24" /></div>
           </div>
         </div>
         <div className="psy-chat-body">
           {messages.length ? <div className="psy-chat-messages" aria-live="polite">{messages.map(item => <article key={item.id} className={item.role === 'student' ? 'psy-message psy-message-student' : 'psy-message'}><strong>{item.role === 'student' ? 'You' : 'Course assistant · Local demo'}</strong><p>{item.text}</p>{item.role === 'assistant' && <button className="psy-reply-artifact" onClick={() => createNoteFromReply(item.text)}><img src={artifactIcon} alt="" width="18" height="18" />Open as study note</button>}</article>)}{replyPending && <p role="status">Preparing a sample response…</p>}<div ref={chatEndRef} /></div> : <div className="psy-chat-empty"><p>Ask anything about this course, or select materials to focus the conversation</p></div>}
           <form className="psy-composer" onSubmit={sendMessage}>
-          <button type="button" className="psy-icon" aria-label="Create study note" onClick={() => { setNoteOpen(true); showPanel('artifact'); }}><img src={plusIcon} alt="" width="24" height="24" /></button>
+          <button type="button" className="psy-icon ui-icon-action" aria-label="Create study note" onClick={() => { setNoteOpen(true); showPanel('artifact'); }}><img src={plusIcon} alt="" width="24" height="24" /></button>
           <label className="psy-sr-only" htmlFor="psy-chat-input">Ask about this course</label>
           <Textarea unstyled id="psy-chat-input" rows={1} value={draft} placeholder={viewportBand === 'compact' ? 'Ask…' : viewportBand === 'small' ? 'Ask a question' : 'Let’s discover what only you could ask'} onChange={event => setDraft(event.target.value)} onKeyDown={event => { if (event.key === 'Enter' && !event.shiftKey) { event.preventDefault(); event.currentTarget.form?.requestSubmit(); } }} />
-          <button type="button" className="psy-icon psy-mic" aria-label="Microphone demo information" onClick={() => setInfo({ title: 'Voice input', message: 'Voice input is not connected in this local prototype. Type your question to try the course chat.' })}><img src={micIcon} alt="" width="18" height="18" /></button>
-          {draft.trim() ? <button type="submit" className="psy-send" aria-label="Send message" disabled={replyPending}>Send</button> : <button type="button" className="psy-voice" aria-label="Voice conversation demo information" onClick={() => setInfo({ title: 'Voice conversation', message: 'Voice conversation is not connected in this local prototype. Type your question to try the course chat.' })}><img src={chatCtaIcon} alt="" width="36" height="36" /><img className="psy-voice-wave" src={soundwaveIcon} alt="" width="24" height="24" /></button>}
+          <button type="button" className="psy-icon psy-mic ui-icon-action" aria-label="Microphone demo information" onClick={() => setInfo({ title: 'Voice input', message: 'Voice input is not connected in this local prototype. Type your question to try the course chat.' })}><img src={micIcon} alt="" width="18" height="18" /></button>
+          {draft.trim() ? <button type="submit" className="psy-send ui-icon-action ui-icon-action--filled" aria-label="Send message" disabled={replyPending}>Send</button> : <button type="button" className="psy-voice ui-icon-action ui-icon-action--filled" aria-label="Voice conversation demo information" onClick={() => setInfo({ title: 'Voice conversation', message: 'Voice conversation is not connected in this local prototype. Type your question to try the course chat.' })}><img src={chatCtaIcon} alt="" width="36" height="36" /><img className="psy-voice-wave" src={soundwaveIcon} alt="" width="24" height="24" /></button>}
           </form>
         </div>
       </section>
@@ -316,7 +316,7 @@ export function MathematicsWorkspace() {
   const collapsedExplorer = (
     <aside className="psy-panel psy-explorer-rail" aria-label="Collapsed course explorer">
       <div className="psy-panel-heading">
-        <button className="psy-icon" aria-label="Expand course explorer" onClick={() => showPanel('explorer')}><img src={sidebarLeftOpenIcon} alt="" width="20" height="20" /></button>
+        <button className="psy-icon ui-icon-action" aria-label="Expand course explorer" onClick={() => showPanel('explorer')}><img src={sidebarLeftOpenIcon} alt="" width="20" height="20" /></button>
       </div>
     </aside>
   );
@@ -335,7 +335,7 @@ export function MathematicsWorkspace() {
     <aside className="oc-sidebar" aria-label="Chat sidebar"><SidebarContent {...sidebarProps} collapsed={navCollapsed} onClose={() => setNavCollapsed(value => !value)} /></aside>
     <div className="oc-main psy-main">
       <header className="psy-header">
-        <button className="psy-back" aria-label="Back to courses" onClick={() => { window.location.hash = '/onechat/courses'; }}><img src={backIcon} alt="" width="24" height="24" /></button>
+        <button className="psy-back ui-icon-action" aria-label="Back to courses" onClick={() => { window.location.hash = '/onechat/courses'; }}><img src={backIcon} alt="" width="24" height="24" /></button>
         <h1>{courseTitle}</h1>
         {!chatVisible && <Button variant="outline" className="psy-header-chat" onClick={() => showPanel('chat')}><img src={chatTabIcon} alt="" width="20" height="20" />Chat</Button>}
         <Button className="psy-mobile-bell" size="icon" aria-label={`Notifications, ${notifications.unreadCount} unread`} onClick={notifications.open}><img src={bellIcon} alt="" width="20" height="20" /></Button>

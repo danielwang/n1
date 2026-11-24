@@ -196,12 +196,12 @@ export function SiblingCourseWorkspace({ courseId }: { courseId: SiblingCourseId
       <aside className="psy-panel psy-explorer" aria-label="Course explorer">
         <div className="psy-explorer-header">
           <h2>Sources</h2>
-          <button className="psy-icon" aria-label="Collapse course explorer" onClick={() => closePanel('explorer')}><img src={sidebarLeftCloseIcon} alt="" width="20" height="20" /></button>
+          <button className="psy-icon ui-icon-action" aria-label="Collapse course explorer" onClick={() => closePanel('explorer')}><img src={sidebarLeftCloseIcon} alt="" width="20" height="20" /></button>
         </div>
         <div className="psy-source-tabs" role="group" aria-label="Source collection">
           <button aria-pressed={sourceMode === 'knowledge'} onClick={() => setSourceMode('knowledge')}><img src={sourceKnowledgeIcon} alt="" /><span>Knowledge</span></button>
-          <button aria-label="Notes" title="Notes" aria-pressed={sourceMode === 'notes'} onClick={() => setSourceMode('notes')}><img src={sourceNotesIcon} alt="" /></button>
-          <button aria-label="Chats" title="Chats" aria-pressed={sourceMode === 'chats'} onClick={() => setSourceMode('chats')}><img src={sourceChatsIcon} alt="" /></button>
+          <button className="ui-icon-action" aria-label="Notes" title="Notes" aria-pressed={sourceMode === 'notes'} onClick={() => setSourceMode('notes')}><img src={sourceNotesIcon} alt="" /></button>
+          <button className="ui-icon-action" aria-label="Chats" title="Chats" aria-pressed={sourceMode === 'chats'} onClick={() => setSourceMode('chats')}><img src={sourceChatsIcon} alt="" /></button>
         </div>
         <div className="psy-explorer-content">
           {sourceMode === 'knowledge' ? <>
@@ -216,8 +216,8 @@ export function SiblingCourseWorkspace({ courseId }: { courseId: SiblingCourseId
     material: (
       <section className="psy-panel psy-content-panel" aria-label="Course material">
         <div className="psy-panel-heading"><strong>File Viewer</strong><div className="psy-panel-actions">
-          {isDesktopWorkspace && <button className="psy-icon" aria-label={expanded === 'material' ? 'Restore material panel' : 'Expand material panel'} onClick={() => toggleExpanded('material')}><img src={expanded === 'material' ? quitFullScreenIcon : fullScreenIcon} alt="" width="20" height="20" /></button>}
-          <button className="psy-icon" aria-label="Close material panel" onClick={() => closePanel('material')}><img src={closeIcon} alt="" width="20" height="20" /></button>
+          {isDesktopWorkspace && <button className="psy-icon ui-icon-action" aria-label={expanded === 'material' ? 'Restore material panel' : 'Expand material panel'} onClick={() => toggleExpanded('material')}><img src={expanded === 'material' ? quitFullScreenIcon : fullScreenIcon} alt="" width="20" height="20" /></button>}
+          <button className="psy-icon ui-icon-action" aria-label="Close material panel" onClick={() => closePanel('material')}><img src={closeIcon} alt="" width="20" height="20" /></button>
         </div></div>
         <CourseFileTabs openFiles={openFiles} selectedMaterial={selectedMaterial} materials={courseMaterials} onSelect={setSelectedMaterial} onClose={closeMaterialTab} />
         {material && <div className="psy-document"><span>{material.kind} · {course.code}</span><h2>{material.title}</h2><p>{material.summary}</p>{material.sections.map(item => <section key={item.heading}><h3>{item.heading}</h3><p>{item.body}</p></section>)}<small>Sample course material · Local prototype</small></div>}
@@ -225,9 +225,9 @@ export function SiblingCourseWorkspace({ courseId }: { courseId: SiblingCourseId
     ),
     artifact: (
       <section className={`psy-panel psy-content-panel psy-artifact ${selectedArtifact ? 'psy-artifact-viewing' : ''}`} aria-label="My Notebook">
-        <div className="psy-panel-heading"><strong>{selectedArtifact || 'My Notebook'}</strong><div className="psy-panel-actions">
-          {viewportBand !== 'small' && <button className="psy-icon" aria-label={expanded === 'artifact' ? 'Restore artifact panel' : 'Expand artifact panel'} onClick={() => toggleExpanded('artifact')}><img src={expanded === 'artifact' ? quitFullScreenLightIcon : fullScreenLightIcon} alt="" width="20" height="20" /></button>}
-          {(isDesktopWorkspace || selectedArtifact !== null) && <button className="psy-icon" aria-label={selectedArtifact ? 'Back to notebook' : 'Close notebook'} onClick={() => selectedArtifact ? setSelectedArtifact(null) : closePanel('artifact')}><img src={selectedArtifact ? closeLightIcon : sidebarRightCloseIcon} alt="" width="20" height="20" /></button>}
+        <div className={selectedArtifact ? "psy-panel-heading ui-icon-actions-inverse" : "psy-panel-heading"}><strong>{selectedArtifact || 'My Notebook'}</strong><div className="psy-panel-actions">
+          {viewportBand !== 'small' && <button className="psy-icon ui-icon-action" aria-label={expanded === 'artifact' ? 'Restore artifact panel' : 'Expand artifact panel'} onClick={() => toggleExpanded('artifact')}><img src={expanded === 'artifact' ? quitFullScreenLightIcon : fullScreenLightIcon} alt="" width="20" height="20" /></button>}
+          {(isDesktopWorkspace || selectedArtifact !== null) && <button className="psy-icon ui-icon-action" aria-label={selectedArtifact ? 'Back to notebook' : 'Close notebook'} onClick={() => selectedArtifact ? setSelectedArtifact(null) : closePanel('artifact')}><img src={selectedArtifact ? closeLightIcon : sidebarRightCloseIcon} alt="" width="20" height="20" /></button>}
         </div></div>
         {selectedArtifact ? <div className="psy-artifact-document"><span>{course.code} · SAMPLE ARTIFACT</span><h2>{selectedArtifact}</h2><p>{course.artifactIntro}</p><div className="psy-artifact-diagram"><div>{course.artifactStages[0]}</div><span>→</span><div>{course.artifactStages[1]}</div><span>→</span><div>{course.artifactStages[2]}</div></div><h3>Key idea</h3><p>{course.artifactIdea}</p><h3>Try it</h3><p>{course.artifactExercise}</p><table><caption>Study strategy comparison</caption><thead><tr><th scope="col">Strategy</th><th scope="col">What it checks</th></tr></thead><tbody>{course.artifactComparison.map(([strategy, purpose]) => <tr key={strategy}><td>{strategy}</td><td>{purpose}</td></tr>)}</tbody></table><small>Illustrative local content · No learning platform connected</small></div> : <>
           <div className="psy-notebook-tabs" role="group" aria-label="Notebook collection"><button aria-pressed={notebookTab === 'artifacts'} onClick={() => setNotebookTab('artifacts')}><img src={notebookArtifactsIcon} alt="" />Artifacts</button><button aria-pressed={notebookTab === 'notes'} onClick={() => setNotebookTab('notes')}><img src={notebookNotesIcon} alt="" />Notes</button><button aria-pressed={notebookTab === 'history'} onClick={() => setNotebookTab('history')}><img src={notebookHistoryIcon} alt="" />Chat History</button></div>
@@ -240,23 +240,23 @@ export function SiblingCourseWorkspace({ courseId }: { courseId: SiblingCourseId
         <div className="psy-chat-heading">
           <div className="psy-chat-heading-start">
             <Button variant="outline" className="psy-chat-model" aria-label="Chat model: GPT 5.1" aria-haspopup="dialog" aria-expanded={modelOpen} onClick={() => setModelOpen(true)}><img src={chatModelIcon} alt="" width="18" height="18" /><span>GPT 5.1</span><img src={chatChevronIcon} alt="" width="18" height="18" /></Button>
-            <button className="psy-icon" aria-label="New course chat" onClick={newCourseChat}><img src={chatNewIcon} alt="" width="20" height="20" /></button>
-            <button className="psy-icon" aria-label="Export course chat" onClick={exportChat}><img src={chatExportIcon} alt="" width="20" height="20" /></button>
+            <button className="psy-icon ui-icon-action" aria-label="New course chat" onClick={newCourseChat}><img src={chatNewIcon} alt="" width="20" height="20" /></button>
+            <button className="psy-icon ui-icon-action" aria-label="Export course chat" onClick={exportChat}><img src={chatExportIcon} alt="" width="20" height="20" /></button>
           </div>
           <div className="psy-chat-heading-end">
-            {viewportBand !== 'small' && <button className="psy-icon" aria-label={expanded === 'chat' ? 'Restore chat panel' : 'Expand chat panel'} onClick={() => toggleExpanded('chat')}><img src={expanded === 'chat' ? quitFullScreenIcon : fullScreenIcon} alt="" width="20" height="20" /></button>}
-            {isDesktopWorkspace && (open.material || open.artifact) && <button className="psy-icon" aria-label="Close chat panel" onClick={() => closePanel('chat')}><img src={closeIcon} alt="" width="20" height="20" /></button>}
+            {viewportBand !== 'small' && <button className="psy-icon ui-icon-action" aria-label={expanded === 'chat' ? 'Restore chat panel' : 'Expand chat panel'} onClick={() => toggleExpanded('chat')}><img src={expanded === 'chat' ? quitFullScreenIcon : fullScreenIcon} alt="" width="20" height="20" /></button>}
+            {isDesktopWorkspace && (open.material || open.artifact) && <button className="psy-icon ui-icon-action" aria-label="Close chat panel" onClick={() => closePanel('chat')}><img src={closeIcon} alt="" width="20" height="20" /></button>}
             <div className="psy-chat-budget" role="meter" aria-label="Budget indicator" aria-valuemin={0} aria-valuemax={100} aria-valuenow={68} title="Budget indicator: 68% (demo)"><img src={chatBudgetIcon} alt="" width="24" height="24" /></div>
           </div>
         </div>
         <div className="psy-chat-body">
           {messages.length ? <div className="psy-chat-messages" aria-live="polite">{messages.map(item => <article key={item.id} className={item.role === 'student' ? 'psy-message psy-message-student' : 'psy-message'}><strong>{item.role === 'student' ? 'You' : 'Course assistant · Local demo'}</strong><p>{item.text}</p>{item.role === 'assistant' && <button className="psy-reply-artifact" onClick={() => createNoteFromReply(item.text)}><img src={artifactIcon} alt="" width="18" height="18" />Open as study note</button>}</article>)}{replyPending && <p role="status">Preparing a sample response…</p>}<div ref={chatEndRef} /></div> : <div className="psy-chat-empty"><img src={chatEmptyArt} alt="" /><p>Ask anything about this course, or select materials to focus the conversation</p></div>}
           <form className="psy-composer" onSubmit={sendMessage}>
-          <button type="button" className="psy-icon" aria-label="Create study note" onClick={() => { setNoteOpen(true); setNotebookTab('notes'); setSelectedArtifact(null); showPanel('artifact'); }}><img src={plusIcon} alt="" width="24" height="24" /></button>
+          <button type="button" className="psy-icon ui-icon-action" aria-label="Create study note" onClick={() => { setNoteOpen(true); setNotebookTab('notes'); setSelectedArtifact(null); showPanel('artifact'); }}><img src={plusIcon} alt="" width="24" height="24" /></button>
           <label className="psy-sr-only" htmlFor="psy-chat-input">Ask about this course</label>
           <Textarea unstyled id="psy-chat-input" rows={1} value={draft} placeholder={viewportBand === 'compact' ? 'Ask…' : viewportBand === 'small' ? 'Ask a question' : 'Let’s discover what only you could ask'} onChange={event => setDraft(event.target.value)} onKeyDown={event => { if (event.key === 'Enter' && !event.shiftKey) { event.preventDefault(); event.currentTarget.form?.requestSubmit(); } }} />
-          <button type="button" className="psy-icon psy-mic" aria-label="Microphone demo information" onClick={() => setInfo({ title: 'Voice input', message: 'Voice input is not connected in this local prototype. Type your question to try the course chat.' })}><img src={micIcon} alt="" width="18" height="18" /></button>
-          {draft.trim() ? <button type="submit" className="psy-send" aria-label="Send message" disabled={replyPending}>Send</button> : <button type="button" className="psy-voice" aria-label="Voice conversation demo information" onClick={() => setInfo({ title: 'Voice conversation', message: 'Voice conversation is not connected in this local prototype. Type your question to try the course chat.' })}><img src={chatCtaIcon} alt="" width="36" height="36" /><img className="psy-voice-wave" src={soundwaveIcon} alt="" width="24" height="24" /></button>}
+          <button type="button" className="psy-icon psy-mic ui-icon-action" aria-label="Microphone demo information" onClick={() => setInfo({ title: 'Voice input', message: 'Voice input is not connected in this local prototype. Type your question to try the course chat.' })}><img src={micIcon} alt="" width="18" height="18" /></button>
+          {draft.trim() ? <button type="submit" className="psy-send ui-icon-action ui-icon-action--filled" aria-label="Send message" disabled={replyPending}>Send</button> : <button type="button" className="psy-voice ui-icon-action ui-icon-action--filled" aria-label="Voice conversation demo information" onClick={() => setInfo({ title: 'Voice conversation', message: 'Voice conversation is not connected in this local prototype. Type your question to try the course chat.' })}><img src={chatCtaIcon} alt="" width="36" height="36" /><img className="psy-voice-wave" src={soundwaveIcon} alt="" width="24" height="24" /></button>}
           </form>
         </div>
       </section>
@@ -266,7 +266,7 @@ export function SiblingCourseWorkspace({ courseId }: { courseId: SiblingCourseId
   const collapsedExplorer = (
     <aside className="psy-panel psy-explorer-rail" aria-label="Collapsed course explorer">
       <div className="psy-panel-heading">
-        <button className="psy-icon" aria-label="Expand course explorer" onClick={() => showPanel('explorer')}><img src={sidebarLeftOpenIcon} alt="" width="20" height="20" /></button>
+        <button className="psy-icon ui-icon-action" aria-label="Expand course explorer" onClick={() => showPanel('explorer')}><img src={sidebarLeftOpenIcon} alt="" width="20" height="20" /></button>
       </div>
     </aside>
   );
@@ -285,7 +285,7 @@ export function SiblingCourseWorkspace({ courseId }: { courseId: SiblingCourseId
     <aside className="oc-sidebar" aria-label="Chat sidebar"><SidebarContent {...sidebarProps} collapsed={navCollapsed} onClose={() => setNavCollapsed(value => !value)} /></aside>
     <div className="oc-main psy-main">
       <header className="psy-header">
-        <button className="psy-back" aria-label="Back to courses" onClick={() => { window.location.hash = '/onechat/courses'; }}><img src={backIcon} alt="" width="24" height="24" /></button>
+        <button className="psy-back ui-icon-action" aria-label="Back to courses" onClick={() => { window.location.hash = '/onechat/courses'; }}><img src={backIcon} alt="" width="24" height="24" /></button>
         <h1>{viewportBand === 'small' ? courseTitle.replace(' · ', ' - ') : courseTitle}</h1>
         {viewportBand !== 'small' && !chatVisible && <Button variant="outline" className="psy-header-chat" onClick={() => showPanel('chat')}><img src={chatTabIcon} alt="" width="20" height="20" />Chat</Button>}
         {viewportBand !== 'small' && !open.artifact && (expanded !== null && expanded !== 'chat' || viewportBand === 'medium') && <Button variant="outline" className="psy-header-notebook" onClick={() => showPanel('artifact')}>My Notebook</Button>}
@@ -301,7 +301,7 @@ export function SiblingCourseWorkspace({ courseId }: { courseId: SiblingCourseId
         value={viewportBand === 'medium' ? mediumPanel : activeMobilePanel}
         onValueChange={showPanel}
       />
-      <main className={`psy-layout psy-layout-${viewportBand} ${expanded ? 'psy-layout-expanded' : ''}`} style={{ '--psy-grid': gridColumns } as CSSProperties} aria-label={`${course.code} workspace`}>{layoutPanels.map((panel, index) => <div className={`psy-slot ${activeMobilePanel === panel ? 'psy-slot-active' : ''}`} key={panel}>{panelDivider(panel, index)}{panel === 'explorer' ? compactExplorerRail && !expanded ? <div className="psy-compact-explorer">{collapsedExplorer}{compactExplorerOpen && panels.explorer}</div> : viewportBand === 'medium' || viewportBand === 'small' ? panels.explorer : !open.explorer ? collapsedExplorer : panels.explorer : panels[panel]}</div>)}{notebookRailVisible && <div className="psy-slot psy-notebook-rail-slot"><aside className="psy-notebook-rail" aria-label="Collapsed My Notebook"><button className="psy-icon" aria-label="Open My Notebook" title="Open My Notebook" onClick={() => showPanel('artifact')}><img src={sidebarRightOpenIcon} alt="" width="20" height="20" /></button></aside></div>}</main>
+      <main className={`psy-layout psy-layout-${viewportBand} ${expanded ? 'psy-layout-expanded' : ''}`} style={{ '--psy-grid': gridColumns } as CSSProperties} aria-label={`${course.code} workspace`}>{layoutPanels.map((panel, index) => <div className={`psy-slot ${activeMobilePanel === panel ? 'psy-slot-active' : ''}`} key={panel}>{panelDivider(panel, index)}{panel === 'explorer' ? compactExplorerRail && !expanded ? <div className="psy-compact-explorer">{collapsedExplorer}{compactExplorerOpen && panels.explorer}</div> : viewportBand === 'medium' || viewportBand === 'small' ? panels.explorer : !open.explorer ? collapsedExplorer : panels.explorer : panels[panel]}</div>)}{notebookRailVisible && <div className="psy-slot psy-notebook-rail-slot"><aside className="psy-notebook-rail" aria-label="Collapsed My Notebook"><button className="psy-icon ui-icon-action" aria-label="Open My Notebook" title="Open My Notebook" onClick={() => showPanel('artifact')}><img src={sidebarRightOpenIcon} alt="" width="20" height="20" /></button></aside></div>}</main>
       <div className="psy-status psy-sr-only" role="status">{status}</div>
     </div>
     {modelOpen && <Dialog title="Chat model" onClose={() => setModelOpen(false)}><Button variant="outline" onClick={() => setModelOpen(false)}><img src={chatModelIcon} alt="" width="18" height="18" /> GPT 5.1 · Selected</Button><p>Model selection is simulated in this local prototype.</p></Dialog>}

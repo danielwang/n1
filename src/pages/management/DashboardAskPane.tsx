@@ -169,7 +169,7 @@ export function DashboardAskPane({ onClose, width, onWidthChange }: DashboardAsk
     {!showHistory && <form className="mg-ask-composer" onSubmit={event => { event.preventDefault(); send(draft); }}>
       <label className="mg-sr-only" htmlFor="mg-ask-input">Ask about your dashboard</label>
       <Input unstyled ref={inputRef} id="mg-ask-input" value={draft} onChange={event => setDraft(event.target.value)} placeholder="Ask anything about your dashboard..." />
-      <Button className="mg-ask-send" type="submit" size="icon" aria-label="Send question" disabled={!draft.trim()}><img src={chatCta} alt="" width="36" height="36" /><img className="mg-ask-send-icon" src={sendIcon} alt="" width="18" height="18" /></Button>
+      <Button className="mg-ask-send ui-icon-action--filled" type="submit" size="icon" aria-label="Send question" disabled={!draft.trim()}><img src={chatCta} alt="" width="36" height="36" /><img className="mg-ask-send-icon" src={sendIcon} alt="" width="18" height="18" /></Button>
     </form>}
   </aside>;
 }

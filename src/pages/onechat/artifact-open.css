@@ -16,9 +16,8 @@
 .ao-chat-header .ao-model { position: relative; display: flex; align-items: center; gap: 8px; min-height: 30px; height: 30px; padding: 0 12px; border-color: #637381; font-size: 12px; line-height: 22px; font-weight: 700; white-space: nowrap; }
 .ao-chat-header .ao-model::after { content: ''; position: absolute; inset: -7px 0; }
 .ao-model .oc-asset:first-child, .ao-model .oc-asset:last-child { width: 18px; height: 18px; }
-.ao-chat-actions { display: flex; align-items: center; gap: 16px; }
-.ao-chat-actions button { position: relative; width: 20px; min-height: 20px; height: 20px; padding: 0; }
-.ao-chat-actions button::after { content: ''; position: absolute; inset: -12px; }
+.ao-chat-actions { display: flex; align-items: center; gap: 2px; }
+.ao-chat-actions button { width: 44px; height: 44px; padding: 0; }
 .ao-chat-actions .oc-asset { width: 20px; height: 20px; }
 .ao-budget { display: block; width: 24px; height: 24px; flex: none; }
 .ao-budget img { display: block; width: 24px; height: 24px; }
@@ -60,11 +59,10 @@
 .ao-more { right: 0; left: auto; }
 .ao-view-toggle { display: flex; gap: 2px; padding: 3px; border: 1px solid #c4cdd5; border-radius: 8px; background: #fff; }
 .ao-view-toggle button { width: 32px; height: 28px; min-height: 28px; padding: 4px; border-radius: 6px; }
-.ao-view-toggle button[aria-pressed='true'] { background: #dfe2e8; }
 .ao-view-toggle img, .ao-panel-actions img { width: 20px; height: 20px; }
-.ao-panel-actions { display: flex; align-items: center; justify-content: flex-end; gap: 8px; }
+.ao-panel-actions { display: flex; align-items: center; justify-content: flex-end; gap: 2px; }
 .ao-panel-actions button { width: 32px; height: 36px; min-height: 36px; color: #fff; }
-.ao-panel-actions button:hover, .ao-version:hover { background: #637381; }
+.ao-version:hover { background: #637381; }
 .ao-panel-body { min-height: 0; flex: 1; overflow: auto; }
 @media (min-width: 1024px) { .artifact-open:not(.ao-full-screen) .ao-panel-body { border-left: 1px solid #dfe2e8; } }
 .ao-preview { display: flex; justify-content: center; width: 100%; padding-top: 18px; }
@@ -77,6 +75,6 @@
 .artifact-open.ao-full-screen .ao-divider { display: none; }
 .artifact-open.ao-full-screen .ao-panel { grid-column: 1; }
 .artifact-open :is(button, textarea):focus-visible { outline: 2px solid #37c5f0; outline-offset: 2px; }
-@media (max-width: 1199px) { .ao-panel-header { gap: 8px; padding: 6px 10px; } .ao-panel-actions { gap: 0; } .ao-title h1 { max-width: 170px; } }
+@media (max-width: 1199px) { .ao-panel-header { gap: 8px; padding: 6px 10px; } .ao-title h1 { max-width: 170px; } }
 @media (max-width: 1023px) { .artifact-open { height: auto; min-height: 100dvh; } .artifact-open .ao-workspace { grid-column: 2; grid-template-columns: minmax(0, 1fr); min-height: 100dvh; align-content: start; } .ao-divider { display: none; } .ao-chat { min-height: 430px; max-height: 520px; border-bottom: 1px solid #dfe2e8; } .ao-mobile-menu { display: inline-flex; } .ao-panel { grid-column: 1; grid-row: 2; min-height: 580px; } .ao-preview img { width: min(100%, 923px); } .artifact-open.ao-full-screen .ao-chat { display: none; } .artifact-open.ao-full-screen .ao-panel { grid-row: 1; } }
 @media (max-width: 639px) { .ao-chat { min-height: 470px; } .ao-chat-header { padding: 0 12px; gap: 4px; } .ao-chat-controls { width: auto; flex: 1; margin: 0 4px; } .ao-chat-actions button:not(:first-child) { display: none; } .ao-messages { padding: 20px 12px; } .ao-compose-wrap { padding: 12px; } .ao-composer > textarea { min-height: 44px; height: 44px; padding-block: 11px; } .ao-artifact-card small { flex-wrap: wrap; gap: 0 12px; white-space: normal; } .ao-panel-header { grid-template-columns: minmax(0, 1fr) auto; gap: 4px; } .ao-title h1 { max-width: none; overflow: visible; text-overflow: clip; white-space: normal; line-height: 20px; } .ao-view-toggle { grid-column: 1; grid-row: 2; justify-self: start; } .ao-panel-actions { grid-column: 2; grid-row: 1 / span 2; } .ao-panel-actions button { width: 30px; } .ao-panel { min-height: 500px; } .ao-code { padding: 16px; } .ao-code pre { padding: 12px; } }

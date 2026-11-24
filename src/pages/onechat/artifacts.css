@@ -40,6 +40,15 @@
 .af-description { margin: 8px 0 16px; color: var(--oc-muted); font-size: 14px; line-height: 22px; }
 .af-card-footer { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; min-height: 44px; margin-top: auto; color: var(--oc-muted); font-size: 12px; line-height: 18px; }
 .af-card-actions { margin-inline-start: auto; color: var(--oc-text); }
+@media (hover: hover) and (pointer: fine) {
+  .af-card:where(:not(:hover, :focus-within)) .af-card-actions:where([aria-expanded="false"]) {
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+@media (any-pointer: coarse) {
+  .af-card .af-card-actions { opacity: 1; pointer-events: auto; }
+}
 .af-empty { padding: 24px 0; border-top: 1px solid var(--oc-border); }
 .af-empty h2 { margin: 0; font-size: 20px; line-height: 30px; }
 .af-empty p { margin: 8px 0 16px; color: var(--oc-muted); }

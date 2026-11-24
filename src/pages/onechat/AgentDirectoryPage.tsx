@@ -38,7 +38,7 @@ function AgentCard({ agent, onOpen, onEdit, onShare }: {
     {agent.scope === 'mine' && <div className="ep-card-actions">
       <DropdownMenu modal={false}>
         <DropdownMenuTrigger asChild>
-          <Button ref={actions} className="oc-card-action-trigger" size="icon" aria-label={actionsLabel}>
+          <Button ref={actions} size="icon" aria-label={actionsLabel}>
             <img src={moreActionsIcon} width={16} height={16} alt="" aria-hidden="true" />
           </Button>
         </DropdownMenuTrigger>

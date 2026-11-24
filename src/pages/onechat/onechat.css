@@ -26,9 +26,8 @@
 .ui-button { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; border: 1px solid transparent; border-radius: 8px; padding: 0 16px; background: transparent; color: inherit; font-weight: 600; font-size: 14px; line-height: 22px; cursor: pointer; flex-shrink: 0; }
 .ui-button--outline { border-color: var(--oc-muted, #637381); background: var(--oc-surface, #fff); }
 .ui-button--size-icon { position: relative; width: 44px; height: 44px; padding: 0; }
-.ui-button:hover { background-color: rgb(99 115 129 / 10%); }
+.ui-button:not(:where(.ui-button--size-icon)):hover { background-color: rgb(99 115 129 / 10%); }
 .ui-button:disabled { opacity: .55; cursor: wait; }
-.oc-card-action-trigger[data-state="open"] { background: var(--oc-border); }
 .oc-card-actions-menu { z-index: 200; min-width: 160px; padding: 4px; border: 1px solid var(--border); border-radius: 8px; background: var(--background); color: var(--foreground); box-shadow: 0 8px 16px #919eab29; }
 .oc-card-actions-menu .ui-button { display: flex; justify-content: flex-start; padding-inline: 12px; font-weight: 400; }
 .oc-card-actions-menu [data-highlighted] { background: var(--muted); outline: 2px solid #4759a7; outline-offset: -2px; }
@@ -56,11 +55,10 @@
 .oc-logo > img.oc-custom-logo { width: 205px; height: 79px; object-fit: contain; object-position: left center; }
 .onechat.oc-is-collapsed .oc-logo > img.oc-custom-logo { width: 56px; height: 54px; left: 0; top: 0; transform: none; filter: none; object-fit: contain; object-position: center; }
 .oc-collapse { position: absolute; z-index: 3; top: 20px; right: -22px; border-radius: 50%; }
-.oc-collapse:hover { background: transparent; }
 .oc-collapse-disc { display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; color: #fff; background: var(--oc-nav, #16213e); border: 1.5px solid #ddd; border-radius: 50%; box-shadow: 0 24px 48px #919eab29; }
 .oc-primary-nav { display: flex; flex-direction: column; flex-shrink: 0; margin-bottom: 24px; }
 .oc-nav-item { display: flex; align-items: center; justify-content: flex-start; gap: 16px; width: 100%; height: 44px; padding: 0 8px 0 12px; font-weight: 400; border-radius: 8px; }
-.oc-nav-item.ui-button:hover, .oc-sidebar .ui-button:hover, .oc-sidebar-content .ui-button:hover { background-color: var(--oc-selection, rgb(255 255 255 / 12%)); }
+.oc-nav-item.ui-button:hover, .oc-sidebar .ui-button:not(:where(.ui-button--size-icon)):hover, .oc-sidebar-content .ui-button:not(:where(.ui-button--size-icon)):hover { background-color: var(--oc-selection, rgb(255 255 255 / 12%)); }
 .oc-presentational { cursor: default; }
 .oc-mode-tabs { display: flex; margin: 0 -4px 8px; height: 40px; flex-shrink: 0; }
 .oc-mode-tabs > button { position: relative; width: 50%; padding: 0; gap: 12px; font-weight: 400; min-height: 40px; }
@@ -101,7 +99,6 @@
 .oc-model-selector::after { content: ''; position: absolute; inset: -4px 0; }
 .oc-toolbar-actions { display: flex; gap: 0; margin-left: -4px; }
 .oc-toolbar-actions > button { width: 36px; }
-.oc-toolbar-actions > button[aria-pressed="true"] { background: #dfe2e8; box-shadow: inset 0 -2px #4759a7; }
 .oc-budget { width: 42px; height: 42px; position: relative; flex-shrink: 0; font-size: 12px; line-height: 18px; }
 .oc-budget-track { position: absolute; left: 1px; top: 1px; }
 .oc-budget-progress { position: absolute; left: 3.6px; top: .155px; }
@@ -146,7 +143,6 @@
 .oc-voice > img:last-child { position: relative; }
 .oc-send { border-radius: 50%; width: 36px; height: 36px; min-height: 36px; margin: 4px; }
 .oc-send::after { content: ''; position: absolute; inset: -4px; }
-.oc-send:hover { background: #454f5b; }
 .oc-composer-error { border-color: var(--oc-error); }
 .oc-attachment { display: flex; align-items: center; max-width: 100%; width: fit-content; margin-top: 8px; padding: 0 4px 0 12px; border: 1px solid var(--oc-border); border-radius: 8px; background: #fff; }
 .oc-attachment > span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }

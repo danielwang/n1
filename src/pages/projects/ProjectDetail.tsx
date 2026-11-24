@@ -70,7 +70,7 @@ export function ProjectDetail({ project, actions, navigationControls, notificati
         <div className="oc-composer pd-composer"><Button size="icon" className="oc-attach" aria-label="Add project files" onClick={() => fileChooser.current?.click()}><Asset src={assets.plus} /></Button>
           <Textarea unstyled ref={input} rows={1} maxLength={10000} value={text} aria-label="Project message" aria-invalid={Boolean(messageError)} aria-describedby={messageError ? 'pd-message-error' : undefined} placeholder="Type a message" onChange={event => { setText(event.target.value); setMessageError(''); }} onKeyDown={event => { if (event.key === 'Enter' && !event.shiftKey && !event.nativeEvent.isComposing) { event.preventDefault(); event.currentTarget.form?.requestSubmit(); } }} />
           <Button size="icon" className="pd-mic" aria-label="Voice input information" onClick={() => onInfo({ title: 'Voice input', message: 'Voice input is not connected in this local prototype. Type a message to save a project conversation; no AI response will be generated.' })}><img src={detailArt.mic} alt="" /></Button>
-          <Button size="icon" className="pd-send" type="submit" aria-label={sending ? 'Saving project conversation' : 'Start project conversation'} disabled={sending}><img src={detailArt.send} alt="" /></Button>
+          <Button size="icon" className="pd-send ui-icon-action--filled" type="submit" aria-label={sending ? 'Saving project conversation' : 'Start project conversation'} disabled={sending}><img src={detailArt.send} alt="" /></Button>
         </div><Feedback id="pd-message-error" message={messageError} tone="error" />
       </form>
       <div ref={tabs} className="pd-tabs" role="tablist" aria-label="Project content" onKeyDown={event => {

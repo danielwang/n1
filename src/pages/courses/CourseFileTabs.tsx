@@ -37,7 +37,7 @@ export function CourseFileTabs({ openFiles, selectedMaterial, materials, onSelec
           onClick={() => onSelect(id)} onKeyDown={event => navigate(event, index)}>
           <img src={selected ? activeIcon : inactiveIcon} alt="" /><span>{file?.title}</span>
         </button>
-        <button type="button" className="psy-file-tab-close" aria-label={`Close ${file?.title}`} onClick={() => close(id)}>
+        <button type="button" className="psy-file-tab-close ui-icon-action" aria-label={`Close ${file?.title}`} onClick={() => close(id)}>
           <img src={closeIcon} alt="" />
         </button>
       </div>;

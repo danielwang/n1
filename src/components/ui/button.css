@@ -6,6 +6,15 @@
   --button-primary-text: #fff;
   --button-disabled-bg: #c4cdd5;
   --button-disabled-text: #454f5b;
+  --icon-button-hover: rgb(223 227 232 / 50%);
+  --icon-button-selected: var(--color-border);
+  --icon-button-focus: var(--color-primary);
+}
+
+:is(.ui-icon-actions-inverse, .oc-sidebar, .oc-sidebar-content) {
+  --icon-button-hover: rgb(223 227 232 / 16%);
+  --icon-button-selected: rgb(223 227 232 / 28%);
+  --icon-button-focus: var(--color-accent);
 }
 
 .primary-button {
@@ -21,22 +30,22 @@
   cursor: pointer;
 }
 
-.ui-button.ui-button--default, .primary-button {
+.ui-button.ui-button--default:not(:where(.ui-button--size-icon)), .primary-button {
   background: var(--button-primary-bg);
   color: var(--button-primary-text);
 }
 
-.ui-button.ui-button--default:enabled:hover, .primary-button:enabled:hover {
+.ui-button.ui-button--default:not(:where(.ui-button--size-icon)):enabled:hover, .primary-button:enabled:hover {
   background: var(--button-primary-hover);
   color: var(--button-primary-text);
 }
 
-.ui-button.ui-button--default:enabled:active, .primary-button:enabled:active {
+.ui-button.ui-button--default:not(:where(.ui-button--size-icon)):enabled:active, .primary-button:enabled:active {
   background: var(--button-primary-active);
   color: var(--button-primary-text);
 }
 
-.ui-button.ui-button--default:disabled, .primary-button:disabled {
+.ui-button.ui-button--default:not(:where(.ui-button--size-icon)):disabled, .primary-button:disabled {
   background: var(--button-disabled-bg);
   color: var(--button-disabled-text);
   opacity: 1;
@@ -56,3 +65,79 @@
 .ui-button--size-small::after { position: absolute; inset: -7px 0; content: ''; }
 .ui-button--size-medium:focus-visible, .ui-button--size-small:focus-visible { z-index: 1; }
 .ui-button--size-icon.ui-button { min-width: 44px; }
+
+button:is(.ui-button--size-icon, .icon-button, .ui-icon-action) {
+  border-radius: var(--radius-pill);
+  isolation: isolate;
+}
+
+:where(button:is(.ui-button--size-icon, .icon-button, .ui-icon-action)) {
+  position: relative;
+}
+
+/* Centre a true circle inside the control, including rectangular hit areas. */
+button:is(.ui-button--size-icon, .icon-button, .ui-icon-action)::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  pointer-events: none;
+  clip-path: circle(closest-side);
+  background-color: var(--icon-button-fill, transparent);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  button:is(.ui-button--size-icon, .icon-button, .ui-icon-action)::before {
+    transition: background-color var(--motion-fast) var(--ease-standard);
+  }
+}
+
+@media (hover: hover) {
+  button:is(.ui-button--size-icon, .icon-button, .ui-icon-action):enabled:hover:not(:where(.ui-button--default, .ui-icon-action--filled)) {
+    --icon-button-fill: var(--icon-button-hover);
+  }
+}
+
+button:is(.ui-button--size-icon, .icon-button, .ui-icon-action):enabled:is(:active, :focus-visible, [aria-pressed="true"], [aria-expanded="true"], [aria-selected="true"]):not(:where(.ui-button--default, .ui-icon-action--filled)) {
+  --icon-button-fill: var(--icon-button-selected);
+}
+
+button:is(.ui-button--size-icon, .icon-button, .ui-icon-action):focus-visible {
+  outline: var(--focus-width) solid transparent;
+  outline-offset: 2px;
+  box-shadow: inset 0 -2px var(--icon-button-focus);
+}
+
+button:is(.ui-button--size-icon.ui-button--default, .ui-icon-action--filled):focus-visible {
+  outline-color: var(--icon-button-focus);
+  box-shadow: none;
+}
+
+button.ui-button--size-icon.ui-button--default {
+  --icon-button-fill: var(--button-primary-bg);
+  color: var(--button-primary-text);
+}
+
+@media (hover: hover) {
+  button.ui-button--size-icon.ui-button--default:enabled:hover {
+    --icon-button-fill: var(--button-primary-hover);
+  }
+}
+
+button.ui-button--size-icon.ui-button--default:enabled:active {
+  --icon-button-fill: var(--button-primary-active);
+}
+
+button.ui-button--size-icon.ui-button--default:disabled {
+  --icon-button-fill: var(--button-disabled-bg);
+  color: var(--button-disabled-text);
+  opacity: 1;
+  cursor: not-allowed;
+}
+
+@media (forced-colors: active) {
+  button:is(.ui-button--size-icon, .icon-button, .ui-icon-action):focus-visible { outline-color: Highlight; }
+  button:is(.ui-button--size-icon, .icon-button, .ui-icon-action):is([aria-pressed="true"], [aria-expanded="true"], [aria-selected="true"]) {
+    border: 1px solid Highlight;
+  }
+}

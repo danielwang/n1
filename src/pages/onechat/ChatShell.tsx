@@ -132,7 +132,7 @@ export function SidebarContent({ onNewChat, onSelect, onInfo, onClose, selectedI
         {mode === 'chats' ? <>
           <div className="oc-history-search">
             {searchOpen ? <Input unstyled ref={searchRef} aria-label="Search conversations" placeholder="Search conversations" value={query} onChange={event => setQuery(event.target.value)} /> : <span className="oc-section-label">{archived ? 'Archived' : 'Today'}</span>}
-            <Button size="icon" aria-label={searchOpen ? 'Close conversation search' : 'Search conversations'} onClick={() => { setSearchOpen(!searchOpen); setQuery(''); }}>
+            <Button size="icon" aria-expanded={searchOpen} aria-label={searchOpen ? 'Close conversation search' : 'Search conversations'} onClick={() => { setSearchOpen(!searchOpen); setQuery(''); }}>
               {searchOpen ? <X size={18} /> : <Asset src={assets.search} />}
             </Button>
           </div>

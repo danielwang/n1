@@ -65,7 +65,6 @@
 .ui-message-action { flex: 0 0 auto; min-height: 44px; padding: 0 8px; border: 0; background: transparent; color: #161c24; text-decoration: underline; font-weight: 600; }
 .ui-message-action:hover { color: #4759a7; }
 .ui-message-close { display: flex; align-items: center; justify-content: center; flex: 0 0 44px; width: 44px; height: 44px; padding: 0; border: 0; border-radius: 50%; background: transparent; }
-.ui-message-close:hover { background: #0000000d; }
 .ui-message-close img { display: block; width: 18px; height: 18px; }
 .ui-message--snackbar { width: 100%; min-height: 56px; gap: 8px; padding: 4px 0 4px 4px; border-radius: 8px; background: #fff; box-shadow: 0 8px 16px #919eab29; font-weight: 600; }
 .ui-message--snackbar .ui-message-icon { flex-basis: 48px; width: 48px; height: 48px; border-radius: 8px; background: #37c5f029; }

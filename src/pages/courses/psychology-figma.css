@@ -8,8 +8,9 @@
 .psy-shell--figma .psy-source-tabs{margin-top:12px}
 .psy-shell--figma .psy-source-tabs button,.psy-shell--figma .psy-notebook-tabs button{height:28px;min-width:36px;display:flex;align-items:center;justify-content:center;gap:4px;padding:0 6px;border:0;border-radius:6px;background:transparent;color:#637381;font:600 12px/20px Segoe UI,system-ui,sans-serif;white-space:nowrap}
 .psy-shell--figma .psy-source-tabs button:first-child{flex:1}
-.psy-shell--figma .psy-source-tabs button[aria-pressed=true],.psy-shell--figma .psy-notebook-tabs button[aria-pressed=true]{background:#dfe2e8;color:#161c24}
-.psy-shell--figma .psy-source-tabs button:hover,.psy-shell--figma .psy-notebook-tabs button:hover{background:#ecf0f3}
+.psy-shell--figma .psy-source-tabs button[aria-pressed=true]{color:#161c24}
+.psy-shell--figma .psy-source-tabs button:not(:where(.ui-icon-action))[aria-pressed=true],.psy-shell--figma .psy-notebook-tabs button[aria-pressed=true]{background:#dfe2e8;color:#161c24}
+.psy-shell--figma .psy-source-tabs button:not(:where(.ui-icon-action)):hover,.psy-shell--figma .psy-notebook-tabs button:hover{background:#ecf0f3}
 .psy-shell--figma .psy-source-tabs img,.psy-shell--figma .psy-notebook-tabs img{display:block;flex:none;width:20px;height:20px}
 .psy-shell--figma .psy-explorer-content{padding-top:18px}
 .psy-shell--figma .psy-folder{min-height:28px;gap:4px;padding:3px 8px 3px 11px;font-size:13px;font-weight:400}
@@ -31,7 +32,6 @@
 .psy-shell--figma .psy-file-tab-close img{display:block;width:14px;height:14px}
 .psy-shell--figma .psy-artifact .psy-panel-heading{height:46px;min-height:46px;padding:0 12px;background:#fff;color:#161c24}
 .psy-shell--figma .psy-artifact .psy-panel-heading strong{font-size:14px}
-.psy-shell--figma .psy-artifact .psy-icon:hover{background:#ecf0f3}
 .psy-shell--figma .psy-notebook-tabs{flex:none;width:min(336px,calc(100% - 48px));margin:9px 0 0 32px}
 .psy-shell--figma .psy-notebook-tabs button{flex:1;font-size:14px}
 .psy-shell--figma .psy-notebook-list{flex:1;min-height:0;width:min(332px,calc(100% - 48px));margin-left:32px;overflow:auto;display:flex;flex-direction:column;gap:8px;padding:25px 0 0}
@@ -55,7 +55,6 @@
 .psy-shell--figma .psy-notebook-notes .psy-note textarea{min-height:200px}
 .psy-shell--figma .psy-artifact-viewing .psy-panel-heading{background:#454f5b;color:#fff}
 .psy-shell--figma .psy-artifact-viewing .psy-panel-heading strong{color:#fff}
-.psy-shell--figma .psy-artifact-viewing .psy-panel-heading .psy-icon:hover{background:#637381}
 .psy-shell--figma .psy-artifact-document{flex:1;min-height:0;overflow:auto;padding:30px 24px;color:#454f5b;font-size:14px;line-height:1.6}
 .psy-shell--figma .psy-artifact-document>span{color:#637381;font-size:11px;font-weight:700;letter-spacing:.03em}
 .psy-shell--figma .psy-artifact-document h2{font-size:22px;line-height:1.3;color:#161c24}

@@ -36,7 +36,7 @@ export function Feedback({ message, tone = 'info', toast = false, appearance, ac
       <span className="ui-message-icon" aria-hidden="true"><img src={appearance === 'banner' ? bannerIcons[severity] : messageIcons[severity]} alt="" /></span>
       <span className="ui-message-text">{message}{appearance === 'banner' && actionLabel && onAction && <> — <button type="button" className="ui-message-action" onClick={onAction}>{actionLabel}</button></>}</span>
       {appearance !== 'banner' && actionLabel && onAction && <button type="button" className="ui-message-action" onClick={onAction}>{actionLabel}</button>}
-      {onDismiss && <button type="button" className="ui-message-close" aria-label={`Dismiss ${severity} message`} onClick={onDismiss}><img src={closeIcon} alt="" /></button>}
+      {onDismiss && <button type="button" className="ui-message-close ui-icon-action" aria-label={`Dismiss ${severity} message`} onClick={onDismiss}><img src={closeIcon} alt="" /></button>}
     </div>;
   }
   const Icon = tone === 'error' ? AlertCircle : tone === 'success' ? Check : tone === 'loading' ? LoaderCircle : Info;
